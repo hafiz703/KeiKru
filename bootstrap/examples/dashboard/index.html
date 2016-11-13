@@ -32,8 +32,8 @@
   </head>
 
   <body >
-    <div class="container" ng-controller="SignInController" ng-show="dataObj.signedInUser==null">
-    <!-- <div class="container" ng-controller="SignInController" ng-show="false"> -->
+    <!-- <div class="container" ng-controller="SignInController" ng-show="dataObj.signedInUser==null"> -->
+    <div class="container" ng-controller="SignInController" ng-show="false">
       <div ng-show="dataObj.userType==null">
         <h2 class="form-signin-heading">Sign in as</h2>
         <button class="btn btn-lg btn-primary btn-block" ng-repeat="type in dataObj.typesOfUsers" ng-click="dataObj.userType=type">{{type}}</button>
@@ -50,8 +50,8 @@
       </div>
     </div>
 
-    <div ng-controller="SongController" ng-show="dataObj.signedInUser!=null">
-    <!-- <div ng-controller="SongController" ng-show="true"> -->
+    <!-- <div ng-controller="SongController" ng-show="dataObj.signedInUser!=null"> -->
+    <div ng-controller="SongController" ng-show="true">
       <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
           <div class="navbar-header">
@@ -139,7 +139,7 @@
                       <th></th>
                       <th>Name</th>
                       <th>Length</th>
-                      <th>Rating</th>  <!-- TODO: add rating -->
+                      <th>Rating</th> 
                     </tr>
                   </thead>
                   <tbody>

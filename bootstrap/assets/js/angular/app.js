@@ -50,21 +50,25 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
         name:'Welcome to New York',
         length: "3:02",
         rating: 2,
+        filename: '../../assets/songs/1.m4a'
       },
       {
         name: 'Bad Blood',
         length: "4:59",
-        rating: 1
+        rating: 1,
+        filename: '../../assets/songs/8.m4a'
       },
       {
         name:'Style',
         length: "2:43",
-        rating: 1
+        rating: 1,
+        filename: '../../assets/songs/3.m4a'
       },
       {
         name:'Out of the woods',
         length: "5:01",
-        rating:3
+        rating:3,
+        filename: '../../assets/songs/4.m4a'
       }]
     };
     $scope.showHome = false;
@@ -165,7 +169,7 @@ myApp.directive('starRating', function () {
 function play(){
   var audio = document.getElementById("audio");
   audio.play();
-  // console.log("play");
+  console.log("play");
 }
 function pause(){
   var audio = document.getElementById("audio");
