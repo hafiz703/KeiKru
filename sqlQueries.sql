@@ -6,7 +6,7 @@ use dbproj;
 Create Table Users(
   user_id int NOT NULL AUTO_INCREMENT,
   username char(50) NOT NULL UNIQUE,
-  password char(20),
+  password char(20 NOT NULL,
   Primary Key (user_id)
 );
 
@@ -14,13 +14,13 @@ Create Table Users(
 
 Create table Record_Label(
   label_id int,
-  label_name char(20),
+  label_name char(20)NOT NULL,
   Primary Key (label_id)
 );
 
 Create table Artiste(
   artiste_id int,
-  artiste_name char(50),
+  artiste_name char(50) NOT NULL,
   managed_by int  NOT NULL,
 
   Primary Key (artiste_id),
@@ -52,22 +52,28 @@ Create table Song(
 );
 
   Create table listen_record(
-  user_id int NOT NULL,
-  user_rating int,
-  song_id int,
-  rating_date Date,
+  	user_id int,
+  	listen_count int,
+  	song_id int,
+  
 
-  Primary Key (user_id , song_id),
-  Foreign Key (user_id) References Users(user_id),
-  Foreign Key (song_id) References Song(song_id)
+  	Primary Key (user_id , song_id),
+ 	Foreign Key (user_id) References Users(user_id),
+  	Foreign Key (song_id) References Song(song_id)
 
 
 
 
 );
-#
-# Create Trigger avg_song_rating After update on listen_record(
-#   For Each row
-#   Update Song set avg_rating =
-# )
+
+Create table user_rating(
+	user id int,
+	song_id int,
+
+Primary Key (user_id , song_id),
+ 	Foreign Key (user_id) References Users(user_id),
+  	Foreign Key (song_id) References Song(song_id)
+
+	
+);
 
