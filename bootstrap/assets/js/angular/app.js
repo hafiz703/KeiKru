@@ -3,7 +3,7 @@ var myApp = angular.module('Keithkuru', ['ngResource']);
 
 myApp.controller("SignInController", ['$scope', 'dataService', function($scope,dataService) {
   $scope.dataObj = dataService.dataObj;
-  $scope.signIn = function(username,password,userType) {
+  $scope.signIn = function(username, password, userType) {
     var users;
     switch (userType) {
       case 'Listener':
@@ -11,10 +11,10 @@ myApp.controller("SignInController", ['$scope', 'dataService', function($scope,d
         break;
       case 'Artist':
         users = $scope.dataObj.artists;
-        break;    
+        break;
       case 'Label Manager':
         users = $scope.dataObj.managers;
-        break;   
+        break;
     }
     for (i = 0; i < users.length; i++) {
       if (username==users[i].name && password==users[i].password) {
@@ -29,7 +29,7 @@ myApp.controller("SignInController", ['$scope', 'dataService', function($scope,d
 myApp.controller("SongController", ['$scope', 'dataService', function($scope,dataService) {
   $scope.dataObj = dataService.dataObj;
   $scope.showHome = true;
-  $scope.currentPlaylist = {}; // playlist shown on screen
+  $scope.currentPlaylist = {}; // list shown on screen
   $scope.recentSongs = ['Majulah Singapura','Good Blood','Further'];
   $scope.filterSearchResults = function(searchWords,songName){
     if (searchWords==null || searchWords=="") {
@@ -50,21 +50,25 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
         name:'Welcome to New York',
         length: "3:02",
         rating: 2,
+        filename: '../../assets/songs/1.m4a'
       },
       {
         name: 'Bad Blood',
         length: "4:59",
-        rating: 1
+        rating: 1,
+        filename: '../../assets/songs/8.m4a'
       },
       {
         name:'Style',
         length: "2:43",
-        rating: 1
+        rating: 1,
+        filename: '../../assets/songs/3.m4a'
       },
       {
         name:'Out of the woods',
         length: "5:01",
-        rating:3
+        rating:3,
+        filename: '../../assets/songs/4.m4a'
       }]
     };
     $scope.showHome = false;
@@ -73,12 +77,23 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
 
   $scope.setSelectedRating = function (rating,song) {
       song.rating = rating;
-  }
+  };
+
+  $scope.playSong = function (song) {
+      $scope.songPath = song.filename;
+      var audiobar = document.getElementById("audiobar");
+      audiobar.play();
+      $scope.isPlaying = true;
+  };
+  $scope.pauseSong = function () {
+    var audiobar = document.getElementById("audiobar");
+    audiobar.pause();
+    $scope.isPlaying = false;
+  };
   
 }])
 
 myApp.service('dataService', function() {
-
   // private variable
   var _dataObj = {
     userType: null,
@@ -162,13 +177,12 @@ myApp.directive('starRating', function () {
     }
 });
 
-function play(){
-  var audio = document.getElementById("audio");
-  audio.play();
-  // console.log("play");
-}
-function pause(){
-  var audio = document.getElementById("audio");
-  audio.pause();
-  // console.log("play");
-}
+// function play(){
+//   var audio = document.getElementById("audio");
+//   audio.play();
+// }
+// function pause(){
+//   var audio = document.getElementById("audio");
+//   audio.pause();
+//   console.log("play");
+// }

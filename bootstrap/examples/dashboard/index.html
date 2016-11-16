@@ -9,10 +9,12 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
-
+    <title>Keithkuru</title>
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Audio player CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -32,8 +34,8 @@
   </head>
 
   <body >
-    <div class="container" ng-controller="SignInController" ng-show="dataObj.signedInUser==null">
-    <!-- <div class="container" ng-controller="SignInController" ng-show="false"> -->
+    <!-- <div class="container" ng-controller="SignInController" ng-show="dataObj.signedInUser==null"> -->
+    <div class="container" ng-controller="SignInController" ng-show="false">
       <div ng-show="dataObj.userType==null">
         <h2 class="form-signin-heading">Sign in as</h2>
         <button class="btn btn-lg btn-primary btn-block" ng-repeat="type in dataObj.typesOfUsers" ng-click="dataObj.userType=type">{{type}}</button>
@@ -44,14 +46,14 @@
           <label for="inputEmail" class="sr-only">Username</label>
           <input id="inputEmail" class="form-control" placeholder="Username" ng-model="username" required autofocus>
           <label for="inputPassword" class="sr-only">Password</label>
-          <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="password" required>   
+          <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="password" required>
           <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         </form>
       </div>
     </div>
 
-    <div ng-controller="SongController" ng-show="dataObj.signedInUser!=null">
-    <!-- <div ng-controller="SongController" ng-show="true"> -->
+    <!-- <div ng-controller="SongController" ng-show="dataObj.signedInUser!=null"> -->
+    <div ng-controller="SongController" ng-show="true">
       <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
           <div class="navbar-header">
@@ -81,6 +83,13 @@
           </div>
         </div>
       </nav>
+
+      <nav class="navbar navbar-inverse navbar-fixed-bottom">
+        <div class="audiobar">
+          <audio id="audiobar" data-ng-src="{{songPath}}" controls loop="loop" autoplay="autoplay"></audio>
+        </div>
+      </nav>
+
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-3 col-md-2 sidebar">
@@ -139,16 +148,15 @@
                       <th></th>
                       <th>Name</th>
                       <th>Length</th>
-                      <th>Rating</th>  <!-- TODO: add rating -->
+                      <th>Rating</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr ng-repeat="song in currentPlaylist.songList">
                       <td>{{currentPlaylist.songList.indexOf(song)+1}}</td>
                       <td>
-                        <i class="glyphicon glyphicon-pause" onclick="pause()" style="font-size:20px" ng-show="isPlayed"></i>
-                        <i class="glyphicon glyphicon-play" onclick="play()" style="font-size:20px" ng-hide="isPlayed"></i>
-                        <audio id="audio" src="song.filename" ></audio>
+                        <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
+                        <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
                       </td>
                       <td>{{song.name}}</td>
                       <td>{{song.length}}</td>
@@ -169,6 +177,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="../../dist/js/bootstrap.min.js"></script>
+
+    <!-- For audio player -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/bootstrap3_player.js"></script>
+
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <script src="../../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
