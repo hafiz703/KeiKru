@@ -37,9 +37,17 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
     }
     return (songName.toUpperCase().indexOf(searchWords.toUpperCase())>-1);
   };
-  $scope.fillSearchBox = function() {
-    console.log("worked");
+  console.log("song controller");
+  $scope.fillSearchBox = function(something) {
+    // $scope.trial();
+    alert("sddsf");
   };
+  $scope.searchState = {
+    visibility: false
+  }
+  $scope.trial = function() {
+    alert("adf");
+  }
   // add arguments to here
   $scope.setPlaylist = function() {
     // make an SQL query
@@ -50,7 +58,10 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
         name:'Welcome to New York',
         length: "3:02",
         rating: 2,
-        filename: '../../assets/songs/1.m4a'
+        filename: '../../assets/songs/1.m4a',
+        ff: function() {
+          console.log("hello");
+        }
       },
       {
         name: 'Bad Blood',

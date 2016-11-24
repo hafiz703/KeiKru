@@ -72,9 +72,9 @@
             </ul>
             <div class="main">
               <form class="navbar-form navbar-right" ng-submit="setPlaylist()">
-                <input type="text" class="form-control" placeholder="Search..." ng-focus="focus=true" ng-blur="focus=false" ng-model="searchWords">
-                <ul class="results" ng-show="focus">
-                  <li ng-repeat="song in recentSongs" ng-click="fillSearchBox()" ng-show="filterSearchResults(searchWords,song)">{{song}}</li>
+                <input type="text" class="form-control" placeholder="Search..." ng-focus="searchState.visibility=true" ng-model="searchWords">
+                <ul class="results" ng-show="searchState.visibility">
+                  <li ng-repeat="song in recentSongs" ng-show="filterSearchResults(searchWords,song)" ng-click="fillSearchBox()">{{song}}</li>
                 </ul>
               </form>
             </div>
