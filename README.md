@@ -6,7 +6,7 @@ Keikuru
 
 3) Activate virtual environment. E.g. source venv/bin/activate / for windows: venv\scripts\activate.bat
 
-4) Run: pip install django
+4) Run: pip3 install django
 
-5) Run: pip install djangorestframework
+5) Run: pip3 install djangorestframework
 
