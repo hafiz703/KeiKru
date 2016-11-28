@@ -1,7 +1,6 @@
 // Define the `Keithkuru` module
 var myApp = angular.module('Keithkuru', ['ngResource']);
 
-// TODO sign in page
 myApp.controller("SignInController", ['$scope', 'dataService', function($scope,dataService) {
   $scope.dataObj = dataService.dataObj;
   $scope.signIn = function(username, password, userType) {
@@ -41,40 +40,57 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
   $scope.fillSearchBox = function() {
     console.log("worked");
   };
-  // add arguments to here
-  $scope.setPlaylist = function() {
-    // make an SQL query
+  $scope.showArtist = function(artist) {
+    // TODO: search by artist. Show bunch of albums like home or show all songs as flat 1 list?
+  };
+   $scope.setRecommendedPlaylist = function() {
+    // TODO: get recommended playlist
+  };
+   $scope.setPlaylistByGenre = function() {
+    // TODO
+  };
+  $scope.setPlaylistBySong = function(searchWords) {
+    // TODO
     $scope.currentPlaylist = {
-      name: '1989',
+      name: "1989",
+      // demo purpose: live change the stars and see how recommended playlist changes
       songList: [
-      {
-        name:'Welcome to New York',
-        length: "3:02",
-        rating: 2,
-        filename: '../../assets/songs/1.m4a'
-      },
-      {
-        name: 'Bad Blood',
-        length: "4:59",
-        rating: 1,
-        filename: '../../assets/songs/8.m4a'
-      },
-      {
-        name:'Style',
-        length: "2:43",
-        rating: 1,
-        filename: '../../assets/songs/3.m4a'
-      },
-      {
-        name:'Out of the woods',
-        length: "5:01",
-        rating:3,
-        filename: '../../assets/songs/4.m4a'
-      }]
-    };
+        {
+          title: "Out of the woods",
+          artist: "Taylor Swift",
+          length: "06:69",
+          rating: 3,
+          genre: "Pop",
+          index: 4
+        },
+        {
+          title: "Style",
+          artist: "Taylor Swift",
+          length: "06:69",
+          rating: 3,
+          genre: "Pop",
+          index: 1
+        },
+        {
+          title: "Welcome to New York",
+          artist: "Taylor Swift",
+          length: "06:69",
+          rating: 3,
+          genre: "Pop",
+          index: 2
+        },
+        {
+          title: "Bad Blood",
+          artist: "Taylor Swift",
+          length: "06:69",
+          rating: 3,
+          genre: "Pop",
+          index: 3
+        }
+      ]
+    }; // set this to something
     $scope.showHome = false;
   };
-  $scope.rating = 0;
 
   $scope.setSelectedRating = function (rating,song) {
       song.rating = rating;
