@@ -1,8 +1,8 @@
 Keikuru
 
-Run: pip install virtualenv
+1) Run: pip install virtualenv
 
-Create virtual environment in project folder. E.g. virtualenv venv
-Activate virtual environment. E.g. source venv/bin/activate / for windows: venv\scripts\activate.bat
-Run: pip install django
-Run: pip install djangorestframework
+2) Create virtual environment in project folder. E.g. virtualenv venv
+3) Activate virtual environment. E.g. source venv/bin/activate / for windows: venv\scripts\activate.bat
+4) Run: pip install django
+5) Run: pip install djangorestframework
