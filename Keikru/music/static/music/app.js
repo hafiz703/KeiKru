@@ -1,59 +1,6 @@
 // Define the `Keithkuru` module
 var myApp = angular.module('Keithkuru', ['ngResource']);
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue =   decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-var csrftoken = getCookie('csrftoken');
- function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
 
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
-<<<<<<< HEAD
-// myApp.controller("SignInController", ['$scope', 'dataService', function($scope,dataService) {
-//   $scope.dataObj = dataService.dataObj;
-//   $scope.signIn = function(username, password, userType) {
-//     var users;
-//     switch (userType) {
-//       case 'Listener':
-//         users = $scope.dataObj.listeners;
-//         break;
-//       case 'Artist':
-//         users = $scope.dataObj.artists;
-//         break;
-//       case 'Label Manager':
-//         users = $scope.dataObj.managers;
-//         break;
-//     }
-//     for (i = 0; i < users.length; i++) {
-//       if (username==users[i].name && password==users[i].password) {
-//         $scope.dataObj.signedInUser = users[i];
-//         return;
-//       }
-//     }
-//     alert("Username and/or password combination is wrong!");
-//   }
-// }])
-=======
 myApp.controller("SignInController", ['$scope', 'dataService', function($scope,dataService) {
   $scope.dataObj = dataService.dataObj;
   $scope.signIn = function(username, password, userType) {
@@ -78,7 +25,6 @@ myApp.controller("SignInController", ['$scope', 'dataService', function($scope,d
     alert("Username and/or password combination is wrong!");
   }
 }])
->>>>>>> c5b2b9831e25995f8f94a07e21b0a99229c89d76
 // Define the `SongController` controller on the `Keithkuru` module
 myApp.controller("SongController", ['$scope', 'dataService', function($scope,dataService) {
   $scope.dataObj = dataService.dataObj;
@@ -94,40 +40,57 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
   $scope.fillSearchBox = function() {
     console.log("worked");
   };
-  // add arguments to here
-  $scope.setPlaylist = function() {
-    // make an SQL query
+  $scope.showArtist = function(artist) {
+    // TODO: search by artist. Show bunch of albums like home or show all songs as flat 1 list?
+  };
+   $scope.setRecommendedPlaylist = function() {
+    // TODO: get recommended playlist
+  };
+   $scope.setPlaylistByGenre = function() {
+    // TODO
+  };
+  $scope.setPlaylistBySong = function(searchWords) {
+    // TODO
     $scope.currentPlaylist = {
-      name: '1989',
+      name: "1989",
+      // demo purpose: live change the stars and see how recommended playlist changes
       songList: [
-      {
-        name:'Welcome to New York',
-        length: "3:02",
-        rating: 2,
-        filename: '../../assets/songs/1.m4a'
-      },
-      {
-        name: 'Bad Blood',
-        length: "4:59",
-        rating: 1,
-        filename: '../../assets/songs/8.m4a'
-      },
-      {
-        name:'Style',
-        length: "2:43",
-        rating: 1,
-        filename: '../../assets/songs/3.m4a'
-      },
-      {
-        name:'Out of the woods',
-        length: "5:01",
-        rating:3,
-        filename: '../../assets/songs/4.m4a'
-      }]
-    };
+        {
+          title: "Out of the woods",
+          artist: "Taylor Swift",
+          length: "06:69",
+          rating: 3,
+          genre: "Pop",
+          index: 4
+        },
+        {
+          title: "Style",
+          artist: "Taylor Swift",
+          length: "06:69",
+          rating: 3,
+          genre: "Pop",
+          index: 1
+        },
+        {
+          title: "Welcome to New York",
+          artist: "Taylor Swift",
+          length: "06:69",
+          rating: 3,
+          genre: "Pop",
+          index: 2
+        },
+        {
+          title: "Bad Blood",
+          artist: "Taylor Swift",
+          length: "06:69",
+          rating: 3,
+          genre: "Pop",
+          index: 3
+        }
+      ]
+    }; // set this to something
     $scope.showHome = false;
   };
-  $scope.rating = 0;
 
   $scope.setSelectedRating = function (rating,song) {
       song.rating = rating;
@@ -144,7 +107,7 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
     audiobar.pause();
     $scope.isPlaying = false;
   };
-
+  
 }])
 
 myApp.service('dataService', function() {
@@ -240,29 +203,3 @@ myApp.directive('starRating', function () {
 //   audio.pause();
 //   console.log("play");
 // }
-
-//----------------------------------------> EXAMPLE AJAX GET REQUEST <----------------------------
-//
-//  $scope.songs = $http.get('http://127.0.0.1:8000/api/album/?f=&format=json').then(function(response){
-//           console.log(response.data)
-//           return response.data
-//
-//       });
-
-//----------------------------------------> EXAMPLE AJAX PUT REQUEST <----------------------------
-
-//                                          Update song rating
-// $.ajax({
-//        'type': 'PUT',
-//         'url': 'http://127.0.0.1:8000/api/song/updaterating/2', //updating song with song_id = 2
-//         'contentType': 'application/json',
-//         'data': JSON.stringify({
-//              "song_rating":oldVal,
-//          }),
-//         'dataType': 'json',
-//         'success': console.log("Posted!")
-<<<<<<< HEAD
-// });
-=======
-// });
->>>>>>> c5b2b9831e25995f8f94a07e21b0a99229c89d76

@@ -11,20 +11,13 @@
 
     <title>Keithkuru</title>
     <!-- Bootstrap core CSS -->
-    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../music/static/music/assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Audio player CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -34,8 +27,8 @@
   </head>
 
   <body >
-    <!-- <div class="container" ng-controller="SignInController" ng-show="dataObj.signedInUser==null"> -->
-    <!-- <div class="container" ng-controller="SignInController" ng-show="false">
+    <!-- <div class="container" ng-controller="SignInController" ng-show="dataObj.signedInUser==null"> 
+    <div class="container" ng-controller="SignInController" ng-show="false">
       <div ng-show="dataObj.userType==null">
         <h2 class="form-signin-heading">Sign in as</h2>
         <button class="btn btn-lg btn-primary btn-block" ng-repeat="type in dataObj.typesOfUsers" ng-click="dataObj.userType=type">{{type}}</button>
@@ -72,14 +65,10 @@
               <li><a href="#">Profile</a></li>
               <li><a href="#">Help</a></li>
             </ul>
-            <div class="main">
-              <form class="navbar-form navbar-right" ng-submit="setPlaylist()">
-                <input type="text" class="form-control" placeholder="Search..." ng-focus="focus=true" ng-blur="focus=false" ng-model="searchWords">
-                <ul class="results" ng-show="focus">
-                  <li ng-repeat="song in recentSongs" ng-click="fillSearchBox()" ng-show="filterSearchResults(searchWords,song)">{{song}}</li>
-                </ul>
-              </form>
-            </div>
+
+            <form class="navbar-form navbar-right" ng-submit="setPlaylistBySong(searchWords)">
+              <input type="text" class="form-control" placeholder="Search..." ng-model="searchWords">
+            </form>
           </div>
         </div>
       </nav>
@@ -94,12 +83,12 @@
         <div class="row">
           <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-              <li class="active"><a href="#" ng-click="showHome=true;">Home<span class="sr-only">(current)</span></a></li>
-              <li><a href="#">Reports</a></li>
-              <li><a href="#">Analytics</a></li>
-              <li><a href="#">Export</a></li>
+              <li class="active"><a ng-click="showHome=true;">Home<span class="sr-only">(current)</span></a></li>
+              <!-- here's where artist can upload their songs + do other stuff -->
+              <li><a href="#">Account<span class="sr-only">(current)</span></a></li>
             </ul>
             <ul class="nav nav-sidebar">
+              <li>Personal playlist</li>
               <li><a href="">Nav item</a></li>
               <li><a href="">Nav item again</a></li>
               <li><a href="">One more nav</a></li>
@@ -116,12 +105,12 @@
             <h1 class="page-header">Welcome to Keithkuru</h1>
 
             <div class="row placeholders" ng-show="showHome">
-              <div class="col-xs-6 col-sm-3 placeholder" ng-click="setPlaylist()">
+              <div class="col-xs-6 col-sm-3 placeholder" ng-click="setRecommendedPlaylist()">
                 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                 <h4>Recommended Playlist</h4>
                 <span class="text-muted">Curated especially for you</span>
               </div>
-              <div class="col-xs-6 col-sm-3 placeholder">
+              <div class="col-xs-6 col-sm-3 placeholder" ng-click="setPlaylistBySearch('1989')">
                 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                 <h4>Top Trending</h4>
                 <span class="text-muted">Follow the newest trend in music.</span>
@@ -148,19 +137,24 @@
                       <th></th>
                       <th>Name</th>
                       <th>Length</th>
+                      <th>Artist</th>
+                      <th>Genre</th>
                       <th>Rating</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr ng-repeat="song in currentPlaylist.songList">
-                      <td>{{$index+1}}</td>
+                    <tr ng-repeat="song in currentPlaylist.songList | orderBy: 'index'">
+                      <td>{{song.index}}</td>
                       <td>
-                        <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide=false></i>
-                        <!-- <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show=isPlaying></i> -->
+                        <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
+                        <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
                       </td>
-                      <td>{{song.name}}</td>
+                      <!-- click on song title to go to album -->
+                      <td><a ng-click="setPlaylistBySong(song.title)">{{song.title}}</a></td> 
                       <td>{{song.length}}</td>
-                      <td><div star-rating rating-value="song.rating" max="5" on-rating-selected="setSelectedRating(rating,song)"></div></td>
+                      <td><a ng-click="showArtist(song.artist)">{{song.artist}}</a></td>
+                      <td><a ng-click="setPlaylistByGenre(song.genre)">{{song.genre}}</a></td>
+                      <td><div star-rating rating-value="song.rating" max="5" min="1" on-rating-selected="setSelectedRating(rating,song)"></div></td>
                     </tr>
                   </tbody>
                 </table>
@@ -175,21 +169,19 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../music/static/music/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../music/static/music/assets/js/bootstrap.min.js"></script>
 
     <!-- For audio player -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/bootstrap3_player.js"></script>
+    <script src="../../music/static/music/assets/js/bootstrap3_player.js"></script>
 
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="../../assets/js/vendor/holder.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../../music/static/music/assets/js/vendor/holder.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-resource.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
-    <script src="../../assets/js/angular/app.js"></script>
-    <!-- <script src="https://raw.githubusercontent.com/axel-zarate/js-custom-select/master/js/customSelect.js"></script> -->
+    <script src="../../music/static/music/assets/js/angular/app.js"></script>
+    <script src="https://raw.githubusercontent.com/axel-zarate/js-custom-select/master/js/customSelect.js"></script>
   </body>
 </html>

@@ -1,6 +1,7 @@
 // Define the `Keithkuru` module
 var myApp = angular.module('Keithkuru', ['ngResource']);
 
+// TODO sign in page
 myApp.controller("SignInController", ['$scope', 'dataService', function($scope,dataService) {
   $scope.dataObj = dataService.dataObj;
   $scope.signIn = function(username, password, userType) {
