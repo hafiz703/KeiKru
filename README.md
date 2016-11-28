@@ -1,6 +1,6 @@
 Keikuru
 
-1) Run: pip install virtualenv
+1) Run: pip3 install virtualenv
 
 2) Create virtual environment in project folder. E.g. virtualenv venv
 
