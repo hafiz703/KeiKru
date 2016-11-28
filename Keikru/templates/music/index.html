@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Keithkuru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Keithkuru</title>
+    <!-- Bootstrap core CSS -->
+    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Audio player CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body >
+    <!-- <div class="container" ng-controller="SignInController" ng-show="dataObj.signedInUser==null"> -->
+    <!-- <div class="container" ng-controller="SignInController" ng-show="false">
+      <div ng-show="dataObj.userType==null">
+        <h2 class="form-signin-heading">Sign in as</h2>
+        <button class="btn btn-lg btn-primary btn-block" ng-repeat="type in dataObj.typesOfUsers" ng-click="dataObj.userType=type">{{type}}</button>
+      </div>
+      <div ng-show="dataObj.userType!=null">
+        <h2 class="form-signin-heading">Sign in to Keithkuru</h2>
+        <form class="form-signin" ng-submit="signIn(username,password,dataObj.userType)">
+          <label for="inputEmail" class="sr-only">Username</label>
+          <input id="inputEmail" class="form-control" placeholder="Username" ng-model="username" required autofocus>
+          <label for="inputPassword" class="sr-only">Password</label>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="password" required>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+      </div>
+    </div> -->
+
+    <!-- <div ng-controller="SongController" ng-show="dataObj.signedInUser!=null"> -->
+    <div ng-controller="SongController" ng-show="true">
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Keithkuru</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#">Dashboard</a></li>
+              <li><a href="#">Settings</a></li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="#">Help</a></li>
+            </ul>
+            <div class="main">
+              <form class="navbar-form navbar-right" ng-submit="setPlaylist()">
+                <input type="text" class="form-control" placeholder="Search..." ng-focus="focus=true" ng-blur="focus=false" ng-model="searchWords">
+                <ul class="results" ng-show="focus">
+                  <li ng-repeat="song in recentSongs" ng-click="fillSearchBox()" ng-show="filterSearchResults(searchWords,song)">{{song}}</li>
+                </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <nav class="navbar navbar-inverse navbar-fixed-bottom">
+        <div class="audiobar">
+          <audio id="audiobar" data-ng-src="{{songPath}}" controls loop="loop" autoplay="autoplay"></audio>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+              <li class="active"><a href="#" ng-click="showHome=true;">Home<span class="sr-only">(current)</span></a></li>
+              <li><a href="#">Reports</a></li>
+              <li><a href="#">Analytics</a></li>
+              <li><a href="#">Export</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+              <li><a href="">Nav item</a></li>
+              <li><a href="">Nav item again</a></li>
+              <li><a href="">One more nav</a></li>
+              <li><a href="">Another nav item</a></li>
+              <li><a href="">More navigation</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+              <li><a href="">Nav item again</a></li>
+              <li><a href="">One more nav</a></li>
+              <li><a href="">Another nav item</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Welcome to Keithkuru</h1>
+
+            <div class="row placeholders" ng-show="showHome">
+              <div class="col-xs-6 col-sm-3 placeholder" ng-click="setPlaylist()">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                <h4>Recommended Playlist</h4>
+                <span class="text-muted">Curated especially for you</span>
+              </div>
+              <div class="col-xs-6 col-sm-3 placeholder">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                <h4>Top Trending</h4>
+                <span class="text-muted">Follow the newest trend in music.</span>
+              </div>
+              <div class="col-xs-6 col-sm-3 placeholder">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                <h4>Recently listened Songs (?)</h4>
+                <span class="text-muted">Don't forget to add these to your playlist!</span>
+              </div>
+              <div class="col-xs-6 col-sm-3 placeholder">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                <h4>Don't know la</h4>
+                <span class="text-muted">save for extra</span>
+              </div>
+            </div>
+
+            <div ng-hide="showHome">
+              <h2 class="sub-header">{{currentPlaylist.name}}</h2>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Length</th>
+                      <th>Rating</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="song in currentPlaylist.songList">
+                      <td>{{$index+1}}</td>
+                      <td>
+                        <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide=false></i>
+                        <!-- <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show=isPlaying></i> -->
+                      </td>
+                      <td>{{song.name}}</td>
+                      <td>{{song.length}}</td>
+                      <td><div star-rating rating-value="song.rating" max="5" on-rating-selected="setSelectedRating(rating,song)"></div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+
+    <!-- For audio player -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/bootstrap3_player.js"></script>
+
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-resource.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
+    <script src="../../assets/js/angular/app.js"></script>
+    <!-- <script src="https://raw.githubusercontent.com/axel-zarate/js-custom-select/master/js/customSelect.js"></script> -->
+  </body>
+</html>
