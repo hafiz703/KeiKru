@@ -28,6 +28,7 @@ $.ajaxSetup({
         }
     }
 });
+<<<<<<< HEAD
 // myApp.controller("SignInController", ['$scope', 'dataService', function($scope,dataService) {
 //   $scope.dataObj = dataService.dataObj;
 //   $scope.signIn = function(username, password, userType) {
@@ -52,6 +53,32 @@ $.ajaxSetup({
 //     alert("Username and/or password combination is wrong!");
 //   }
 // }])
+=======
+myApp.controller("SignInController", ['$scope', 'dataService', function($scope,dataService) {
+  $scope.dataObj = dataService.dataObj;
+  $scope.signIn = function(username, password, userType) {
+    var users;
+    switch (userType) {
+      case 'Listener':
+        users = $scope.dataObj.listeners;
+        break;
+      case 'Artist':
+        users = $scope.dataObj.artists;
+        break;
+      case 'Label Manager':
+        users = $scope.dataObj.managers;
+        break;
+    }
+    for (i = 0; i < users.length; i++) {
+      if (username==users[i].name && password==users[i].password) {
+        $scope.dataObj.signedInUser = users[i];
+        return;
+      }
+    }
+    alert("Username and/or password combination is wrong!");
+  }
+}])
+>>>>>>> c5b2b9831e25995f8f94a07e21b0a99229c89d76
 // Define the `SongController` controller on the `Keithkuru` module
 myApp.controller("SongController", ['$scope', 'dataService', function($scope,dataService) {
   $scope.dataObj = dataService.dataObj;
@@ -234,4 +261,8 @@ myApp.directive('starRating', function () {
 //          }),
 //         'dataType': 'json',
 //         'success': console.log("Posted!")
+<<<<<<< HEAD
 // });
+=======
+// });
+>>>>>>> c5b2b9831e25995f8f94a07e21b0a99229c89d76
