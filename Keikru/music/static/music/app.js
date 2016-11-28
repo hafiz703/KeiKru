@@ -1,6 +1,33 @@
 // Define the `Keithkuru` module
 var myApp = angular.module('Keithkuru', ['ngResource']);
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue =   decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+ function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
 
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
 myApp.controller("SignInController", ['$scope', 'dataService', function($scope,dataService) {
   $scope.dataObj = dataService.dataObj;
   $scope.signIn = function(username, password, userType) {
@@ -203,3 +230,25 @@ myApp.directive('starRating', function () {
 //   audio.pause();
 //   console.log("play");
 // }
+
+//----------------------------------------> EXAMPLE AJAX GET REQUEST <----------------------------
+//
+//  $scope.songs = $http.get('http://127.0.0.1:8000/api/artist/4/?f=&format=json').then(function(response){
+//           console.log(response.data)
+//           return response.data
+//
+//       });
+
+//----------------------------------------> EXAMPLE AJAX PUT REQUEST <----------------------------
+
+//                                          Update song rating
+// $.ajax({
+//        'type': 'PUT',
+//         'url': 'http://127.0.0.1:8000/api/song/updaterating/2', //updating song with song_id = 2
+//         'contentType': 'application/json',
+//         'data': JSON.stringify({
+//              "song_rating":oldVal,
+//          }),
+//         'dataType': 'json',
+//         'success': console.log("Posted!")
+// });
