@@ -134,7 +134,7 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
     audiobar.pause();
     $scope.isPlaying = false;
   };
-  
+
 }])
 
 myApp.service('dataService', function() {
