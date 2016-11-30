@@ -13,7 +13,8 @@
 
     <title>Keithkuru</title>
     <!-- Bootstrap core CSS -->
-    <link href="{% static 'music/assets/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'music/assets/css/bootstrap.min.css' %}" rel="stylesheet"> -->
+    <link href="{% static 'music/assets/css/bootstrap.darkly.min.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{% static 'music/dashboard.css' %}" rel="stylesheet">
@@ -24,7 +25,7 @@
 
     <!-- <div ng-controller="SongController" ng-show="dataObj.signedInUser!=null"> -->
     <div ng-controller="SongController" ng-show="true">
-      <nav class="navbar navbar-inverse navbar-fixed-top">
+      <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -50,7 +51,7 @@
         </div>
       </nav>
 
-      <nav class="navbar navbar-inverse navbar-fixed-bottom">
+      <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="audiobar">
           <audio id="audiobar" data-ng-src="{{songPath}}" controls loop="loop" autoplay="autoplay"></audio>
         </div>
@@ -131,7 +132,7 @@
               </div>
             </div>
 
-            <div class="PLAYLIST" ng-show="showPlaylist">
+            <div class="PLAYLIST" ng-show="showPlaylist" ng-cloak>
               <h2 class="sub-header">{{currentPlaylist.name}}</h2>
               <div class="table-responsive">
                 <table class="table table-striped">
