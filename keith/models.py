@@ -35,10 +35,16 @@ class Label(models.Model):
 class User(models.Model):
 	#id is given auto
     name = models.CharField(max_length=250)
-    songs = models.ManyToManyField(Song, through='User_Rating')
+    passsword = models.CharField(max_length=250)
+    user_rating = models.ManyToManyField(Song, through='User_Rating')
+    listen_count = models.ManyToManyField(Song, through='Listen_Record')
 
 class User_Rating(models.Model):
 	rating = models.IntegerField(max_length=1,choices=RATING)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE)
 
 class Listen_Record(models.Model):
-    User_Rating = models.IntegerField()
+    listen_count = models.IntegerField()
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE)
