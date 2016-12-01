@@ -62,25 +62,33 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
   $scope.myTitle = "Homepage";
 
   $scope.currentPlaylist = {}; // list shown on screen
-  $scope.recentSongs = ['Majulah Singapura','Good Blood','Further'];
-  $scope.filterSearchResults = function(searchWords,songName){
-    if (searchWords==null || searchWords=="") {
-      return true;
-    }
+  // $scope.recentSongs = ['Majulah Singapura','Good Blood','Further'];
+  // $scope.filterSearchResults = function(searchWords,songName){
+  //   if (searchWords==null || searchWords=="") {
+  //     return true;
+  //   }
     return (songName.toUpperCase().indexOf(searchWords.toUpperCase())>-1);
   };
   $scope.fillSearchBox = function() {
     console.log("worked");
   };
-  $scope.showArtist = function(artist) {
-    // TODO: search by artist. Show bunch of albums like home or show all songs as flat 1 list?
+  $scope.setPlaylistByArtist = function(artist) {
+    // TODO: search by artist. Show bunch of albums like home
+    // not an actual search
+  };
+  $scope.setPlaylistByAlbum = function(artist) {
+    // TODO: search by album
+    // not an actual search
   };
    $scope.setRecommendedPlaylist = function() {
-    // TODO: get recommended playlist
+    // TODO: get ALL the songs in database
   };
    $scope.setPlaylistByGenre = function() {
-    // TODO
+    // TODO an actual search
   };
+  // compute average mean square, see which one most similar (lowest score), then get the 10 songs that the other guy rates high
+  // but the current one has never rated, then query for those 10 songs
+  // search button is general search
   $scope.setPlaylistBySong = function(searchWords) {
     // TODO
     $scope.currentPlaylist = {
@@ -90,34 +98,12 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
         {
           title: "Out of the woods",
           artist: "Taylor Swift",
-          length: "06:69",
+          artist_id: 1,
+          album: "1989",
+          album_id: 2,
           rating: 3,
           genre: "Pop",
           index: 4
-        },
-        {
-          title: "Style",
-          artist: "Taylor Swift",
-          length: "06:69",
-          rating: 3,
-          genre: "Pop",
-          index: 1
-        },
-        {
-          title: "Welcome to New York",
-          artist: "Taylor Swift",
-          length: "06:69",
-          rating: 3,
-          genre: "Pop",
-          index: 2
-        },
-        {
-          title: "Bad Blood",
-          artist: "Taylor Swift",
-          length: "06:69",
-          rating: 3,
-          genre: "Pop",
-          index: 3
         }
       ]
     }; // set this to something
