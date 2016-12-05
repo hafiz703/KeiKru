@@ -53,8 +53,8 @@ $.ajaxSetup({
 //   }
 // }])
 // Define the `SongController` controller on the `Keithkuru` module
-myApp.controller("SongController", ['$scope', 'dataService', function($scope,dataService) {
-  $scope.dataObj = dataService.dataObj;
+myApp.controller("SongController", ['$scope', function($scope,dataService) {
+  // $scope.dataObj = dataService.dataObj;
 
   $scope.showHome = true;
   $scope.showPlaylist = false;
@@ -62,66 +62,28 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
   $scope.myTitle = "Homepage";
 
   $scope.currentPlaylist = {}; // list shown on screen
-  $scope.recentSongs = ['Majulah Singapura','Good Blood','Further'];
-  $scope.filterSearchResults = function(searchWords,songName){
-    if (searchWords==null || searchWords=="") {
-      return true;
-    }
-    return (songName.toUpperCase().indexOf(searchWords.toUpperCase())>-1);
-  };
+
   $scope.fillSearchBox = function() {
     console.log("worked");
   };
-  $scope.showArtist = function(artist) {
-    // TODO: search by artist. Show bunch of albums like home or show all songs as flat 1 list?
+  $scope.showArtist = function(artist_id) {
+    // 'http://127.0.0.1:8000/api/artist/4/?f=&format=json'
   };
-   $scope.setRecommendedPlaylist = function() {
-    // TODO: get recommended playlist
+  $scope.setRecommendedPlaylist = function() {
+    // TODO: current user: A likes the same set of song as user B so recommend B's non-overlapping highly rated songs to A.
+    // 'http://127.0.0.1:8000/api/user-song-rating/?f=&format=json'
   };
-   $scope.setPlaylistByGenre = function() {
-    // TODO
+  $scope.setPlaylistByGenre = function() {
+
   };
+  // $scope.songs = $http.get('http://127.0.0.1:8000/api/artist/4/?f=&format=json').then(function(response){
+  //   console.log(response.data)
+  //   return response.data
+  // });
   $scope.setPlaylistBySong = function(searchWords) {
-    // TODO
-    $scope.currentPlaylist = {
-      name: "1989",
-      // demo purpose: live change the stars and see how recommended playlist changes
-      songList: [
-        {
-          title: "Out of the woods",
-          artist: "Taylor Swift",
-          length: "06:69",
-          rating: 3,
-          genre: "Pop",
-          index: 4
-        },
-        {
-          title: "Style",
-          artist: "Taylor Swift",
-          length: "06:69",
-          rating: 3,
-          genre: "Pop",
-          index: 1
-        },
-        {
-          title: "Welcome to New York",
-          artist: "Taylor Swift",
-          length: "06:69",
-          rating: 3,
-          genre: "Pop",
-          index: 2
-        },
-        {
-          title: "Bad Blood",
-          artist: "Taylor Swift",
-          length: "06:69",
-          rating: 3,
-          genre: "Pop",
-          index: 3
-        }
-      ]
-    }; // set this to something
-    $scope.showHome = false;
+    // $scope.currentPlaylist = $scope.songs();
+    // 'http://127.0.0.1:8000/api/?q='+searchWords+'/?f=&format=json'
+    $scope.changePage('playlist');
   };
 
   $scope.setSelectedRating = function (rating,song) {
@@ -153,10 +115,10 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
   };
 
   $scope.playSong = function (song) {
-      $scope.songPath = song.filename;
-      var audiobar = document.getElementById("audiobar");
-      audiobar.play();
-      $scope.isPlaying = true;
+    $scope.songPath = song.filename;
+    var audiobar = document.getElementById("audiobar");
+    audiobar.play();
+    $scope.isPlaying = true;
   };
   $scope.pauseSong = function () {
     var audiobar = document.getElementById("audiobar");
@@ -166,49 +128,49 @@ myApp.controller("SongController", ['$scope', 'dataService', function($scope,dat
 
 }])
 
-myApp.service('dataService', function() {
-  // private variable
-  var _dataObj = {
-    userType: null,
-    typesOfUsers: ['Listener','Artist','Label Manager'],
-    listeners: [
-      {
-        name: "minh",
-        password: "123456"
-      },
-      {
-        name: "weisheng",
-        password: "654321"
-      },
-      {
-        name: "pokemon",
-        password: "trainer"
-      }
-    ],
-    artists: [
-      {
-        name: "keith",
-        password: "696969"
-      },
-      {
-        name: "hafiz",
-        password: "666666"
-      }
-    ],
-    managers: [
-      {
-        name: "amos",
-        password: "choochoo"
-      },
-      {
-        name: "junhao",
-        password: "cocksucker"
-      }
-    ]
-  };
-  // public API
-  this.dataObj = _dataObj;
-})
+// myApp.service('dataService', function() {
+//   // private variable
+//   var _dataObj = {
+//     userType: null,
+//     typesOfUsers: ['Listener','Artist','Label Manager'],
+//     listeners: [
+//       {
+//         name: "minh",
+//         password: "123456"
+//       },
+//       {
+//         name: "weisheng",
+//         password: "654321"
+//       },
+//       {
+//         name: "pokemon",
+//         password: "trainer"
+//       }
+//     ],
+//     artists: [
+//       {
+//         name: "keith",
+//         password: "696969"
+//       },
+//       {
+//         name: "hafiz",
+//         password: "666666"
+//       }
+//     ],
+//     managers: [
+//       {
+//         name: "amos",
+//         password: "choochoo"
+//       },
+//       {
+//         name: "junhao",
+//         password: "cocksucker"
+//       }
+//     ]
+//   };
+//   // public API
+//   this.dataObj = _dataObj;
+// })
 
 myApp.directive('starRating', function () {
     return {
@@ -232,6 +194,7 @@ myApp.directive('starRating', function () {
                         filled: i < scope.ratingValue
                     });
                 }
+
             };
 
             scope.toggle = function (index) {
