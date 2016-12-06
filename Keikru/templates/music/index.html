@@ -156,7 +156,7 @@
                       <!-- click on song title to go to album -->
                       <td><a ng-click="setPlaylistBySong(song.title)">{{song.title}}</a></td>
                       <td>{{song.length}}</td>
-                      <td><a ng-click="showArtist(song.artist)">{{song.artist}}</a></td>
+                      <td><a ng-click="setPlaylistByArtist(song.artist)">{{song.artist}}</a></td>
                       <td><a ng-click="setPlaylistByGenre(song.genre)">{{song.genre}}</a></td>
                       <td><div star-rating rating-value="song.rating" max="5" min="1" on-rating-selected="setSelectedRating(rating,song)"></div></td>
                     </tr>
