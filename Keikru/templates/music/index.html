@@ -147,8 +147,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr ng-repeat="song in currentPlaylist.songList | orderBy: 'index'">
-                      <td>{{song.index}}</td>
+                    <tr ng-repeat="song in currentPlaylist.songList">
                       <td>
                         <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
                         <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>

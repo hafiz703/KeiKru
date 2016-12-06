@@ -53,7 +53,7 @@ $.ajaxSetup({
 //   }
 // }])
 // Define the `SongController` controller on the `Keithkuru` module
-myApp.controller("SongController", ['$scope', function($scope) {
+myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   // $scope.dataObj = dataService.dataObj;
 
   $scope.showHome = true;
@@ -66,12 +66,14 @@ myApp.controller("SongController", ['$scope', function($scope) {
   $scope.fillSearchBox = function() {
     console.log("worked");
   };
-  $scope.showArtist = function(artist_id) {
+  $scope.setPlaylistByArtist = function(artist_id) {
     var data = $http.get('http://127.0.0.1:8000/api/'+artist_id+'/4/?f=&format=json').then(function(response){
       console.log(response.data)
       return response.data
     });
-    
+    $scope.currentPlaylist.name = data['id'];
+    console.log();
+    $scope.changePage('playlist');
   };
   $scope.setRecommendedPlaylist = function() {
     // TODO: current user: A likes the same set of song as user B so recommend B's non-overlapping highly rated songs to A.
@@ -85,11 +87,12 @@ myApp.controller("SongController", ['$scope', function($scope) {
   //   return response.data
   // });
   $scope.setPlaylistBySong = function(searchWords) {
-    // $scope.currentPlaylist = $http.get('http://127.0.0.1:8000/api/?q='+searchWords+'/?f=&format=json').then(function(response){
-    //   console.log(response.data)
-    //   return response.data
-    // });
-    // 'http://127.0.0.1:8000/api/?q='+searchWords+'/?f=&format=json'
+    console.log('http://127.0.0.1:8000/api/artist/?format=json&q='+searchWords);
+    var data = $http.get('http://127.0.0.1:8000/api/artist/?format=json&q='+searchWords).then(function(response){
+      console.log(response.data);
+      return response.data;
+    });
+    console.log(data['id']);
     $scope.changePage('playlist');
   };
 
