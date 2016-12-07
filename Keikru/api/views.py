@@ -23,6 +23,22 @@ from api.serializers import(
     SongRatingSerializer)
 
 # Create search genre
+class GenreSearchAPIView(ListAPIView):
+    queryset = Artist.objects.all()
+    serializer_class = ArtistListSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Artist.objects.all()
+        query = self.request.GET.get("q")
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(rel_albums__genre__icontains=query)
+
+            ).distinct()
+
+        return queryset_list
+
+
 class ArtistListAPIView(ListAPIView):
     queryset = Artist.objects.all()
     serializer_class = ArtistListSerializer

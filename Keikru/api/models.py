@@ -36,6 +36,7 @@ class Song(models.Model):
     song_title = models.CharField(max_length=250)
     song_rating = models.FloatField(default = 0)
     song_file = models.CharField(max_length=1000,default = "C:\\Users\\")
+
     def getAlbumName(self):
         return self.Album.album_name
 

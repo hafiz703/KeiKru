@@ -20,6 +20,7 @@ class SongDetailSerializer(ModelSerializer):
             'song_title',
             'song_rating',
             'song_file',
+            'album'
 
 
         ]
