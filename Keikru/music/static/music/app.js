@@ -39,14 +39,11 @@ $.ajaxSetup({
 myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   // $scope.dataObj = dataService.dataObj;
 
-  $scope.showHome = true;
-  $scope.showPlaylist = false;
-  $scope.showProfile = false;
-  $scope.myTitle = "Homepage";
+  $scope.listOfPages = ["Homepage", "Your Playlist", "Your Profile", "Edit Album Details"];
+  $scope.currPage = 'Homepage';
 
-  $scope.ifUser = false;
-  $scope.ifArtist = true;
-  $scope.ifLabel = false;
+  $scope.listOfUserType = ["user", "artist", "label"];
+  $scope.userType = 'artist';
 
   $scope.albumlist = {
     id: "minh",
@@ -106,40 +103,27 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   };
 
   $scope.changePage = function (page) {
-    if (page == 'home') {
-      $scope.showHome = true;
-      $scope.showPlaylist = false;
-      $scope.showProfile = false;
-      $scope.myTitle = "Homepage";
-    }
-    else if (page == 'playlist') {
-      $scope.showHome = false;
-      $scope.showPlaylist = true;
-      $scope.showProfile = false;
-      $scope.myTitle = "Playlist";
-    }
-    else if (page == 'profile') {
-      $scope.showHome = false;
-      $scope.showPlaylist = false;
-      $scope.showProfile = true;
-      $scope.myTitle = "Profile";
+
+    if ($scope.listOfPages.includes(page)) {
+      // console.log("page selected: " + page)
+      $scope.currPage = page;
     }
     else {
-      console.log("unknown page selected");
+      console.log("unknown page selected: " + page);
     }
   };
 
-  $scope.playSong = function (song) {
-    $scope.songPath = song.filename;
-    var audiobar = document.getElementById("audiobar");
-    audiobar.play();
-    $scope.isPlaying = true;
-  };
-  $scope.pauseSong = function () {
-    var audiobar = document.getElementById("audiobar");
-    audiobar.pause();
-    $scope.isPlaying = false;
-  };
+  // $scope.playSong = function (song) {
+  //   $scope.songPath = song.filename;
+  //   var audiobar = document.getElementById("audiobar");
+  //   audiobar.play();
+  //   $scope.isPlaying = true;
+  // };
+  // $scope.pauseSong = function () {
+  //   var audiobar = document.getElementById("audiobar");
+  //   audiobar.pause();
+  //   $scope.isPlaying = false;
+  // };
 
 }])
 
