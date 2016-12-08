@@ -64,18 +64,9 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     songList: []
   }; // playlist shown on screen
 
-  getJson = function(link) {
-    return $http.get(link).then(function(response){
-      // console.log(response.data);
-      return response.data;
-    });
-  }
-
   $scope.setPlaylistByArtist = function(artist_id) {
     var link = 'http://127.0.0.1:8000/api/'+artist_id;
-    getJson(link).then(function(response){
-      console.log(response[0]); // TODO
-    });
+
     $scope.changePage('playlist');
   };
   $scope.setRecommendedPlaylist = function() {
@@ -87,25 +78,59 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'contentType': 'application/json',
       'dataType': 'json',
       'success': function(data) {
-        console.log(data);
+        $scope.currentPlaylist.songList = [];
         $scope.currentPlaylist.songList.push(data);
-        $scope.changePage('playlist');
+        $scope.changePage('Your Playlist');
       }
     });
   };
   $scope.setPlaylistByGenre = function(genre) {
     var link = 'http://127.0.0.1:8000/api/genre/?format=json&q='+genre;
-    getJson(link).then(function(response){
-      console.log(response[0]);
+    $.ajax({
+      'type': 'GET',
+      'url': link, //updating song with song_id = 2
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function(data) {
+        $scope.currentPlaylist.songList = [];
+        for (i in data) {
+          artist = data[i];
+          artist_name = artist.name;
+          artist_id = artist.id;
+          for (j in artist['rel_albums']) {
+            album = artist['rel_albums'][j];
+            album_name = album['album_name'];
+            album_id = album.id;
+            genre = album.genre;
+            for (k in album['tracks']) {
+              track = album['tracks'][k];
+              console.log(track.song_title);
+              var song = {
+                song_title: track.song_title,
+                album: {
+                  artist: {
+                    name: artist_name,
+                    id: artist_id
+                  },
+                  album_name: album_name,
+                  id: album_id,
+                  genre: genre
+                },
+                song_rating: track.song_rating
+              };
+              $scope.currentPlaylist.songList.push(song);
+            }
+          }
+        }
+        $scope.changePage('Your Playlist');
+      }
     });
-    $scope.changePage('playlist');
   };
   $scope.setSelectedRating = function (rating,song) {
       song.rating = rating;
   };
 
   $scope.changePage = function (page) {
-
     if ($scope.listOfPages.includes(page)) {
       // console.log("page selected: " + page)
       $scope.currPage = page;

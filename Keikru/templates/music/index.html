@@ -136,16 +136,15 @@
             </div>
 
             <div class="PLAYLIST" ng-show="currPage == 'Your Playlist'" ng-cloak>
-              <h2 class="sub-header">{{currentPlaylist.name}}</h2>
+              <h2 class="sub-header">[[currentPlaylist.name]]</h2>
               <div class="table-responsive">
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>#</th>
                       <th></th>
                       <th>Name</th>
-                      <th>Length</th>
                       <th>Artist</th>
+                      <th>Album</th>
                       <th>Genre</th>
                       <th>Rating</th>
                     </tr>
@@ -156,9 +155,9 @@
                         <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
                         <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
                       </td>
-                      <td><a ng-click="setPlaylistBySong(song.song_title)">[[song.song_title]]</a></td>
-                      <td><a ng-click="setPlaylistByArtist(song.album.artist.name)">[[song.album.artist.name]]</a></td>
-                      <td><a ng-click="setPlaylistByAlbum(song.album.album_name)">[[song.album.album_name]]</a></td>
+                      <td>[[song.song_title]]</td>
+                      <td><a ng-click="setPlaylistByArtist(song.album.artist.id)">[[song.album.artist.name]]</a></td>
+                      <td><a ng-click="setPlaylistByAlbum(song.album.id)">[[song.album.album_name]]</a></td>
                       <td><a ng-click="setPlaylistByGenre(song.album.genre)">[[song.album.genre]]</a></td>
                       <td><div star-rating rating-value="song.song_rating" max="5" min="1" on-rating-selected="setSelectedRating(rating,song)"></div></td>
                     </tr>
