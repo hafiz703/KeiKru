@@ -84,6 +84,22 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       }
     });
   };
+
+  $scope.setPlaylistByAlbum = function(album_id) {
+    link = 'http://127.0.0.1:8000/api/album/'+album_id;
+    $.ajax({
+      'type': 'GET',
+      'url': link, //updating song with song_id = 2
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function(data) {
+        $scope.currentPlaylist.songList = [];
+        $scope.currentPlaylist.songList.push(data);
+        $scope.changePage('Your Playlist');
+      }
+    });
+  };
+
   $scope.setPlaylistByGenre = function(genre) {
     var link = 'http://127.0.0.1:8000/api/genre/?format=json&q='+genre;
     $.ajax({
