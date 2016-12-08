@@ -2,8 +2,8 @@
 var myApp = angular.module('Keithkuru', ['ngResource']);
 
 myApp.config(function($interpolateProvider) {
-    $interpolateProvider.startSymbol('{$');
-    $interpolateProvider.endSymbol('$}');
+    $interpolateProvider.startSymbol('[[');
+    $interpolateProvider.endSymbol(']]');
 });
 
 function getCookie(name) {
