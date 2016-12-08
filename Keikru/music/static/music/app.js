@@ -69,9 +69,54 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
     $scope.changePage('playlist');
   };
+
+  $scope.setPlaylistBySearch = function(searchWords) {
+    link = "http://127.0.0.1:8000/api/artist/?format=json&q="+searchWords;
+    $.ajax({
+      'type': 'GET',
+      'url': link, //updating song with song_id = 2
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function(data) {
+        $scope.currentPlaylist.songList = [];
+        for (i in data) {
+          artist = data[i];
+          artist_name = artist.name;
+          artist_id = artist.id;
+          for (j in artist['rel_albums']) {
+            album = artist['rel_albums'][j];
+            album_name = album['album_name'];
+            album_id = album.id;
+            $scope.currentPlaylist.name = album.genre+' song';
+            genre = album.genre;
+            for (k in album['tracks']) {
+              track = album['tracks'][k];
+              console.log(track.song_title);
+              var song = {
+                song_title: track.song_title,
+                album: {
+                  artist: {
+                    name: artist_name,
+                    id: artist_id
+                  },
+                  album_name: album_name,
+                  id: album_id,
+                  genre: genre
+                },
+                song_rating: track.song_rating
+              };
+              $scope.currentPlaylist.songList.push(song);
+            }
+          }
+        }
+        $scope.changePage('Your Playlist');
+      }
+    });
+  };  
+
   $scope.setRecommendedPlaylist = function() {
-    var link = 'http://127.0.0.1:8000/api/user-song-rating/?format=json';
-    link = 'http://127.0.0.1:8000/api/song/2/?format=json';
+    // var link = 'http://127.0.0.1:8000/api/user-song-rating/?format=json';
+    var link = 'http://127.0.0.1:8000/api/song/2/?format=json';
     $.ajax({
       'type': 'GET',
       'url': link, //updating song with song_id = 2
@@ -98,7 +143,6 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         for (i in data.tracks) {
           $scope.currentPlaylist.songList.push(data.tracks[i]);
         }
-        
         $scope.changePage('Your Playlist');
       }
     });

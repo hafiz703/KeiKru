@@ -43,7 +43,7 @@
               <li><a href="#">Help</a></li>
             </ul>
 
-            <form class="navbar-form navbar-right" ng-submit="setPlaylistBySong(searchWords)">
+            <form class="navbar-form navbar-right" ng-submit="setPlaylistBySearch(searchWords)">
               <input type="text" class="form-control" placeholder="Search..." ng-model="searchWords">
             </form>
           </div>
@@ -63,9 +63,7 @@
 
           <div class="row" ng-repeat="album in albumlist.li">
             <div class="col-md-4">
-              <a href="album_pic" class="thumbnail">
-                <img class="img-thumbnail" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/15109341_10154615057689088_6880569998308639492_n.jpg?oh=862585562e3f9d9b8df0a6bcaf879df0&oe=58FB39FB" alt="keith" width="300" height="300">
-              </a>
+              <img class="img-thumbnail" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/15109341_10154615057689088_6880569998308639492_n.jpg?oh=862585562e3f9d9b8df0a6bcaf879df0&oe=58FB39FB" alt="keith" width="300" height="300">
             </div>
 
             <div class="col-md-5">
@@ -97,7 +95,6 @@
           <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
               <li class="active"><a ng-click="changePage('Homepage')">Home<span class="sr-only">(current)</span></a></li>
-              <!-- here's where artist can upload their songs + do other stuff -->
               <li><a href="#">Account<span class="sr-only">(current)</span></a></li>
             </ul>
             <ul class="nav nav-sidebar">
@@ -123,11 +120,11 @@
                 <h4>Recommended Playlist</h4>
                 <span class="text-muted">Curated especially for you</span>
               </div>
-              <div class="col-md-3 placeholder" ng-click="setPlaylistBySearch('1989')">
+<!--               <div class="col-md-3 placeholder" ng-click="setPlaylistBySearch('1989')">
                 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                 <h4>Top Trending</h4>
                 <span class="text-muted">Follow the newest trend in music.</span>
-              </div>
+              </div> -->
               <div class="col-md-3 placeholder">
                 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                 <h4>Recently listened Songs (?)</h4>
