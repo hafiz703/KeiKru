@@ -86,13 +86,17 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   //   console.log(response.data)
   //   return response.data
   // });
-  $scope.setPlaylistBySong = function(searchWords) {
-    console.log('http://127.0.0.1:8000/api/artist/?format=json&q='+searchWords);
-    var data = $http.get('http://127.0.0.1:8000/api/artist/?format=json&q='+searchWords).then(function(response){
-      console.log(response.data);
+  getJson = function(link) {
+    return $http.get(link).then(function(response){
+      // console.log(response.data);
       return response.data;
     });
-    console.log(data['id']);
+  }
+  $scope.setPlaylistBySong = function(searchWords) {
+    var link = 'http://127.0.0.1:8000/api/artist/?format=json&q='+searchWords;
+    getJson(link).then(function(response){
+      console.log(response[0]);
+    });
     $scope.changePage('playlist');
   };
 
