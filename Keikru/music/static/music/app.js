@@ -113,6 +113,13 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     }
   };
 
+  $scope.deleteAlbum = function () {
+    alert("Are you sure you want to delete his album?");
+  }
+
+  $scope.addAlbum = function () {
+    alert("Album added");
+  }
   // $scope.playSong = function (song) {
   //   $scope.songPath = song.filename;
   //   var audiobar = document.getElementById("audiobar");
