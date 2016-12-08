@@ -1,5 +1,11 @@
 // Define the `Keithkuru` module
 var myApp = angular.module('Keithkuru', ['ngResource']);
+
+myApp.config(function($interpolateProvider) {
+    $interpolateProvider.startSymbol('{$');
+    $interpolateProvider.endSymbol('$}');
+});
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -28,30 +34,7 @@ $.ajaxSetup({
         }
     }
 });
-// myApp.controller("SignInController", ['$scope', 'dataService', function($scope,dataService) {
-//   $scope.dataObj = dataService.dataObj;
-//   $scope.signIn = function(username, password, userType) {
-//     var users;
-//     switch (userType) {
-//       case 'Listener':
-//         users = $scope.dataObj.listeners;
-//         break;
-//       case 'Artist':
-//         users = $scope.dataObj.artists;
-//         break;
-//       case 'Label Manager':
-//         users = $scope.dataObj.managers;
-//         break;
-//     }
-//     for (i = 0; i < users.length; i++) {
-//       if (username==users[i].name && password==users[i].password) {
-//         $scope.dataObj.signedInUser = users[i];
-//         return;
-//       }
-//     }
-//     alert("Username and/or password combination is wrong!");
-//   }
-// }])
+
 // Define the `SongController` controller on the `Keithkuru` module
 myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   // $scope.dataObj = dataService.dataObj;
@@ -60,6 +43,21 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.showPlaylist = false;
   $scope.showProfile = false;
   $scope.myTitle = "Homepage";
+
+  $scope.albumtitle = "Keith's Hottest Mixtape";
+  $scope.albumlist = {
+    id: "minh",
+    li: [{
+    "title": "Keith's Classical Rock-Pop Rap Remixes",
+    name: 'fuck'
+    },{
+    "title": "Keith's Top 999999",
+    name: 'fuck'
+    },{
+    "title": "Keith's Golden 1800s",
+    name: 'fuck'
+    }]
+  };
 
   $scope.currentPlaylist = {}; // list shown on screen
 
@@ -138,50 +136,6 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
 }])
 
-// myApp.service('dataService', function() {
-//   // private variable
-//   var _dataObj = {
-//     userType: null,
-//     typesOfUsers: ['Listener','Artist','Label Manager'],
-//     listeners: [
-//       {
-//         name: "minh",
-//         password: "123456"
-//       },
-//       {
-//         name: "weisheng",
-//         password: "654321"
-//       },
-//       {
-//         name: "pokemon",
-//         password: "trainer"
-//       }
-//     ],
-//     artists: [
-//       {
-//         name: "keith",
-//         password: "696969"
-//       },
-//       {
-//         name: "hafiz",
-//         password: "666666"
-//       }
-//     ],
-//     managers: [
-//       {
-//         name: "amos",
-//         password: "choochoo"
-//       },
-//       {
-//         name: "junhao",
-//         password: "cocksucker"
-//       }
-//     ]
-//   };
-//   // public API
-//   this.dataObj = _dataObj;
-// })
-
 myApp.directive('starRating', function () {
     return {
         restrict: 'A',
@@ -204,7 +158,6 @@ myApp.directive('starRating', function () {
                         filled: i < scope.ratingValue
                     });
                 }
-
             };
 
             scope.toggle = function (index) {
