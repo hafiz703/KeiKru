@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
-from rest_framework.mixins import CreateModelMixin,UpdateModelMixin,DestroyModelMixin
+from rest_framework.mixins import CreateModelMixin,UpdateModelMixin,DestroyModelMixin,RetrieveModelMixin
 from django.http import Http404
 from rest_framework.exceptions import ValidationError
 
@@ -21,6 +21,9 @@ from api.serializers import(
     ArtistDetailSerializer,
     ListenRecordListSerializer,
     SongRatingSerializer)
+
+
+
 
 # Create search genre
 class GenreSearchAPIView(ListAPIView):
@@ -83,11 +86,42 @@ class Song_RatingListAPIView(ListAPIView):
     queryset = UserRatedSongs.objects.all()
     serializer_class = UserRatedSongsSerializer
 
-class Song_RatingCreateAPIView(CreateAPIView,CreateModelMixin):
+class Song_RatingCreateAPIView(GenericAPIView,CreateModelMixin,UpdateModelMixin,RetrieveModelMixin):
     queryset = UserRatedSongs.objects.all()
     serializer_class = UserRatedSongsSerializer
 
-    # def post(self, request, *args, **kwargs):
+
+    def post(self, request, *args, **kwargs):
+        filter = UserRatedSongs.objects.filter(user=request.data['user'],
+                                              song_rated=request.data['song_rated'])
+        if filter.exists():
+            raise ValidationError({'error': 'POST not allowed, send PUT'})
+        else:
+            return self.create(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        try:
+            # record =  UserRatedSongs.objects.filter(user=request.data['user'], song_rated=request.data['song_rated'])
+
+            record = UserRatedSongs.objects.get(user=request.data['user'],
+                                                   song_rated=request.data['song_rated'])
+
+
+            # record2 = UserRatedSongs.objects.get(user=request.data['user'],
+            #                                     song_rated=request.data['song_rated'],rating=request.data['rating'])
+
+            rating = self.request.data['rating']
+
+            record.rating = rating
+            record.save()
+            return self.update(record, *args, **kwargs)
+        except UserRatedSongs.DoesNotExist:
+            raise ValidationError({"error": "Send POST not PUT to create records"})
+        except AssertionError:
+            raise ValidationError({"error": "Send POST not PUT to create records"})
+
+
+
 
 class ListenRecordCreateAPIView(GenericAPIView,CreateModelMixin,UpdateModelMixin):
     queryset = Listen_Record.objects.all()
@@ -106,11 +140,11 @@ class ListenRecordCreateAPIView(GenericAPIView,CreateModelMixin,UpdateModelMixin
             record = Listen_Record.objects.get(user=request.data['user'],
                                                songid=request.data['songid'])
             if record.listen_count is None:
-                record.listen_count = 1
-            record.listen_count = record.listen_count + 1
+                record.listen_count = 0
+            record.listen_count += 1
             record.save()
             return self.update(record, *args, **kwargs)
-        except Listen_Record.DoesNotExist:
+        except AssertionError:
             raise ValidationError({"error": "Send POST not PUT to create records"})
 
 

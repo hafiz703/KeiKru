@@ -140,10 +140,15 @@ class UserRatedSongsSerializer(ModelSerializer):
     class Meta:
         model = UserRatedSongs
         fields = [
+            'rating',
             'user',
             'song_rated',
-            'rating',
+
         ]
+
+        extra_kwargs = {
+            'url': {'lookup_field': 'user'}
+        }
 
 
 class ListenRecordListSerializer(ModelSerializer):
@@ -157,7 +162,6 @@ class ListenRecordListSerializer(ModelSerializer):
         ]
 
         extra_kwargs = {
-            'url': { 'lookup_field': 'user_id'}
-
+            'url': { 'lookup_field': 'user_pk'}
         }
 

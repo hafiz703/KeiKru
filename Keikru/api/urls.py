@@ -37,9 +37,9 @@ urlpatterns = [
     url(r'^album/(?P<pk>\d+)/$', AlbumDetailAPIView.as_view(), name='album-detail'),
 
     url(r'^user-song-rating/$', Song_RatingListAPIView.as_view(),name ='user-rating-detail'),
-    url(r'^user-song-rating/create/(?P<user_pk>\d+)/$', Song_RatingCreateAPIView.as_view(), name='user-rating-create'),
+    url(r'^user-song-rating/create/(?P<User_pk>\d+)/$', Song_RatingCreateAPIView.as_view(), name='user-rating-create'),
 
-    url(r'^listen-record/create/(?P<user_pk>\d+)/$', ListenRecordCreateAPIView.as_view(), name = 'listen-record-createOrupdate' ),
+    url(r'^listen-record/create/(?P<User_pk>\d+)/$', ListenRecordCreateAPIView.as_view(), name = 'listen-record-createOrupdate' ),
     url(r'^listen-record/$', ListenRecordListAPIView.as_view(), name='listen-record-list'),
 
     url(r'^genre/$',GenreSearchAPIView.as_view(), name='genre-list'),
