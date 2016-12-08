@@ -79,6 +79,8 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'dataType': 'json',
       'success': function(data) {
         $scope.currentPlaylist.songList = [];
+        $scope.currentPlaylist.name = 'Search results for '+searchWords;
+
         for (i in data) {
           artist = data[i];
           artist_name = artist.name;
@@ -87,7 +89,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             album = artist['rel_albums'][j];
             album_name = album['album_name'];
             album_id = album.id;
-            $scope.currentPlaylist.name = album.genre+' song';
+            
             genre = album.genre;
             for (k in album['tracks']) {
               track = album['tracks'][k];
