@@ -44,7 +44,10 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.showProfile = false;
   $scope.myTitle = "Homepage";
 
-  $scope.albumtitle = "Keith's Hottest Mixtape";
+  $scope.ifUser = false;
+  $scope.ifArtist = true;
+  $scope.ifLabel = false;
+
   $scope.albumlist = {
     id: "minh",
     li: [{
