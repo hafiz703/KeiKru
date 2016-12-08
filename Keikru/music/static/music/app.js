@@ -45,19 +45,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.listOfUserType = ["user", "artist", "label"];
   $scope.userType = 'artist';
 
-  $scope.albumlist = {
-    id: "minh",
-    li: [{
-    "title": "Keith's Classical Rock-Pop Rap Remixes",
-    name: 'fuck'
-    },{
-    "title": "Keith's Top 999999",
-    name: 'fuck'
-    },{
-    "title": "Keith's Golden 1800s",
-    name: 'fuck'
-    }]
-  };
+  $scope.albumList = [];
 
   $scope.currentPlaylist = {
     name: 'placeholder',
@@ -65,13 +53,30 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   }; // playlist shown on screen
 
   $scope.setPlaylistByArtist = function(artist_id) {
-    var link = 'http://127.0.0.1:8000/api/'+artist_id;
-
-    $scope.changePage('playlist');
+    var link = 'http://127.0.0.1:8000/api/artist/'+artist_id+'/?format=json';
+    $.ajax({
+      'type': 'GET',
+      'url': link, //updating song with song_id = 2
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function(data) {
+        $scope.albumList = [];
+        for (i in data.rel_albums) {
+          album_name = data.rel_albums[i].album_name;
+          album_id = data.rel_albums[i].id;
+          album = {
+            title: album_name,
+            id: album_id
+          };
+          $scope.albumList.push(album);
+        }
+        $scope.changePage('Your Profile');
+      }
+    });
   };
 
   $scope.setPlaylistBySearch = function(searchWords) {
-    link = "http://127.0.0.1:8000/api/artist/?format=json&q="+searchWords;
+    var link = "http://127.0.0.1:8000/api/artist/?format=json&q="+searchWords;
     $.ajax({
       'type': 'GET',
       'url': link, //updating song with song_id = 2
@@ -133,7 +138,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   };
 
   $scope.setPlaylistByAlbum = function(album_id) {
-    link = 'http://127.0.0.1:8000/api/album/'+album_id;
+    var link = 'http://127.0.0.1:8000/api/album/'+album_id+'/?format=json';
     $.ajax({
       'type': 'GET',
       'url': link, //updating song with song_id = 2
