@@ -39,30 +39,32 @@ $.ajaxSetup({
 myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   // $scope.dataObj = dataService.dataObj;
 
-  $scope.listOfPages = ["Homepage", "Your Playlist", "Your Profile", "Edit Album Details"];
+  $scope.listOfPages = ["Homepage", "Your Playlist", "Your Profile", "Create Album", "Edit Album Details"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
   $scope.userType = 'artist';
 
   $scope.albumlist = {
-    id: "minh",
+    id: "Keith",
     li: [{
     "title": "Keith's Classical Rock-Pop Rap Remixes",
-    name: 'fuck'
     },{
     "title": "Keith's Top 999999",
-    name: 'fuck'
     },{
     "title": "Keith's Golden 1800s",
-    name: 'fuck'
     }]
   };
 
   $scope.currentPlaylist = {
-    name: 'placeholder',
+    "name": 'placeholder',
     songList: []
   }; // playlist shown on screen
+
+  $scope.uploadList = {
+    name: 'placeholder',
+    URL: 'placeholder.sutd.edu.sg'
+  };
 
   $scope.setPlaylistByArtist = function(artist_id) {
     var link = 'http://127.0.0.1:8000/api/'+artist_id;
@@ -89,7 +91,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             album = artist['rel_albums'][j];
             album_name = album['album_name'];
             album_id = album.id;
-            
+
             genre = album.genre;
             for (k in album['tracks']) {
               track = album['tracks'][k];
@@ -114,7 +116,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         $scope.changePage('Your Playlist');
       }
     });
-  };  
+  };
 
   $scope.setRecommendedPlaylist = function() {
     // var link = 'http://127.0.0.1:8000/api/user-song-rating/?format=json';
@@ -194,6 +196,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       }
     });
   };
+
   $scope.setSelectedRating = function (rating,song) {
       song.rating = rating;
   };
@@ -210,11 +213,13 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.deleteAlbum = function () {
     alert("Are you sure you want to delete his album?");
-  }
+  };
 
-  $scope.addAlbum = function () {
-    alert("Album added");
-  }
+  $scope.submitAlbum = function () {
+    alert("Album uploaded!");
+    $scope.changePage('Your Profile');
+  };
+
   // $scope.playSong = function (song) {
   //   $scope.songPath = song.filename;
   //   var audiobar = document.getElementById("audiobar");
