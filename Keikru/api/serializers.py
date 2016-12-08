@@ -7,6 +7,26 @@ from api.models import Album,Song,Artist,UserRatedSongs,Listen_Record
 # obj = Album.objects.raw("Select * from api_Album,api_Artist where api_Album.artist_id=api_Artist.id and  api_Artist.name = 'Panic! At the Disco'")
 
 
+class SongListSerializer(ModelSerializer):
+    # artist = ArtistDetailSerializer(many=False, read_only=True)
+    # artist = serializers.CharField(read_only=True, source="artist_set" )
+    # album_name = album.get_attribute("album_name")
+
+
+    class Meta:
+        model = Song
+        fields = [
+            'id',
+            'song_title',
+            'song_rating',
+            'song_file',
+            'album'
+
+
+        ]
+
+        depth = 2
+
 class SongDetailSerializer(ModelSerializer):
     # artist = ArtistDetailSerializer(many=False, read_only=True)
     # artist = serializers.CharField(read_only=True, source="artist_set" )
@@ -48,7 +68,7 @@ class AlbumCreateSerializer(ModelSerializer):
         fields = [
 
             'album_name',
-            'album_rating',
+            # 'album_rating',
 
             # 'name',
 
@@ -75,7 +95,7 @@ class AlbumListSerializer(ModelSerializer):
         # depth = 1
 
 class AlbumDetailSerializer(ModelSerializer):
-
+    tracks = SongDetailSerializer(many=True, read_only=True)
     class Meta:
         model = Album
         fields = [
@@ -83,11 +103,13 @@ class AlbumDetailSerializer(ModelSerializer):
             'album_name',
             'genre',
             'album_rating',
-            # 'date_created',
+            'date_created',
             'album_art',
-            'rel_artist'
+            'artist',
+            'tracks'
 
         ]
+        depth =1
 
 class ArtistListSerializer(ModelSerializer):
     rel_albums = AlbumListSerializer(many=True, read_only=True)
