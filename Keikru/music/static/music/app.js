@@ -59,45 +59,47 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     }]
   };
 
-  $scope.currentPlaylist = {}; // list shown on screen
+  $scope.currentPlaylist = {
+    name: 'placeholder',
+    songList: []
+  }; // playlist shown on screen
 
-  $scope.fillSearchBox = function() {
-    console.log("worked");
-  };
-  $scope.setPlaylistByArtist = function(artist_id) {
-    var data = $http.get('http://127.0.0.1:8000/api/'+artist_id+'/4/?f=&format=json').then(function(response){
-      console.log(response.data)
-      return response.data
-    });
-    $scope.currentPlaylist.name = data['id'];
-    console.log();
-    $scope.changePage('playlist');
-  };
-  $scope.setRecommendedPlaylist = function() {
-    // TODO: current user: A likes the same set of song as user B so recommend B's non-overlapping highly rated songs to A.
-    // 'http://127.0.0.1:8000/api/user-song-rating/?f=&format=json'
-  };
-  $scope.setPlaylistByGenre = function() {
-
-  };
-  // $scope.songs = $http.get('http://127.0.0.1:8000/api/artist/4/?f=&format=json').then(function(response){
-  //   console.log(response.data)
-  //   return response.data
-  // });
   getJson = function(link) {
     return $http.get(link).then(function(response){
       // console.log(response.data);
       return response.data;
     });
   }
-  $scope.setPlaylistBySong = function(searchWords) {
-    var link = 'http://127.0.0.1:8000/api/artist/?format=json&q='+searchWords;
+
+  $scope.setPlaylistByArtist = function(artist_id) {
+    var link = 'http://127.0.0.1:8000/api/'+artist_id;
+    getJson(link).then(function(response){
+      console.log(response[0]); // TODO
+    });
+    $scope.changePage('playlist');
+  };
+  $scope.setRecommendedPlaylist = function() {
+    var link = 'http://127.0.0.1:8000/api/user-song-rating/?format=json';
+    link = 'http://127.0.0.1:8000/api/song/2/?format=json';
+    $.ajax({
+      'type': 'GET',
+      'url': link, //updating song with song_id = 2
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function(data) {
+        console.log(data);
+        $scope.currentPlaylist.songList.push(data);
+        $scope.changePage('playlist');
+      }
+    });
+  };
+  $scope.setPlaylistByGenre = function(genre) {
+    var link = 'http://127.0.0.1:8000/api/genre/?format=json&q='+genre;
     getJson(link).then(function(response){
       console.log(response[0]);
     });
     $scope.changePage('playlist');
   };
-
   $scope.setSelectedRating = function (rating,song) {
       song.rating = rating;
   };
@@ -180,14 +182,6 @@ myApp.directive('starRating', function () {
     }
 });
 
-
-//----------------------------------------> EXAMPLE AJAX GET REQUEST <----------------------------
-//
-//  $scope.songs = $http.get('http://127.0.0.1:8000/api/artist/4/?f=&format=json').then(function(response){
-//           console.log(response.data)
-//           return response.data
-//
-//       });
 
 //----------------------------------------> EXAMPLE AJAX PUT REQUEST <----------------------------
 

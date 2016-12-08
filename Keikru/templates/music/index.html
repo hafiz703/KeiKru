@@ -143,12 +143,11 @@
                         <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
                         <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
                       </td>
-                      <!-- click on song title to go to album -->
-                      <td><a ng-click="setPlaylistBySong(song.title)">{{song.title}}</a></td>
-                      <td>{{song.length}}</td>
-                      <td><a ng-click="setPlaylistByArtist(song.artist)">{{song.artist}}</a></td>
-                      <td><a ng-click="setPlaylistByGenre(song.genre)">{{song.genre}}</a></td>
-                      <td><div star-rating rating-value="song.rating" max="5" min="1" on-rating-selected="setSelectedRating(rating,song)"></div></td>
+                      <td><a ng-click="setPlaylistBySong(song.song_title)">[[song.song_title]]</a></td>
+                      <td><a ng-click="setPlaylistByArtist(song.album.artist.name)">[[song.album.artist.name]]</a></td>
+                      <td><a ng-click="setPlaylistByAlbum(song.album.album_name)">[[song.album.album_name]]</a></td>
+                      <td><a ng-click="setPlaylistByGenre(song.album.genre)">[[song.album.genre]]</a></td>
+                      <td><div star-rating rating-value="song.song_rating" max="5" min="1" on-rating-selected="setSelectedRating(rating,song)"></div></td>
                     </tr>
                   </tbody>
                 </table>
