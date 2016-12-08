@@ -57,11 +57,12 @@
       </nav> -->
 
       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 row">
+
         <h1 class="page-header" ng-bind="currPage"></h1>
-        <hr>
 
         <div class="PROFILE" ng-show="currPage == 'Your Profile'" ng-cloak>
-          <div class="row" ng-repeat="album in albumlist.li">
+
+          <div class="row" ng-repeat="album in albumList" ng-click="setPlaylistByAlbum(album.id)">
             <div class="col-md-4">
               <img class="img-thumbnail" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/15109341_10154615057689088_6880569998308639492_n.jpg?oh=862585562e3f9d9b8df0a6bcaf879df0&oe=58FB39FB" alt="keith" width="300" height="300">
             </div>
