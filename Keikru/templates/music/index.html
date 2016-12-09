@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -12,9 +11,8 @@
     <link rel="icon" href="{% static 'music/assets/favicon.ico' %}">
 
     <title>Keithkuru</title>
-    <!-- Bootstrap core CSS -->
-    <!-- <link href="{% static 'music/assets/css/bootstrap.min.css' %}" rel="stylesheet"> -->
     <link href="{% static 'music/assets/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'music/assets/css/bootstrap-player.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{% static 'music/dashboard.css' %}" rel="stylesheet">
@@ -32,8 +30,8 @@
             </button>
             <a class="navbar-brand" href="#">Keithkuru</a>
           </div>
-          <div id="navbar" class="navbar-collapse collapse">
 
+          <div id="navbar" class="navbar-collapse collapse">
             <form class="navbar-form navbar-right" ng-submit="setPlaylistBySearch(searchWords)">
               <input type="text" class="form-control" placeholder="Search..." ng-model="searchWords">
             </form>
@@ -41,17 +39,56 @@
         </div>
       </nav>
 
-      <!-- <nav class="navbar navbar-fixed-bottom">
-        <div class="audiobar">
-          <audio id="audiobar" data-ng-src="{{songPath}}" controls loop="loop" autoplay="autoplay"></audio>
-        </div>
-      </nav> -->
+      <div id="EVERYTHING UNDER TOP NAVBAR" class="col-md-8 col-md-offset-2">
 
-      <div id="EVERYTHING UNDER TOP NAVBAR" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 row">
         <h1 class="page-header" ng-bind="currPage"></h1>
         <hr>
 
-        <div id="ARTIST ALBUMS" class="container-fluid" ng-show="currPage == 'ArtistAlbums'" ng-cloak>
+        <div id="HOME" ng-show="currPage == 'Homepage'" ng-cloak>
+          <div class="col-md-3 placeholder" ng-click="setRecommendedPlaylist()">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+            <h4>Recommended Playlist</h4>
+            <span class="text-muted">Curated especially for you</span>
+          </div>
+          <div class="col-md-3 placeholder">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+            <h4>Recently listened Songs (?)</h4>
+            <span class="text-muted">Don't forget to add these to Playlist!</span>
+          </div>
+        </div>
+
+        <div id="PLAYLIST" ng-show="currPage == 'Playlist'" ng-cloak>
+            <h2 class="sub-header">[[currentPlaylist.name]]</h2>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Artist</th>
+                    <th>Album</th>
+                    <th>Genre</th>
+                    <th>Rating</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="song in currentPlaylist.songList">
+                    <td>
+                      <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
+                      <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
+                    </td>
+                    <td>[[song.song_title]]</td>
+                    <td><a ng-click="setPlaylistByArtist(song.album.artist.id)">[[song.album.artist.name]]</a></td>
+                    <td><a ng-click="setPlaylistByAlbum(song.album.id)">[[song.album.album_name]]</a></td>
+                    <td><a ng-click="setPlaylistByGenre(song.album.genre)">[[song.album.genre]]</a></td>
+                    <td><div star-rating rating-value="song.song_rating" max="5" min="1" on-rating-selected="setSelectedRating(rating,song)"></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        <div id="ARTIST ALBUMS" class="col-md-8" ng-show="currPage == 'ArtistAlbums'" ng-cloak>
           <div class="row" ng-repeat="album in albumList">
             <div class="col-md-4">
               <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
@@ -65,7 +102,7 @@
           </div>
         </div>
 
-        <div id="PROFILE" class="container-fluid" ng-show="currPage == 'Profile'" ng-cloak>
+        <div id="PROFILE" class="col-md-8" ng-show="currPage == 'Profile'" ng-cloak>
           <div class="row" ng-repeat="album in myAlbumList">
             <div class="col-md-4">
               <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
@@ -87,12 +124,12 @@
           </div>
         </div>
 
-        <div id="EDIT ALBUM" class="container-fluid" ng-show="currPage == 'Edit Album'" ng-cloak>
+        <div id="EDIT ALBUM" class="col-md-8" ng-show="currPage == 'Edit Album'" ng-cloak>
           <h1>WORK IN PROGRESS</h1>
           <button type="button" ng-click="changePage('Profile')" class="btn btn-primary">Cancel</button>
         </div>
 
-        <div id="CREATE ALBUM" class="container-fluid" ng-show="currPage == 'Create Album'" ng-cloak>
+        <div id="CREATE ALBUM" class="col-md-8" ng-show="currPage == 'Create Album'" ng-cloak>
           <div class="col-md-7">
             <form ng-submit="submitAlbum()">
               <div class="form-group">
@@ -122,7 +159,7 @@
           </div>
         </div>
 
-        <div id="CREATE SONG" class="container-fluid" ng-show="currPage == 'Create Song'" ng-cloak>
+        <div id="CREATE SONG" class="col-md-8" ng-show="currPage == 'Create Song'" ng-cloak>
           <div class="col-md-7">
             <form ng-submit="changePage('Create Album')">
               <div class="form-group">
@@ -142,101 +179,74 @@
 
       </div>
 
-      <div id="LEFT SIDEBAR" class="container-fluid">
-        <div class="row">
-          <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-              <li class="active"><a ng-click="changePage('Homepage')"><span class="glyphicon glyphicon-home"></span> Home<span class="sr-only">(current)</span></a></li>
-              <li><a ng-click="changePage('Profile')"><span class="glyphicon glyphicon-user"></span> Profile<span class="sr-only">(current)</span></a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-              <li><a href="" ng-click="changePage('Playlist')"><span class="glyphicon glyphicon-headphones"></span> My Playlist</a></li>
-              <li><a href="" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-info-sign"></span> Help</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-              <li><a href="http://127.0.0.1:8000/logout_user/"><span class="glyphicon glyphicon-off"></span> Logout<span class="sr-only">(current)</span></a></li>
-            </ul>
+      <div id="RIGHT SIDEBAR">
+        <ul class="col-sm-3 col-md-2 sidebar-right">
+          <h1>LE MUSIK PLAYA</h1>
+          <div class="">
+            <audio controls
+              data-info-album-art="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/15109341_10154615057689088_6880569998308639492_n.jpg?oh=862585562e3f9d9b8df0a6bcaf879df0&oe=58FB39FB"
+              data-info-album-title="8874"
+              data-info-artist="Billy Murray"
+              data-info-title="Come, take a trip in my air-ship"
+              data-info-label="Edison Gold Moulded Record"
+              data-info-year="1905"
+              data-info-att="University of California, Santa Barbara Library."
+              data-info-att-link="http://cylinders.library.ucsb.edu/search.php?query=8874">
+              <source src="{% static 'music/assets/songs/The Weeknd/Starboy/01 Starboy (feat. Daft Punk).mp3' %}" type="audio/mpeg" />
+            </audio>
           </div>
+        </ul>
+      </div>
 
-          <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Welcome to Keithkuru!</h4>
-                </div>
-                <div class="modal-body">
-                  <p>Keithkuru is a loving amalgamation of Keith and his Kukuru, bringing to you the best of music exploitation and senseless UI. Please go ahead and click all the buttons, enjoy!</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">This was helpful...</button>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-
-            <div class="HOME" ng-show="currPage == 'Homepage'" ng-cloak>
-              <div class="col-md-3 placeholder" ng-click="setRecommendedPlaylist()">
-                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4>Recommended Playlist</h4>
-                <span class="text-muted">Curated especially for you</span>
-              </div>
-              <div class="col-md-3 placeholder">
-                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4>Recently listened Songs (?)</h4>
-                <span class="text-muted">Don't forget to add these to Playlist!</span>
-              </div>
-            </div>
-
-            <div class="PLAYLIST" ng-show="currPage == 'Playlist'" ng-cloak>
-              <h2 class="sub-header">[[currentPlaylist.name]]</h2>
-              <div class="table-responsive">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>Name</th>
-                      <th>Artist</th>
-                      <th>Album</th>
-                      <th>Genre</th>
-                      <th>Rating</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr ng-repeat="song in currentPlaylist.songList">
-                      <td>
-                        <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
-                        <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
-                      </td>
-                      <td>[[song.song_title]]</td>
-                      <td><a ng-click="setPlaylistByArtist(song.album.artist.id)">[[song.album.artist.name]]</a></td>
-                      <td><a ng-click="setPlaylistByAlbum(song.album.id)">[[song.album.album_name]]</a></td>
-                      <td><a ng-click="setPlaylistByGenre(song.album.genre)">[[song.album.genre]]</a></td>
-                      <td><div star-rating rating-value="song.song_rating" max="5" min="1" on-rating-selected="setSelectedRating(rating,song)"></div></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-          </div>
+      <div id="LEFT SIDEBAR">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a ng-click="changePage('Homepage')"><span class="glyphicon glyphicon-home"></span> Home<span class="sr-only">(current)</span></a></li>
+            <li><a ng-click="changePage('Profile')"><span class="glyphicon glyphicon-user"></span> Profile<span class="sr-only">(current)</span></a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="" ng-click="changePage('Playlist')"><span class="glyphicon glyphicon-headphones"></span> My Playlist</a></li>
+            <li><a href="" data-toggle="modal" data-target="#HELPMODAL"><span class="glyphicon glyphicon-info-sign"></span> Help</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="http://127.0.0.1:8000/logout_user/"><span class="glyphicon glyphicon-off"></span> Logout<span class="sr-only">(current)</span></a></li>
+          </ul>
         </div>
       </div>
+
+      <div id="HELPMODAL" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Welcome to Keithkuru!</h4>
+            </div>
+            <div class="modal-body">
+              <p>Keithkuru is a loving amalgamation of Keith and his Kukuru, bringing to you the best of music exploitation and senseless UI. Please go ahead and click all the buttons, enjoy!</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">This was helpful...</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      </div>
+
     </div>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{% static 'music/assets/js/vendor/jquery.min.js' %}"></script>
-    <!-- <script>window.jQuery || document.write('<script src="../../music/static/music/assets/js/vendor/jquery.min.js"><\/script>')</script> -->
+
     <script src="{% static 'music/assets/js/bootstrap.min.js' %}"></script>
 
     <!-- For audio player -->
-    <script src="{% static 'music/assets/js/bootstrap3_player.js' %}"></script>
+    <script src="{% static 'music/assets/js/bootstrap_player.js' %}"></script>
 
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <script src="{% static 'music/assets/js/vendor/holder.min.js' %}"></script>
