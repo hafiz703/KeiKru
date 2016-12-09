@@ -3,13 +3,29 @@ from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from .forms import Form, UserForm, ArtistForm
-from .models import Label
+from .models import Label, UserRegistered, ArtistRegistered
 
 def index(request):
     if not request.user.is_authenticated():
         return render(request, 'music/login.html')
     else:
-        return render(request, 'music/index.html')
+        user = request.user
+        username = request.user.username
+        user_type = "no type"
+        user_id = user.id
+        try:
+            user_registered = UserRegistered.objects.get(user = user)
+            user_type = "user"
+        except:
+            try:
+                artist_registered = ArtistRegistered.objects.get(user = user)
+                user_type = "artist"
+            except:
+                user_type = "exception"
+        context = {
+            "username": username, "user_type": user_type, "user_id": user_id
+        }
+        return render(request, 'music/index.html', context)
 
 def register(request):
 
@@ -38,7 +54,21 @@ def register(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return render(request, 'music/index.html')
+                    user_type = "no type"
+                    user_id = user.id
+                    try:
+                        user_registered = UserRegistered.objects.get(user = user)
+                        user_type = "user"
+                    except:
+                        try:
+                            artist_registered = ArtistRegistered.objects.get(user = user)
+                            user_type = "artist"
+                        except:
+                            user_type = "exception"
+                    context = {
+                        "username": username, "user_type": user_type, "user_id": user_id
+                    }
+                    return render(request, 'music/index.html', context)
     else:
         form = Form()
         user_form = UserForm()
@@ -74,7 +104,21 @@ def register_artist(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return render(request, 'music/index.html')
+                    user_type = "no type"
+                    user_id = user.id
+                    try:
+                        user_registered = UserRegistered.objects.get(user = user)
+                        user_type = "user"
+                    except:
+                        try:
+                            artist_registered = ArtistRegistered.objects.get(user = user)
+                            user_type = "artist"
+                        except:
+                            user_type = "exception"
+                    context = {
+                        "username": username, "user_type": user_type, "user_id": user_id
+                    }
+                    return render(request, 'music/index.html', context)
     else:
         form = Form()
         artist_form = ArtistForm()
@@ -101,8 +145,21 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-     
-                return render(request, 'music/index.html')
+                user_type = "no type"
+                user_id = user.id
+                try:
+                    user_registered = UserRegistered.objects.get(user = user)
+                    user_type = "user"
+                except:
+                    try:
+                        artist_registered = ArtistRegistered.objects.get(user = user)
+                        user_type = "artist"
+                    except:
+                        user_type = "exception"
+                context = {
+                    "username": username, "user_type": user_type, "user_id": user_id 
+                }
+                return render(request, 'music/index.html', context)
             else:
                 return render(request, 'music/login.html', {'error_message': 'Your account has been disabled'})
         else:
