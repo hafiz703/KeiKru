@@ -3,6 +3,7 @@ import datetime
 from django.db import models
 
 
+
 # Create your models here.
 class Label(models.Model):
     name = models.CharField(max_length=500,unique=True)
@@ -14,6 +15,7 @@ class Artist(models.Model):
     name = models.CharField(max_length=100)
     label_name = models.ForeignKey(Label,on_delete=models.CASCADE,related_name="rel_artist")
     artist_art = models.CharField(max_length = 5000,default = "https://cdn.meme.am/cache/instances/folder787/500x/54965787.jpg")
+
 
 
 
@@ -45,6 +47,7 @@ class Song(models.Model):
 
 class User(models.Model):
     username = models.CharField(max_length=250,unique=True)
+    # password = models.CharField(max_length=32,default="password")
 
     def __str__(self):
         return self.username

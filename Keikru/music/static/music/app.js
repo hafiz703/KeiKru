@@ -39,39 +39,60 @@ $.ajaxSetup({
 myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   // $scope.dataObj = dataService.dataObj;
 
-  $scope.listOfPages = ["Homepage", "Your Playlist", "Your Profile", "Edit Album Details"];
+  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Edit Album"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
   $scope.userType = 'artist';
 
+  $scope.userID = 1;
+
   $scope.albumlist = {
-    id: "minh",
+    id: "Keith",
     li: [{
     "title": "Keith's Classical Rock-Pop Rap Remixes",
-    name: 'fuck'
     },{
     "title": "Keith's Top 999999",
-    name: 'fuck'
     },{
     "title": "Keith's Golden 1800s",
-    name: 'fuck'
     }]
   };
 
   $scope.currentPlaylist = {
-    name: 'placeholder',
+    "name": 'placeholder',
     songList: []
   }; // playlist shown on screen
 
-  $scope.setPlaylistByArtist = function(artist_id) {
-    var link = 'http://127.0.0.1:8000/api/'+artist_id;
+  $scope.uploadList = {
+    name: 'placeholder',
+    URL: 'placeholder.sutd.edu.sg'
+  };
 
-    $scope.changePage('playlist');
+  $scope.setPlaylistByArtist = function(artist_id) {
+    var link = 'http://127.0.0.1:8000/api/artist/'+artist_id+'/?format=json';
+    $.ajax({
+      'type': 'GET',
+      'url': link, //updating song with song_id = 2
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function(data) {
+        $scope.albumList = [];
+        for (i in data.rel_albums) {
+          album_name = data.rel_albums[i].album_name;
+          album_id = data.rel_albums[i].id;
+          album = {
+            title: album_name,
+            id: album_id
+          };
+          $scope.albumList.push(album);
+        }
+        $scope.changePage('Profile');
+      }
+    });
   };
 
   $scope.setPlaylistBySearch = function(searchWords) {
-    link = "http://127.0.0.1:8000/api/artist/?format=json&q="+searchWords;
+    var link = "http://127.0.0.1:8000/api/artist/?format=json&q="+searchWords;
     $.ajax({
       'type': 'GET',
       'url': link, //updating song with song_id = 2
@@ -89,7 +110,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             album = artist['rel_albums'][j];
             album_name = album['album_name'];
             album_id = album.id;
-            
+
             genre = album.genre;
             for (k in album['tracks']) {
               track = album['tracks'][k];
@@ -111,29 +132,88 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             }
           }
         }
-        $scope.changePage('Your Playlist');
+        $scope.changePage('Playlist');
       }
     });
-  };  
+  };
 
   $scope.setRecommendedPlaylist = function() {
-    // var link = 'http://127.0.0.1:8000/api/user-song-rating/?format=json';
-    var link = 'http://127.0.0.1:8000/api/song/2/?format=json';
+    // TODO
+    var link = 'http://127.0.0.1:8000/api/user-song-rating/?format=json';
+    // var link = 'http://127.0.0.1:8000/api/song/2/?format=json';
     $.ajax({
       'type': 'GET',
       'url': link, //updating song with song_id = 2
       'contentType': 'application/json',
       'dataType': 'json',
       'success': function(data) {
-        $scope.currentPlaylist.songList = [];
-        $scope.currentPlaylist.songList.push(data);
-        $scope.changePage('Your Playlist');
+        var similarity = [];
+        for (usr in data) {
+          if (data[usr].user!=$scope.userID) {
+            usr_diff = {
+              id: data[usr].user,
+              songs_in_common: 0,
+              similarity: 0
+            };
+            similarity.push(usr_diff);
+          }
+        }
+        for (usr in data) {
+          if (data[usr].user==$scope.userID) {
+            for (usr_diff in data) {
+              if (data[usr_diff].user!=$scope.userID) {
+                if (data[usr_diff].song_rated==data[usr].song_rated) {
+                  for (stat in similarity) {
+                    if (similarity[stat].id==data[usr_diff].user) {
+                      similarity[stat].songs_in_common++;
+                      similarity[stat].similarity += Math.pow(data[usr_diff].rating-data[usr].rating,2);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        // the lower the similarity the better
+        // the bigger the songs_in_common the better
+        // -> the lower the fraction the better
+        most_similar_usr = similarity[0];
+        for (usr_diff in similarity) {
+          if (similarity[usr_diff].songs_in_common!=0) {
+            // if (float(similarity[usr_diff].similarity/similarity[usr_diff].songs_in_common)>float(most_similar_usr.similarity/most_similar_usr.songs_in_common)) {
+            //   most_similar_usr = similarity[usr_diff];
+            // }
+          }
+        }
+
+        var recommended_song_IDs = [];
+
+        most_similar_usr_id = most_similar_usr.id;
+        for (usr_diff in data) {
+          if (data[usr_diff].id==most_similar_usr_id){
+            for (usr in data) {
+              var rated = false;
+              if (data[usr].id==$scope.userID) {
+                if (data[usr].song_rated==data[usr_diff].song_rated) {
+                  rated = true;
+                }
+              }
+              if (!rated) {
+                recommended_song_IDs.push(data[usr].song_rated);
+              }
+            }
+          }
+        }
+
+        for (recommended_song_ID in recommended_song_IDs) {
+          
+        }
       }
     });
   };
 
   $scope.setPlaylistByAlbum = function(album_id) {
-    link = 'http://127.0.0.1:8000/api/album/'+album_id;
+    var link = 'http://127.0.0.1:8000/api/album/'+album_id+'/?format=json';
     $.ajax({
       'type': 'GET',
       'url': link, //updating song with song_id = 2
@@ -145,7 +225,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         for (i in data.tracks) {
           $scope.currentPlaylist.songList.push(data.tracks[i]);
         }
-        $scope.changePage('Your Playlist');
+        $scope.changePage('Playlist');
       }
     });
   };
@@ -190,10 +270,11 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             }
           }
         }
-        $scope.changePage('Your Playlist');
+        $scope.changePage('Playlist');
       }
     });
   };
+
   $scope.setSelectedRating = function (rating,song) {
       song.rating = rating;
   };
@@ -210,11 +291,13 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.deleteAlbum = function () {
     alert("Are you sure you want to delete his album?");
-  }
+  };
 
-  $scope.addAlbum = function () {
-    alert("Album added");
-  }
+  $scope.submitAlbum = function () {
+    alert("Album uploaded!");
+    $scope.changePage('Profile');
+  };
+
   // $scope.playSong = function (song) {
   //   $scope.songPath = song.filename;
   //   var audiobar = document.getElementById("audiobar");
