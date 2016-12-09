@@ -47,6 +47,25 @@ class SongDetailSerializer(ModelSerializer):
 
         depth = 2
 
+
+class SongCreateUpdateDeleteSerializer(ModelSerializer):
+
+
+
+    class Meta:
+        model = Song
+        fields = [
+            # 'id',
+            'song_title',
+            # 'song_rating',
+            'song_file',
+            'album'
+
+
+        ]
+
+
+
 class SongRatingSerializer(ModelSerializer):
 
     class Meta:
@@ -110,6 +129,22 @@ class AlbumDetailSerializer(ModelSerializer):
 
         ]
         depth =1
+class AlbumCreateUpdateDeleteSerializer(ModelSerializer):
+
+    class Meta:
+        model = Album
+        fields = [
+            # 'id',
+            'album_name',
+            'genre',
+            # 'album_rating',
+            # 'date_created',
+            'album_art',
+            'artist',
+            # 'tracks'
+
+        ]
+
 
 class ArtistListSerializer(ModelSerializer):
     rel_albums = AlbumListSerializer(many=True, read_only=True)
