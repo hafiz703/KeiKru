@@ -76,7 +76,7 @@ def register_artist(request):
     else:
         form = Form()
         artist_form = ArtistForm()
-        # labels = Label.objects
+        labels = Label.objects
     context = {
         'form': form, 'artist_form': artist_form, 'labels': labels
     }
