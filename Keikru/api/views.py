@@ -2,7 +2,7 @@ from api.models import Album,Song,Artist,UserRatedSongs,Listen_Record
 from rest_framework.generics import ListAPIView,RetrieveAPIView,UpdateAPIView,DestroyAPIView,CreateAPIView,GenericAPIView
 from django.views.generic import TemplateView,FormView
 from django.views import generic
-from django.db.models import Q
+from django.db.models import Q,Sum
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.core.urlresolvers import reverse_lazy
@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from rest_framework.mixins import CreateModelMixin,UpdateModelMixin,DestroyModelMixin,RetrieveModelMixin
 from django.http import Http404
 from rest_framework.exceptions import ValidationError
+
 
 from api.serializers import(
     AlbumListSerializer,
@@ -98,7 +99,6 @@ class AlbumEditAPIView(RetrieveAPIView,UpdateModelMixin,DestroyModelMixin):
 #############################################################################
 #############################################################################
 
-
 class SongListAPIView(ListAPIView):
     queryset = Song.objects.all()
     serializer_class = SongDetailSerializer
@@ -134,18 +134,63 @@ class Song_RatingCreateAPIView(GenericAPIView,CreateModelMixin,UpdateModelMixin,
     serializer_class = UserRatedSongsSerializer
 
 
+    def setAverageSongRating(self,song_rated,req):
+        song_id_rated = song_rated
+        print(song_id_rated)
+        get_all_ratings = UserRatedSongs.objects.filter(song_rated=song_id_rated).exclude(user__id = self.request.data['user'])
+        get_all = UserRatedSongs.objects.filter(song_rated=song_id_rated)
+        # print(get_all_ratings.g)
+        try:
+            filter = int(get_all_ratings.all().aggregate(Sum('rating'))['rating__sum'])
+        except TypeError:
+            filter=0
+        # print("filter: ", filter)
+        try:
+            # print("new rating",self.request.data['rating'])
+            filter += int(self.request.data['rating'])
+
+            if req == 'PUT':
+                length = len(get_all)
+            else:
+                length = len(get_all)+1
+            length=1 if length==0 else length
+
+
+            # print("length: ",length)
+            average = filter/length
+
+            record = Song.objects.get(id=song_id_rated)
+            record.song_rating = average
+            record.save()
+            # print("average: ",average)
+
+
+        except AttributeError:
+            print("AttributeError")
+
+        # songid = filter.song_rated
+        # songRecord = Song.objects.get(id = request.data['id'])
+
+
     def post(self, request, *args, **kwargs):
+        song_id_rated = self.request.data['song_rated']
+        get_all_ratings = UserRatedSongs.objects.filter(song_rated = song_id_rated)
         filter = UserRatedSongs.objects.filter(user=request.data['user'],
                                               song_rated=request.data['song_rated'])
         if filter.exists():
+
             raise ValidationError({'error': 'POST not allowed, send PUT'})
         else:
+            self.setAverageSongRating(song_id_rated,"POST")
             return self.create(request, *args, **kwargs)
+
+        # setAverageSongRating(self, request, *args, **kwargs)
+
 
     def put(self, request, *args, **kwargs):
         try:
             # record =  UserRatedSongs.objects.filter(user=request.data['user'], song_rated=request.data['song_rated'])
-
+            song_id_rated = self.request.data['song_rated']
             record = UserRatedSongs.objects.get(user=request.data['user'],
                                                    song_rated=request.data['song_rated'])
 
@@ -157,6 +202,7 @@ class Song_RatingCreateAPIView(GenericAPIView,CreateModelMixin,UpdateModelMixin,
 
             record.rating = rating
             record.save()
+            self.setAverageSongRating(song_id_rated,"PUT")
             return self.update(record, *args, **kwargs)
         except UserRatedSongs.DoesNotExist:
             raise ValidationError({"error": "Send POST not PUT to create records"})
