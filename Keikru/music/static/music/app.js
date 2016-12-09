@@ -45,6 +45,8 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.listOfUserType = ["user", "artist", "label"];
   $scope.userType = 'artist';
 
+  $scope.userID = 1;
+
   $scope.albumlist = {
     id: "Keith",
     li: [{
@@ -136,17 +138,76 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   };
 
   $scope.setRecommendedPlaylist = function() {
-    // var link = 'http://127.0.0.1:8000/api/user-song-rating/?format=json';
-    var link = 'http://127.0.0.1:8000/api/song/2/?format=json';
+    // TODO
+    var link = 'http://127.0.0.1:8000/api/user-song-rating/?format=json';
+    // var link = 'http://127.0.0.1:8000/api/song/2/?format=json';
     $.ajax({
       'type': 'GET',
       'url': link, //updating song with song_id = 2
       'contentType': 'application/json',
       'dataType': 'json',
       'success': function(data) {
-        $scope.currentPlaylist.songList = [];
-        $scope.currentPlaylist.songList.push(data);
-        $scope.changePage('Playlist');
+        var similarity = [];
+        for (usr in data) {
+          if (data[usr].user!=$scope.userID) {
+            usr_diff = {
+              id: data[usr].user,
+              songs_in_common: 0,
+              similarity: 0
+            };
+            similarity.push(usr_diff);
+          }
+        }
+        for (usr in data) {
+          if (data[usr].user==$scope.userID) {
+            for (usr_diff in data) {
+              if (data[usr_diff].user!=$scope.userID) {
+                if (data[usr_diff].song_rated==data[usr].song_rated) {
+                  for (stat in similarity) {
+                    if (similarity[stat].id==data[usr_diff].user) {
+                      similarity[stat].songs_in_common++;
+                      similarity[stat].similarity += Math.pow(data[usr_diff].rating-data[usr].rating,2);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        // the lower the similarity the better
+        // the bigger the songs_in_common the better
+        // -> the lower the fraction the better
+        most_similar_usr = similarity[0];
+        for (usr_diff in similarity) {
+          if (similarity[usr_diff].songs_in_common!=0) {
+            // if (float(similarity[usr_diff].similarity/similarity[usr_diff].songs_in_common)>float(most_similar_usr.similarity/most_similar_usr.songs_in_common)) {
+            //   most_similar_usr = similarity[usr_diff];
+            // }
+          }
+        }
+
+        var recommended_song_IDs = [];
+
+        most_similar_usr_id = most_similar_usr.id;
+        for (usr_diff in data) {
+          if (data[usr_diff].id==most_similar_usr_id){
+            for (usr in data) {
+              var rated = false;
+              if (data[usr].id==$scope.userID) {
+                if (data[usr].song_rated==data[usr_diff].song_rated) {
+                  rated = true;
+                }
+              }
+              if (!rated) {
+                recommended_song_IDs.push(data[usr].song_rated);
+              }
+            }
+          }
+        }
+
+        for (recommended_song_ID in recommended_song_IDs) {
+          
+        }
       }
     });
   };

@@ -20,11 +20,14 @@ from api.serializers import(
     UserRatedSongsSerializer,
     ArtistDetailSerializer,
     ListenRecordListSerializer,
+    AlbumCreateUpdateDeleteSerializer,
+    SongCreateUpdateDeleteSerializer,
     SongRatingSerializer)
 
 
-
-
+#############################################################################
+#############################################################################
+#############################################################################
 # Create search genre
 class GenreSearchAPIView(ListAPIView):
     queryset = Artist.objects.all()
@@ -59,10 +62,15 @@ class ArtistListAPIView(ListAPIView):
             ).distinct()
 
         return queryset_list
-
+#############################################################################
+#############################################################################
 class ArtistDetailAPIView(RetrieveAPIView):
     queryset = Artist.objects.all()
     serializer_class = ArtistDetailSerializer
+
+#############################################################################
+#############################################################################
+#############################################################################
 
 class AlbumListAPIView(ListAPIView):
     queryset = Album.objects.all()
@@ -72,6 +80,25 @@ class AlbumDetailAPIView(RetrieveAPIView):
     queryset = Album.objects.all()
     serializer_class = AlbumDetailSerializer
 
+class AlbumCreateAPIView(CreateAPIView):
+    queryset = Album.objects.all()
+    serializer_class = AlbumCreateUpdateDeleteSerializer
+
+class AlbumEditAPIView(RetrieveAPIView,UpdateModelMixin,DestroyModelMixin):
+    queryset =  Album.objects.all()
+    serializer_class = AlbumCreateUpdateDeleteSerializer
+
+    def put(self,request,*args,**kwargs):
+        return self.update(request,*args,**kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+#############################################################################
+#############################################################################
+#############################################################################
+
+
 class SongListAPIView(ListAPIView):
     queryset = Song.objects.all()
     serializer_class = SongDetailSerializer
@@ -80,7 +107,23 @@ class SongDetailAPIView(RetrieveAPIView):
     queryset = Song.objects.all()
     serializer_class = SongDetailSerializer
 
+class SongCreateAPIView(CreateAPIView):
+    queryset = Song.objects.all()
+    serializer_class = SongCreateUpdateDeleteSerializer
 
+class SongEditAPIView(RetrieveAPIView, UpdateModelMixin, DestroyModelMixin):
+    queryset = Song.objects.all()
+    serializer_class = SongCreateUpdateDeleteSerializer
+
+    def put(self, request, *args, **kwargs):
+            return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+            return self.destroy(request, *args, **kwargs)
+
+#############################################################################
+#############################################################################
+#############################################################################
 
 class Song_RatingListAPIView(ListAPIView):
     queryset = UserRatedSongs.objects.all()
