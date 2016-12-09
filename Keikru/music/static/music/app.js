@@ -66,16 +66,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.userID = 1;
 
-  $scope.albumlist = {
-    id: "Keith",
-    li: [{
-    "title": "Keith's Classical Rock-Pop Rap Remixes",
-    },{
-    "title": "Keith's Top 999999",
-    },{
-    "title": "Keith's Golden 1800s",
-    }]
-  };
+  $scope.albumlist = [];
 
   $scope.currentPlaylist = {
     "name": 'placeholder',
@@ -99,9 +90,11 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         for (i in data.rel_albums) {
           album_name = data.rel_albums[i].album_name;
           album_id = data.rel_albums[i].id;
+          album_art = data.rel_albums[i].album_art;
           album = {
             title: album_name,
-            id: album_id
+            id: album_id,
+            album_art: album_art
           };
           $scope.albumList.push(album);
         }

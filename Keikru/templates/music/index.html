@@ -52,9 +52,9 @@
         <hr>
 
         <div class="PROFILE" ng-show="currPage == 'Profile'" ng-cloak>
-          <div class="row" ng-repeat="album in albumlist.li">
+          <div class="row" ng-repeat="album in albumList">
             <div class="col-md-4">
-              <img class="img-thumbnail" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/15109341_10154615057689088_6880569998308639492_n.jpg?oh=862585562e3f9d9b8df0a6bcaf879df0&oe=58FB39FB" alt="keith" width="300" height="300">
+              <img class="img-thumbnail" src="[[album.album_art]]" alt="keith" width="300" height="300">
             </div>
 
             <div class="col-md-5">
