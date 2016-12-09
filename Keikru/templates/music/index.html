@@ -51,10 +51,24 @@
         <h1 class="page-header" ng-bind="currPage"></h1>
         <hr>
 
-        <div id="PROFILE" class="container-fluid" ng-show="currPage == 'Profile'" ng-cloak>
+        <div id="ARTIST ALBUMS" class="container-fluid" ng-show="currPage == 'ArtistAlbums'" ng-cloak>
           <div class="row" ng-repeat="album in albumList">
             <div class="col-md-4">
-              <img class="img-thumbnail" src="[[album.album_art]]" alt="keith" width="300" height="300">
+              <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
+            </div>
+
+            <div class="col-md-5">
+              <h2>[[ album.title ]]</h2>
+              <p>Album description lorem ipsum</p>
+              <h4><span star-rating rating-value=3 max="5" min="1"></span></h4>
+            </div>
+          </div>
+        </div>
+
+        <div id="PROFILE" class="container-fluid" ng-show="currPage == 'Profile'" ng-cloak>
+          <div class="row" ng-repeat="album in myAlbumList">
+            <div class="col-md-4">
+              <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
             </div>
 
             <div class="col-md-5">
@@ -75,6 +89,7 @@
 
         <div id="EDIT ALBUM" class="container-fluid" ng-show="currPage == 'Edit Album'" ng-cloak>
           <h1>WORK IN PROGRESS</h1>
+          <button type="button" ng-click="changePage('Profile')" class="btn btn-primary">Cancel</button>
         </div>
 
         <div id="CREATE ALBUM" class="container-fluid" ng-show="currPage == 'Create Album'" ng-cloak>
