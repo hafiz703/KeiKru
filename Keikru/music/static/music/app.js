@@ -58,7 +58,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   //     $scope.changePage('Profile');
   //   }
   // });
-  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album"];
+  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "ArtistAlbums"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
@@ -66,7 +66,9 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.userID = "7";
 
-  $scope.albumList = [];
+  $scope.albumList = []; // other artists
+
+  $scope.myAlbumList = [];
 
   $scope.currentPlaylist = {
     "name": 'placeholder',
@@ -98,7 +100,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           };
           $scope.albumList.push(album);
         }
-        $scope.changePage('Profile');
+        $scope.changePage('ArtistAlbums');
       }
     });
   };
