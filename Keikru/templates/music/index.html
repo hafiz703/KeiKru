@@ -95,7 +95,7 @@
             </div>
 
             <div class="col-md-5">
-              <h2>[[ album.title ]]</h2>
+              <h2><a ng-click="setPlaylistByAlbum([[album.id]])">[[ album.title ]]</a></h2>
               <p>Album description lorem ipsum</p>
               <h4><span star-rating rating-value=3 max="5" min="1"></span></h4>
             </div>
@@ -109,7 +109,7 @@
             </div>
 
             <div class="col-md-5">
-              <h2>[[ album.title ]]</h2>
+              <h2><a ng-click="setPlaylistByAlbum([[album.id]])">[[ album.title ]]</a></h2>
               <p>Album description lorem ipsum</p>
               <h4><span star-rating rating-value=3 max="5" min="1"></span></h4>
               <button type="button" ng-click="changePage('Edit Album')" class="btn btn-primary" ng-show="userType == 'artist'">Edit Album <span class="glyphicon glyphicon-pencil"></span></button>
@@ -223,11 +223,13 @@
               <button type="button" class="close" data-dismiss="modal">&times;</button>
               <h4 class="modal-title">Welcome to Keithkuru!</h4>
             </div>
+
             <div class="modal-body">
               <p>Keithkuru is a loving amalgamation of Keith and his Kukuru, bringing to you the best of music exploitation and senseless UI. Please go ahead and click all the buttons, enjoy!</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">This was helpful...</button>
+
             </div>
           </div>
 
