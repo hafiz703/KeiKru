@@ -39,7 +39,7 @@
             <ul class="nav navbar-nav navbar-right">
               <!-- <li><a href="#">Dashboard</a></li> -->
               <!-- <li><a href="#">Settings</a></li> -->
-              <li><a href="#" ng-click="changePage('Your Profile')">Profile</a></li>
+              <li><a href="#" ng-click="changePage('Profile')">Profile</a></li>
               <li><a href="#">Help</a></li>
             </ul>
 
@@ -60,7 +60,7 @@
 
         <h1 class="page-header" ng-bind="currPage"></h1>
 
-        <div class="PROFILE" ng-show="currPage == 'Your Profile'" ng-cloak>
+        <div class="PROFILE" ng-show="currPage == 'Profile'" ng-cloak>
 
           <div class="row" ng-repeat="album in albumList" ng-click="setPlaylistByAlbum(album.id)">
             <div class="col-md-4">
@@ -71,11 +71,11 @@
               <h2>[[ album.title ]]</h2>
               <p>Album description lorem ipsum</p>
               <h4><span star-rating rating-value=3 max="5" min="1"></span></h4>
-              <button type="button" ng-click="changePage('Edit Album Details')" class="btn btn-primary" ng-show="userType == 'artist'">Edit Album <span class="glyphicon glyphicon-pencil"></span></button>
+              <button type="button" ng-click="changePage('Edit Album')" class="btn btn-primary" ng-show="userType == 'artist'">Edit Album <span class="glyphicon glyphicon-pencil"></span></button>
               <button type="button" ng-click="deleteAlbum()" class="btn btn-danger" ng-show="userType == 'artist'">Delete Album <span class="glyphicon glyphicon-trash"></span></button>
             </div>
           </div>
-
+          <hr>
           <div class="row">
             <div class="col-md-6">
               <button type="button" ng-click="changePage('Create Album')" class="btn btn-success" ng-show="userType == 'artist'">Create Album <span class="glyphicon glyphicon-plus-sign"></span></button>
@@ -83,7 +83,7 @@
           </div>
         </div>
 
-        <div class="container-fluid" ng-show="currPage == 'Edit Album Details'" ng-cloak>
+        <div class="container-fluid" ng-show="currPage == 'Edit Album'" ng-cloak>
           <h1>WORK IN PROGRESS</h1>
           <ul class="list-group" ng-repeat="song in uploadList">
             <li class="list-group-item" ng-click="gotosong">[[ song.name ]]</li>
@@ -94,17 +94,25 @@
           <div class="col-md-7">
             <form ng-submit="submitAlbum()">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Album name" required>
+                <p class="text-muted">Album Title</p>
+                <input type="text" class="form-control" placeholder="Insert text here" required>
+              <div class="form-group">
+              </div>
+                <p class="text-muted">Album Cover Art</p>
+                <input type="text" class="form-control" placeholder="Insert URL here" required>
               </div>
               <hr>
 
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Song name">
+                <p class="text-muted">Song Title</p>
+                <input type="text" class="form-control" placeholder="Insert text here">
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Song URL">
+                <p class="text-muted">Song URL</p>
+                <input type="text" class="form-control" placeholder="Insert URL here">
               </div>
-              <button type="button" ng-click="uploadSong()" class="btn btn-default">Upload</button>
+
+              <button type="button" ng-click="uploadSong()" class="btn btn-default">Upload <span class="glyphicon glyphicon-upload"></span></button>
               <hr>
               <div class="form-check">
                 <label class="form-check-label">
@@ -112,8 +120,8 @@
                 </label>
               </div>
               <hr>
-              <input type="submit" class="btn btn-success" value="Finish"></input>
-              <button type="button" ng-click="changePage('Your Profile')" class="btn btn-primary">Cancel</button>
+              <button type="submit" class="btn btn-success">Finish <span class="glyphicon glyphicon-ok"></span></button>
+              <button type="button" ng-click="changePage('Profile')" class="btn btn-primary">Cancel <span class="glyphicon glyphicon-remove"></span></button>
             </form>
           </div>
         </div>
@@ -128,7 +136,7 @@
               <li><a href="#">Account<span class="sr-only">(current)</span></a></li>
             </ul>
             <ul class="nav nav-sidebar">
-              <li><a href="" ng-click="changePage('Your Playlist')">Personal playlist</a></li>
+              <li><a href="" ng-click="changePage('Playlist')">Personal playlist</a></li>
               <li><a href="">Nav item</a></li>
               <li><a href="">Nav item again</a></li>
               <li><a href="">One more nav</a></li>
@@ -158,11 +166,11 @@
               <div class="col-md-3 placeholder">
                 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                 <h4>Recently listened Songs (?)</h4>
-                <span class="text-muted">Don't forget to add these to your playlist!</span>
+                <span class="text-muted">Don't forget to add these to Playlist!</span>
               </div>
             </div>
 
-            <div class="PLAYLIST" ng-show="currPage == 'Your Playlist'" ng-cloak>
+            <div class="PLAYLIST" ng-show="currPage == 'Playlist'" ng-cloak>
               <h2 class="sub-header">[[currentPlaylist.name]]</h2>
               <div class="table-responsive">
                 <table class="table table-striped">

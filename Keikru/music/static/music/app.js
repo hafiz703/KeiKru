@@ -39,7 +39,7 @@ $.ajaxSetup({
 myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   // $scope.dataObj = dataService.dataObj;
 
-  $scope.listOfPages = ["Homepage", "Your Playlist", "Your Profile", "Create Album", "Edit Album Details"];
+  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Edit Album"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
@@ -86,7 +86,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           };
           $scope.albumList.push(album);
         }
-        $scope.changePage('Your Profile');
+        $scope.changePage('Profile');
       }
     });
   };
@@ -132,7 +132,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             }
           }
         }
-        $scope.changePage('Your Playlist');
+        $scope.changePage('Playlist');
       }
     });
   };
@@ -180,9 +180,9 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         most_similar_usr = similarity[0];
         for (usr_diff in similarity) {
           if (similarity[usr_diff].songs_in_common!=0) {
-            if (float(similarity[usr_diff].similarity/similarity[usr_diff].songs_in_common)>float(most_similar_usr.similarity/most_similar_usr.songs_in_common)) {
-              most_similar_usr = similarity[usr_diff];
-            }
+            // if (float(similarity[usr_diff].similarity/similarity[usr_diff].songs_in_common)>float(most_similar_usr.similarity/most_similar_usr.songs_in_common)) {
+            //   most_similar_usr = similarity[usr_diff];
+            // }
           }
         }
 
@@ -225,7 +225,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         for (i in data.tracks) {
           $scope.currentPlaylist.songList.push(data.tracks[i]);
         }
-        $scope.changePage('Your Playlist');
+        $scope.changePage('Playlist');
       }
     });
   };
@@ -270,7 +270,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             }
           }
         }
-        $scope.changePage('Your Playlist');
+        $scope.changePage('Playlist');
       }
     });
   };
@@ -295,7 +295,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.submitAlbum = function () {
     alert("Album uploaded!");
-    $scope.changePage('Your Profile');
+    $scope.changePage('Profile');
   };
 
   // $scope.playSong = function (song) {

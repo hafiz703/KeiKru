@@ -19,6 +19,10 @@ from .views import (
                     ListenRecordCreateAPIView,
                     ListenRecordListAPIView,
                     GenreSearchAPIView,
+                    AlbumCreateAPIView,
+                    AlbumEditAPIView,
+                    SongCreateAPIView,
+                    SongEditAPIView
                     )
 
 #hafiz
@@ -32,12 +36,18 @@ urlpatterns = [
 
     url(r'^song/$', SongListAPIView.as_view(), name='song-list'),
     url(r'^song/(?P<pk>\d+)/$', SongDetailAPIView.as_view(), name='song-detail'),
+    url(r'^song/create/$', SongCreateAPIView.as_view(), name='song-create'),
+    url(r'^song/edit/(?P<pk>\d+)/$', SongEditAPIView.as_view(), name='song-edit'),
 
     url(r'^album/$', AlbumListAPIView.as_view(), name='album-list'),
     url(r'^album/(?P<pk>\d+)/$', AlbumDetailAPIView.as_view(), name='album-detail'),
+    url(r'^album/create/$', AlbumCreateAPIView.as_view(),name = 'album-create'),
+    url(r'^album/edit/(?P<pk>\d+)/$', AlbumEditAPIView.as_view(), name='album-edit'),
+
 
     url(r'^user-song-rating/$', Song_RatingListAPIView.as_view(),name ='user-rating-detail'),
     url(r'^user-song-rating/create/(?P<User_pk>\d+)/$', Song_RatingCreateAPIView.as_view(), name='user-rating-create'),
+
 
     url(r'^listen-record/create/(?P<User_pk>\d+)/$', ListenRecordCreateAPIView.as_view(), name = 'listen-record-createOrupdate' ),
     url(r'^listen-record/$', ListenRecordListAPIView.as_view(), name='listen-record-list'),
