@@ -64,7 +64,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.listOfUserType = ["user", "artist", "label"];
   $scope.userType = 'artist';
 
-  $scope.userID = "7";
+  $scope.userID = "2";
 
   $scope.albumList = []; // other artists
 
@@ -118,7 +118,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
         for (i in data) {
           artist = data[i];
-          artist_name = artist.name;
+          artistname = artist.artistname;
           artist_id = artist.id;
           for (j in artist['rel_albums']) {
             album = artist['rel_albums'][j];
@@ -128,12 +128,12 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             genre = album.genre;
             for (k in album['tracks']) {
               track = album['tracks'][k];
-              console.log(track.song_title);
+              // console.log(track.song_title);
               var song = {
                 song_title: track.song_title,
                 album: {
                   artist: {
-                    name: artist_name,
+                    artistname: artistname,
                     id: artist_id
                   },
                   album_name: album_name,
@@ -256,7 +256,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         $scope.currentPlaylist.songList = [];
         for (i in data) {
           artist = data[i];
-          artist_name = artist.name;
+          artistname = artist.artistname;
           artist_id = artist.id;
           for (j in artist['rel_albums']) {
             album = artist['rel_albums'][j];
@@ -266,12 +266,12 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             genre = album.genre;
             for (k in album['tracks']) {
               track = album['tracks'][k];
-              console.log(track.song_title);
+              // console.log(track.song_title);
               var song = {
                 song_title: track.song_title,
                 album: {
                   artist: {
-                    name: artist_name,
+                    artistname: artistname,
                     id: artist_id
                   },
                   album_name: album_name,
@@ -295,13 +295,12 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.changePage = function (page) {
     if ($scope.listOfPages.includes(page)) {
-      // console.log("page selected: " + page)
-      
+      // console.log("page selected: " + page);
       if (page=="Profile") {
         var link = 'http://127.0.0.1:8000/api/artist/'+$scope.userID+'/?format=json';
         $.ajax({
           'type': 'GET',
-          'url': link, //updating song with song_id = 2
+          'url': link,
           'contentType': 'application/json',
           'dataType': 'json',
           'success': function(data) {
