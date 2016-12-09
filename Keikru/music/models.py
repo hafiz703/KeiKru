@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Label(models.Model):
-    name = models.CharField(max_length=500,unique=True)
+    name = models.CharField(max_length=500,unique=True,default="Independent")
 
     def __str__(self):
         return self.name

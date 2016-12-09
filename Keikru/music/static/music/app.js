@@ -315,7 +315,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
                 id: album_id,
                 album_art: album_art
               };
-              $scope.albumList.push(album);
+              $scope.myAlbumList.push(album);
             }
           }
         });

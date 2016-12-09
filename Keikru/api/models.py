@@ -4,25 +4,6 @@ from django.db import models
 from music.models import  ArtistRegistered as Artist,UserRegistered as User
 
 
-
-# Create your models here.
-# class Label(models.Model):
-#     name = models.CharField(max_length=500,unique=True)
-#
-#     def __str__(self):
-#         return self.name
-
-# class Artist(models.Model):
-#     name = models.CharField(max_length=100)
-#     label_name = models.ForeignKey(Label,on_delete=models.CASCADE,related_name="rel_artist")
-#     artist_art = models.CharField(max_length = 5000,default = "https://cdn.meme.am/cache/instances/folder787/500x/54965787.jpg")
-#
-#
-#
-#
-#     def __str__(self):
-#         return self.name
-
 class Album(models.Model):
     album_name = models.CharField(max_length=100)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE,default = "def",related_name="rel_albums")

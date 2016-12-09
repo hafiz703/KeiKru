@@ -9,7 +9,7 @@ def index(request):
     if not request.user.is_authenticated():
         return render(request, 'music/login.html')
     else:
-    	return render(request, 'music/index.html')
+        return render(request, 'music/index.html')
 
 def register(request):
     if request.method == 'POST':
@@ -76,7 +76,7 @@ def register_artist(request):
     else:
         form = Form()
         artist_form = ArtistForm()
-        labels = Label.objects
+        # labels = Label.objects
     context = {
         'form': form, 'artist_form': artist_form, 'labels': labels
     }
