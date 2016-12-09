@@ -58,7 +58,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       $scope.changePage('Profile');
     }
   });
-  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Edit Album"];
+  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
@@ -218,7 +218,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         }
 
         for (recommended_song_ID in recommended_song_IDs) {
-          
+
         }
       }
     });

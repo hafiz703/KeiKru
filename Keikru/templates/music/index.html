@@ -47,12 +47,17 @@
         </div>
       </nav> -->
 
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 row">
+      <div id="EVERYTHING UNDER TOP NAVBAR" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 row">
         <h1 class="page-header" ng-bind="currPage"></h1>
         <hr>
 
+<<<<<<< HEAD
         <div class="PROFILE" ng-show="currPage == 'Profile'" ng-cloak>
           <div class="row" ng-repeat="album in albumList">
+=======
+        <div id="PROFILE" class="container-fluid" ng-show="currPage == 'Profile'" ng-cloak>
+          <div class="row" ng-repeat="album in albumlist.li">
+>>>>>>> 45d50bab906f9af18cce09a4785f0178bf300fa8
             <div class="col-md-4">
               <img class="img-thumbnail" src="[[album.album_art]]" alt="keith" width="300" height="300">
             </div>
@@ -65,7 +70,7 @@
               <button type="button" ng-click="deleteAlbum()" class="btn btn-danger" ng-show="userType == 'artist'">Delete Album <span class="glyphicon glyphicon-trash"></span></button>
             </div>
           </div>
-
+          <hr>
           <div class="row">
             <div class="col-md-6">
               <button type="button" ng-click="changePage('Create Album')" class="btn btn-success" ng-show="userType == 'artist'">Create Album <span class="glyphicon glyphicon-plus-sign"></span></button>
@@ -73,29 +78,27 @@
           </div>
         </div>
 
-        <div class="container-fluid" ng-show="currPage == 'Edit Album'" ng-cloak>
+        <div id="EDIT ALBUM" class="container-fluid" ng-show="currPage == 'Edit Album'" ng-cloak>
           <h1>WORK IN PROGRESS</h1>
         </div>
 
-        <div class="container-fluid" ng-show="currPage == 'Create Album'" ng-cloak>
+        <div id="CREATE ALBUM" class="container-fluid" ng-show="currPage == 'Create Album'" ng-cloak>
           <div class="col-md-7">
             <form ng-submit="submitAlbum()">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Album name" required>
+                <p class="text-muted">Album Name</p>
+                <input type="text" class="form-control" placeholder="Insert name here">
+              </div>
+              <div class="form-group">
+                <p class="text-muted">Album Art</p>
+                <input type="text" class="form-control" placeholder="Insert URL here">
+              </div>
+              <div class="form-group">
+                <p class="text-muted">Album Genre</p>
+                <input type="text" class="form-control" placeholder="Insert genre here">
               </div>
               <hr>
-
-              <ul class="list-group" ng-repeat="song in uploadList">
-                <li class="list-group-item" ng-click="">[[ song.name ]]</li>
-              </ul>
-
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Song name">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Song URL">
-              </div>
-              <button type="button" ng-click="uploadSong()" class="btn btn-default">Upload</button>
+              <button type="button" ng-click="changePage('Create Song')" class="btn btn-default">Add Song</button>
               <hr>
               <div class="form-check">
                 <label class="form-check-label">
@@ -103,15 +106,33 @@
                 </label>
               </div>
               <hr>
-              <input type="submit" class="btn btn-success" value="Finish"></input>
+              <input type="submit" class="btn btn-success" value="Upload Album"></input>
               <button type="button" ng-click="changePage('Profile')" class="btn btn-primary">Cancel</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="CREATE SONG" class="container-fluid" ng-show="currPage == 'Create Song'" ng-cloak>
+          <div class="col-md-7">
+            <form ng-submit="changePage('Create Album')">
+              <div class="form-group">
+                <p class="text-muted">Song Name</p>
+                <input type="text" class="form-control" placeholder="Insert name here" required>
+              </div>
+              <div class="form-group">
+                <p class="text-muted">Song URL</p>
+                <input type="text" class="form-control" placeholder="Insert URL here" required>
+              </div>
+              <hr>
+              <input type="submit" class="btn btn-success" value="Upload Song"></input>
+              <button type="button" ng-click="changePage('Create Album')" class="btn btn-primary">Cancel</button>
             </form>
           </div>
         </div>
 
       </div>
 
-      <div class="container-fluid">
+      <div id="LEFT SIDEBAR" class="container-fluid">
         <div class="row">
           <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
@@ -155,11 +176,6 @@
                 <h4>Recommended Playlist</h4>
                 <span class="text-muted">Curated especially for you</span>
               </div>
-<!--               <div class="col-md-3 placeholder" ng-click="setPlaylistBySearch('1989')">
-                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4>Top Trending</h4>
-                <span class="text-muted">Follow the newest trend in music.</span>
-              </div> -->
               <div class="col-md-3 placeholder">
                 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                 <h4>Recently listened Songs (?)</h4>
