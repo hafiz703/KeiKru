@@ -38,7 +38,26 @@ $.ajaxSetup({
 // Define the `SongController` controller on the `Keithkuru` module
 myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   // $scope.dataObj = dataService.dataObj;
-
+  $scope.allSongs = [];
+  $.ajax({
+    'type': 'GET',
+    'url': 'link', //updating song with song_id = 2
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'success': function(data) {
+      $scope.albumList = [];
+      for (i in data.rel_albums) {
+        album_name = data.rel_albums[i].album_name;
+        album_id = data.rel_albums[i].id;
+        album = {
+          title: album_name,
+          id: album_id
+        };
+        $scope.albumList.push(album);
+      }
+      $scope.changePage('Profile');
+    }
+  });
   $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album"];
   $scope.currPage = 'Homepage';
 
