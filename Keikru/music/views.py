@@ -3,7 +3,7 @@ from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from .forms import Form, UserForm, ArtistForm
-from api.models import Label
+from .models import Label
 
 def index(request):
     if not request.user.is_authenticated():

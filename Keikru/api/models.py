@@ -1,27 +1,27 @@
 from __future__ import unicode_literals
 import datetime
 from django.db import models
-
+from music.models import  ArtistRegistered as Artist,UserRegistered as User
 
 
 
 # Create your models here.
-class Label(models.Model):
-    name = models.CharField(max_length=500,unique=True)
+# class Label(models.Model):
+#     name = models.CharField(max_length=500,unique=True)
+#
+#     def __str__(self):
+#         return self.name
 
-    def __str__(self):
-        return self.name
-
-class Artist(models.Model):
-    name = models.CharField(max_length=100)
-    label_name = models.ForeignKey(Label,on_delete=models.CASCADE,related_name="rel_artist")
-    artist_art = models.CharField(max_length = 5000,default = "https://cdn.meme.am/cache/instances/folder787/500x/54965787.jpg")
-
-
-
-
-    def __str__(self):
-        return self.name
+# class Artist(models.Model):
+#     name = models.CharField(max_length=100)
+#     label_name = models.ForeignKey(Label,on_delete=models.CASCADE,related_name="rel_artist")
+#     artist_art = models.CharField(max_length = 5000,default = "https://cdn.meme.am/cache/instances/folder787/500x/54965787.jpg")
+#
+#
+#
+#
+#     def __str__(self):
+#         return self.name
 
 class Album(models.Model):
     album_name = models.CharField(max_length=100)
@@ -45,13 +45,13 @@ class Song(models.Model):
 
     def __str__(self):
         return self.song_title
-
-class User(models.Model):
-    username = models.CharField(max_length=250,unique=True)
-    # password = models.CharField(max_length=32,default="password")
-
-    def __str__(self):
-        return self.username
+#
+# class User(models.Model):
+#     username = models.CharField(max_length=250,unique=True)
+#     # password = models.CharField(max_length=32,default="password")
+#
+#     def __str__(self):
+#         return self.username
 
 class UserRatedSongs(models.Model):
 
