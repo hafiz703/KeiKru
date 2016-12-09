@@ -39,34 +39,34 @@ $.ajaxSetup({
 myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   // $scope.dataObj = dataService.dataObj;
   $scope.allSongs = [];
-  $.ajax({
-    'type': 'GET',
-    'url': 'link', //updating song with song_id = 2
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'success': function(data) {
-      $scope.albumList = [];
-      for (i in data.rel_albums) {
-        album_name = data.rel_albums[i].album_name;
-        album_id = data.rel_albums[i].id;
-        album = {
-          title: album_name,
-          id: album_id
-        };
-        $scope.albumList.push(album);
-      }
-      $scope.changePage('Profile');
-    }
-  });
+  // $.ajax({
+  //   'type': 'GET',
+  //   'url': link, //updating song with song_id = 2
+  //   'contentType': 'application/json',
+  //   'dataType': 'json',
+  //   'success': function(data) {
+  //     $scope.albumList = [];
+  //     for (i in data.rel_albums) {
+  //       album_name = data.rel_albums[i].album_name;
+  //       album_id = data.rel_albums[i].id;
+  //       album = {
+  //         title: album_name,
+  //         id: album_id
+  //       };
+  //       $scope.albumList.push(album);
+  //     }
+  //     $scope.changePage('Profile');
+  //   }
+  // });
   $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
   $scope.userType = 'artist';
 
-  $scope.userID = 1;
+  $scope.userID = "7";
 
-  $scope.albumlist = [];
+  $scope.albumList = [];
 
   $scope.currentPlaylist = {
     "name": 'placeholder',
@@ -294,6 +294,30 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.changePage = function (page) {
     if ($scope.listOfPages.includes(page)) {
       // console.log("page selected: " + page)
+      
+      if (page=="Profile") {
+        var link = 'http://127.0.0.1:8000/api/artist/'+$scope.userID+'/?format=json';
+        $.ajax({
+          'type': 'GET',
+          'url': link, //updating song with song_id = 2
+          'contentType': 'application/json',
+          'dataType': 'json',
+          'success': function(data) {
+            $scope.albumList = [];
+            for (i in data.rel_albums) {
+              album_name = data.rel_albums[i].album_name;
+              album_id = data.rel_albums[i].id;
+              album_art = data.rel_albums[i].album_art;
+              album = {
+                title: album_name,
+                id: album_id,
+                album_art: album_art
+              };
+              $scope.albumList.push(album);
+            }
+          }
+        });
+      }
       $scope.currPage = page;
     }
     else {
