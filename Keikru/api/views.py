@@ -55,7 +55,7 @@ class ArtistListAPIView(ListAPIView):
         query = self.request.GET.get("q")
         if query:
             queryset_list = queryset_list.filter(
-                Q(name__icontains=query)|
+                Q(artistname__icontains=query)|
                 Q(rel_albums__album_name__icontains=query)|
                 Q(rel_albums__tracks__song_title__icontains=query)|
                 Q(rel_albums__genre__icontains=query)
