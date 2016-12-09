@@ -12,6 +12,7 @@ def index(request):
         return render(request, 'music/index.html')
 
 def register(request):
+
     if request.method == 'POST':
         # Attempt to grab information from the raw form information
         form = Form(data=request.POST)
@@ -47,6 +48,7 @@ def register(request):
     return render(request, 'music/register.html', context)
 
 def register_artist(request):
+    labels = Label.objects
     if request.method == 'POST':
         # Attempt to grab information from the raw form information
         form = Form(data=request.POST)
@@ -76,7 +78,7 @@ def register_artist(request):
     else:
         form = Form()
         artist_form = ArtistForm()
-        labels = Label.objects
+
     context = {
         'form': form, 'artist_form': artist_form, 'labels': labels
     }

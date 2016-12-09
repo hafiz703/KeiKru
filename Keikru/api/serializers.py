@@ -153,8 +153,9 @@ class ArtistListSerializer(ModelSerializer):
         model = Artist
         fields = [
             'id',
-            'name',
+            'artistname',
             'rel_albums',
+            'picture'
 
 
         ]
@@ -165,8 +166,9 @@ class ArtistDetailSerializer(ModelSerializer):
         model = Artist
         fields = [
             'id',
-            'name',
+            'artistname',
             'rel_albums',
+            'picture'
 
 
         ]
