@@ -23,8 +23,11 @@ def index(request):
                 user_type = "artist"
                 user_id = artist_registered.id
             except:
-                user_type = "label"
-                user_id = Label.objects.get(name=username).id
+                try:
+                    user_type = "label"
+                    user_id = Label.objects.get(name=username).id
+                except:
+                    user_type = "admin"
         context = {
             "username": username, "user_type": user_type, "user_id": user_id
         }
@@ -69,8 +72,11 @@ def register(request):
                             user_type = "artist"
                             user_id = artist_registered.id
                         except:
-                            user_type = "label"
-                            user_id = Label.objects.get(name=username).id
+                            try:
+                                user_type = "label"
+                                user_id = Label.objects.get(name=username).id
+                            except:
+                                user_type = "admin"
                     context = {
                         "username": username, "user_type": user_type, "user_id": user_id
                     }
@@ -122,8 +128,11 @@ def register_artist(request):
                             user_type = "artist"
                             user_id = artist_registered.id
                         except:
-                            user_type = "label"
-                            user_id = Label.objects.get(name=username).id
+                            try:
+                                user_type = "label"
+                                user_id = Label.objects.get(name=username).id
+                            except:
+                                user_type = "admin"
                     context = {
                         "username": username, "user_type": user_type, "user_id": user_id
                     }
@@ -166,8 +175,11 @@ def login_user(request):
                         user_type = "artist"
                         user_id = artist_registered.id
                     except:
-                        user_type = "label"
-                        user_id = Label.objects.get(name=username).id
+                        try:
+                            user_type = "label"
+                            user_id = Label.objects.get(name=username).id
+                        except:
+                            user_type = "admin"
                 context = {
                     "username": username, "user_type": user_type, "user_id": user_id 
                 }
