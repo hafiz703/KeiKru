@@ -9,28 +9,25 @@
         $(player_box).addClass($(song).attr('class') + ' well container-fluid playa');
 
         var data_sec = document.createElement('section');
-        $(data_sec).addClass('center-block row col-sm-12');
+        $(data_sec).addClass('collapsing center-block row col-sm-12');
 
         var toggle_holder = document.createElement('div');
         $(toggle_holder).addClass('btn-group center-block row col-sm-12');
 
-        // var data_toggle = document.createElement('button');
-        // $(data_toggle).html('<i class="glyphicon glyphicon-align-justify" style="top:-3px"></i>');
-        // $(data_toggle).addClass('btn btn-default btn-lg btn-block row col-sm-12');
-        // $(data_toggle).attr('style', 'opacity:0.3');
-        // $(data_toggle).click(function () {$(data_sec).collapse('toggle'); });
-        // $(data_toggle).attr('title', 'Details');
-        // $(data_toggle).tooltip({'container': 'body', 'placement': 'top', 'html': true});
-        // $(toggle_holder).append(data_toggle);
+        var data_toggle = document.createElement('button');
+        $(data_toggle).html('<i class="glyphicon glyphicon-align-justify" style="top:-3px"></i>');
+        $(data_toggle).addClass('btn btn-default btn-lg btn-block row col-sm-12');
+        $(data_toggle).attr('style', 'opacity:0.3');
+        $(data_toggle).click(function () {$(data_sec).collapse('toggle'); });
+        $(data_toggle).attr('title', 'Details');
+        $(data_toggle).tooltip({'container': 'body', 'placement': 'top', 'html': true});
+        $(toggle_holder).append(data_toggle);
 
         var data_table = document.createElement('table');
         $(data_table).addClass('table table-condensed');
 
         var player = document.createElement('section');
         $(player).addClass('btn-group  center-block row  col-sm-12');
-
-        var volumebar = document.createElement('section');
-        $(volumebar).addClass('btn-group  center-block row  col-sm-12');
 
         var load_error = function () {
             // console.log('error');
@@ -44,7 +41,7 @@
 
         var addPlay = function () {
             var play = document.createElement('button');
-            $(play).addClass('btn btn-primary disabled col-sm-2');
+            $(play).addClass('btn  btn-default disabled col-sm-1');
 
             play.setPlayState = function (toggle) {
                 $(play).removeClass('disabled');
@@ -54,7 +51,7 @@
                         song.play();
                     });
                 }
-                if (!song.paused || toggle === 'pause') {
+                if (toggle === 'pause') {
                     $(play).html('<i class="glyphicon glyphicon-pause"></i>');
                     $(play).click(function () {
                         song.pause();
@@ -70,25 +67,18 @@
             var timeout = 0;
 
             var loadCheck = setInterval(function () {
-                if (!song.paused){
-                    play.setPlayState('pause');
-                    clearInterval(loadCheck);
-                    return true;
-                }
                 if (isNaN(song.duration) === false) {
                     play.setPlayState('play');
                     clearInterval(loadCheck);
                     return true;
                 }
-                if (song.networkState === 3 || timeout === 100) {
-                    // 3 = NETWORK_NO_SOURCE - no audio/video source found
-                    console.log('No audio source was found or a timeout occurred');
+                if (song.networkState === 3 || timeout === 75) {
                     load_error();
                     clearInterval(loadCheck);
                     return false;
                 }
                 timeout++;
-            }, 100); // x milliseconds per attempt
+            }, 50);
             $(player).append(play);
         }; // addPlay
 
@@ -165,7 +155,7 @@
             };
 
             var seek_wrapper = document.createElement('div');
-            $(seek_wrapper).addClass('btn btn-default col-sm-8 hidden-xs');
+            $(seek_wrapper).addClass('btn btn-default col-sm-4 hidden-xs');
             $(seek_wrapper).append(seek);
 
             // bind seek / position slider events
@@ -188,7 +178,7 @@
 
         var addTime = function () {
             var time = document.createElement('button');
-            $(time).addClass('btn btn-default col-sm-2');
+            $(time).addClass('btn btn-default col-sm-3');
             $(time).tooltip({'container': 'body', 'placement': 'right', 'html': true});
 
             time.twodigit = function (myNum) {
@@ -247,7 +237,7 @@
 
         var addMute = function () {
             var mute = document.createElement('button');
-            $(mute).addClass('btn btn-default col-sm-2');
+            $(mute).addClass('btn btn-default  col-sm-1');
 
             mute.checkVolume = function () {
                 if (song.volume > 0.5 && !song.muted) {
@@ -273,7 +263,7 @@
 
             mute.checkVolume();
             $(song).on('volumechange', mute.checkVolume);
-            $(volumebar).append(mute);
+            $(player).append(mute);
         }; // addMute
 
         var addVolume = function () {
@@ -296,11 +286,11 @@
             };
 
             var vol_wrapper = document.createElement('div');
-            $(vol_wrapper).addClass('btn  btn-default  row col-sm-10  hidden-xs');
+            $(vol_wrapper).addClass('btn  btn-default  row col-sm-3  hidden-xs');
             $(vol_wrapper).append(volume);
             $(volume).on('change', volume.slide);
             $(song).on('volumechange', volume.set);
-            $(volumebar).append(vol_wrapper);
+            $(player).append(vol_wrapper);
 
         }; // addVolume
 
@@ -346,7 +336,7 @@
             }
             if ($(data_table).html() !== '') {
                 $(data_sec).append(data_table);
-                // $(player_box).append(toggle_holder);
+                $(player_box).append(toggle_holder);
                 $(player_box).append(data_sec);
             }
         }; // addData
@@ -368,7 +358,6 @@
                 addVolume();
             }
             $(player_box).append(player);
-            $(player_box).append(volumebar);
         }; // addPlayer
 
         var addAttribution = function () {
@@ -396,7 +385,6 @@
 
         fillPlayerBox();
         $(song).on('error', function () {
-            console.log("Error encountered after fillPlayerBox");
             load_error();
         });
         return player_box;

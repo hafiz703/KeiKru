@@ -59,6 +59,7 @@ urlpatterns = [
     url(r'^genre/$',GenreSearchAPIView.as_view(), name='genre-list'),
 
     url(r'^label/(?P<pk>\d+)/$',LabelDetailAPIView.as_view(), name='artist-detail'),
+    url(r'^label/$', LabelDetailAPIView.as_view(), name='artist-detail'),
 
 ]
 
