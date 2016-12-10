@@ -8,10 +8,13 @@
     <meta name="author" content="">
 
     {% load staticfiles %}
-    <link rel="icon" href="{% static 'music/assets/favicon.ico' %}">
+    <link rel="icon" href="{% static 'music/assets/KeiKru.ico' %}">
 
     <title>Keithkuru</title>
     <link href="{% static 'music/assets/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- For audio player -->
+    <!-- <link href="{% static 'music/assets/css/bootstrap-player.css' %}" rel="stylesheet"> -->
     <link href="{% static 'music/assets/css/bootstrap-player.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
@@ -31,7 +34,7 @@
             <a class="navbar-brand" href="#">Keithkuru</a>
           </div>
 
-          <div id="navbar" class="navbar-collapse collapse">
+          <div id="TOP NAVBAR" class="navbar-collapse collapse">
             <form class="navbar-form navbar-right" ng-submit="setPlaylistBySearch(searchWords)">
               <input type="text" class="form-control" placeholder="Search..." ng-model="searchWords">
             </form>
@@ -39,7 +42,7 @@
         </div>
       </nav>
 
-      <div id="EVERYTHING UNDER TOP NAVBAR" class="col-md-8 col-md-offset-2">
+      <div id="MAIN PAGE" class="col-md-7 col-md-offset-2">
 
         <h1 class="page-header" ng-bind="currPage"></h1>
         <hr>
@@ -88,13 +91,13 @@
             </div>
           </div>
 
-        <div id="ARTIST ALBUMS" class="col-md-8" ng-show="currPage == 'ArtistAlbums'" ng-cloak>
+        <div id="ARTIST ALBUMS" ng-show="currPage == 'ArtistAlbums'" ng-cloak>
           <div class="row" ng-repeat="album in albumList">
-            <div class="col-md-4">
+            <div class="col-md-6">
               <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-4">
               <h2><a ng-click="setPlaylistByAlbum([[album.id]])">[[ album.title ]]</a></h2>
               <p>Album description lorem ipsum</p>
               <h4><span star-rating rating-value=3 max="5" min="1"></span></h4>
@@ -102,18 +105,18 @@
           </div>
         </div>
 
-        <div id="PROFILE" class="col-md-8" ng-show="currPage == 'Profile'" ng-cloak>
+        <div id="PROFILE" ng-show="currPage == 'Profile'" ng-cloak>
           <div class="row" ng-repeat="album in myAlbumList">
-            <div class="col-md-4">
+            <div class="col-md-6">
               <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-6">
               <h2><a ng-click="setPlaylistByAlbum([[album.id]])">[[ album.title ]]</a></h2>
               <p>Album description lorem ipsum</p>
               <h4><span star-rating rating-value=3 max="5" min="1"></span></h4>
               <button type="button" ng-click="changePage('Edit Album')" class="btn btn-primary" ng-show="userType == 'artist'">Edit Album <span class="glyphicon glyphicon-pencil"></span></button>
-              <button type="button" ng-click="deleteAlbum()" class="btn btn-danger" ng-show="userType == 'artist'">Delete Album <span class="glyphicon glyphicon-trash"></span></button>
+              <button type="button" data-toggle="modal" data-target="#DELETEMODAL" class="btn btn-danger" ng-show="userType == 'artist'">Delete Album <span class="glyphicon glyphicon-trash"></span></button>
             </div>
           </div>
           <hr>
@@ -124,9 +127,9 @@
           </div>
         </div>
 
-        <div id="EDIT ALBUM" class="col-md-8" ng-show="currPage == 'Edit Album'" ng-cloak>
+        <div id="EDIT ALBUM" ng-show="currPage == 'Edit Album'" ng-cloak>
           <div class="col-md-7">
-            <form ng-submit="submitAlbum()">
+            <form ng-submit="changePage('Profile')">
               <div class="form-group">
                 <p class="text-muted">Album Name</p>
                 <input type="text" class="form-control" placeholder="Insert name here">
@@ -141,16 +144,16 @@
               </div>
               <hr>
               <button type="button" ng-click="changePage('Create Song')" class="btn btn-default">Add Song</button>
-              <hr>
-              <input type="submit" class="btn btn-success" value="Upload Album"></input>
-              <button type="button" ng-click="changePage('Profile')" class="btn btn-primary">Cancel</button>
+              <button type="button" ng-click="changePage('Update Song')" class="btn btn-primary">Update Song</button>
+              <button type="button" data-toggle="modal" data-target="#DELETEMODAL" class="btn btn-danger">Delete Song</button>            <hr>
+              <input type="submit" class="btn btn-success" value="Finish"></input>
             </form>
           </div>
         </div>
 
-        <div id="EDIT SONG" class="col-md-8" ng-show="currPage == 'Edit Song'" ng-cloak>
+        <div id="UPDATE SONG" ng-show="currPage == 'Update Song'" ng-cloak>
           <div class="col-md-7">
-            <form ng-submit="changePage('Create Album')">
+            <form ng-submit="updateSong()">
               <div class="form-group">
                 <p class="text-muted">Song Name</p>
                 <input type="text" class="form-control" placeholder="Insert name here" required>
@@ -160,15 +163,15 @@
                 <input type="text" class="form-control" placeholder="Insert URL here" required>
               </div>
               <hr>
-              <input type="submit" class="btn btn-success" value="Upload Song"></input>
-              <button type="button" ng-click="changePage('Edit Album')" class="btn btn-primary">Cancel</button>
+              <input type="submit" class="btn btn-success" value="Update Song"></input>
+              <button type="button" ng-click="changePage('Edit Album')" class="btn btn-primary">Back</button>
             </form>
           </div>
         </div>
 
-        <div id="CREATE ALBUM" class="col-md-8" ng-show="currPage == 'Create Album'" ng-cloak>
+        <div id="CREATE ALBUM" ng-show="currPage == 'Create Album'" ng-cloak>
           <div class="col-md-7">
-            <form ng-submit="submitAlbum()">
+            <form ng-submit="createAlbum()">
               <div class="form-group">
                 <p class="text-muted">Album Name</p>
                 <input type="text" class="form-control" placeholder="Insert name here">
@@ -181,8 +184,6 @@
                 <p class="text-muted">Album Genre</p>
                 <input type="text" class="form-control" placeholder="Insert genre here">
               </div>
-              <hr>
-              <button type="button" ng-click="changePage('Create Song')" class="btn btn-default">Add Song</button>
               <hr>
               <div class="form-check">
                 <label class="form-check-label">
@@ -196,9 +197,9 @@
           </div>
         </div>
 
-        <div id="CREATE SONG" class="col-md-8" ng-show="currPage == 'Create Song'" ng-cloak>
+        <div id="CREATE SONG" ng-show="currPage == 'Create Song'" ng-cloak>
           <div class="col-md-7">
-            <form ng-submit="changePage('Create Album')">
+            <form ng-submit="createSong()">
               <div class="form-group">
                 <p class="text-muted">Song Name</p>
                 <input type="text" class="form-control" placeholder="Insert name here" required>
@@ -209,58 +210,47 @@
               </div>
               <hr>
               <input type="submit" class="btn btn-success" value="Upload Song"></input>
-              <button type="button" ng-click="changePage('Create Album')" class="btn btn-primary">Cancel</button>
+              <button type="button" ng-click="changePage('Edit Album')" class="btn btn-primary">Back</button>
             </form>
           </div>
         </div>
 
       </div>
 
-      <div id="RIGHT SIDEBAR">
-        <ul class="col-sm-3 col-md-2 sidebar-right">
-          <h1>LE MUSIK PLAYA</h1>
-          <!-- <div class="">
-            <audio controls
-              data-info-album-art="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/15109341_10154615057689088_6880569998308639492_n.jpg?oh=862585562e3f9d9b8df0a6bcaf879df0&oe=58FB39FB"
-              data-info-album-title="8874"
-              data-info-artist="Billy Murray"
-              data-info-title="Come, take a trip in my air-ship"
-              data-info-label="Edison Gold Moulded Record"
-              data-info-year="1905"
-              data-info-att="University of California, Santa Barbara Library."
-              data-info-att-link="http://cylinders.library.ucsb.edu/search.php?query=8874">
-              <source src="{% static 'music/assets/songs/The Weeknd/Starboy/01 Starboy (feat. Daft Punk).mp3' %}" type="audio/mpeg" />
-            </audio>
-          </div> -->
+      <div id="RIGHT SIDEBAR" class="col-md-3 sidebar-right">
+        <ul class="nav nav-sidebar">
+          <audio controls
+            data-info-album-art="{% static 'music/assets/Keith.jpeg' %}"
+            data-info-album-title="Album"
+            data-info-artist="Artist"
+            data-info-title="Song Name"
+            data-info-label="Label">
+            <source src="{% static 'music/assets/songs/The Weeknd/Starboy/01 Starboy (feat. Daft Punk).mp3' %}" type="audio/mpeg" />
+          </audio>
         </ul>
       </div>
 
-      <div id="LEFT SIDEBAR">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a ng-click="changePage('Homepage')"><span class="glyphicon glyphicon-home"></span> Home<span class="sr-only">(current)</span></a></li>
-            <li><a ng-click="changePage('Profile')"><span class="glyphicon glyphicon-user"></span> Profile<span class="sr-only">(current)</span></a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="" ng-click="changePage('Playlist')"><span class="glyphicon glyphicon-headphones"></span> My Playlist</a></li>
-            <li><a href="" data-toggle="modal" data-target="#HELPMODAL"><span class="glyphicon glyphicon-info-sign"></span> Help</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="http://127.0.0.1:8000/logout_user/"><span class="glyphicon glyphicon-off"></span> Logout<span class="sr-only">(current)</span></a></li>
-          </ul>
-        </div>
+      <div id="LEFT SIDEBAR" class="col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+          <li class="active"><a ng-click="changePage('Homepage')"><span class="glyphicon glyphicon-home"></span> Home<span class="sr-only">(current)</span></a></li>
+          <li><a ng-click="changePage('Profile')"><span class="glyphicon glyphicon-user"></span> Profile<span class="sr-only">(current)</span></a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+          <li><a href="" ng-click="changePage('Playlist')"><span class="glyphicon glyphicon-headphones"></span> My Playlist</a></li>
+          <li><a href="" data-toggle="modal" data-target="#HELPMODAL"><span class="glyphicon glyphicon-info-sign"></span> Help</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+          <li><a href="http://127.0.0.1:8000/logout_user/"><span class="glyphicon glyphicon-off"></span> Logout<span class="sr-only">(current)</span></a></li>
+        </ul>
       </div>
 
       <div id="HELPMODAL" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
-          <!-- Modal content-->
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
               <h4 class="modal-title">Welcome to Keithkuru!</h4>
             </div>
-
             <div class="modal-body">
               <p>Keithkuru is a loving amalgamation of Keith and his Kukuru, bringing to you the best of music exploitation and senseless UI. Please go ahead and click all the buttons, enjoy!</p>
             </div>
@@ -269,7 +259,25 @@
             </div>
             <p id = "userInfo">{{user_id}},{{username}},{{user_type}}</p>
           </div>
+        </div>
+      </div>
 
+      <div id="DELETEMODAL" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Confirm Delete</h4>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to delete this?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Yes</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+            <p id = "userInfo">{{user_id}},{{username}},{{user_type}}</p>
+          </div>
         </div>
       </div>
 
@@ -285,7 +293,8 @@
     <script src="{% static 'music/assets/js/bootstrap.min.js' %}"></script>
 
     <!-- For audio player -->
-    <script src="{% static 'music/assets/js/bootstrap-player.js' %}"></script>
+    <!-- <script src="{% static 'music/assets/js/bootstrap-player.js' %}"></script> -->
+    <script src="{% static 'music/assets/js/bootstrap3_player.js' %}"></script>
 
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <script src="{% static 'music/assets/js/vendor/holder.min.js' %}"></script>

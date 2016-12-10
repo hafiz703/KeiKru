@@ -58,7 +58,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   //     $scope.changePage('Profile');
   //   }
   // });
-  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "ArtistAlbums"];
+  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "ArtistAlbums"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
@@ -326,26 +326,20 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     }
   };
 
-  $scope.deleteAlbum = function () {
-    alert("Are you sure you want to delete his album?");
-  };
-
-  $scope.submitAlbum = function () {
+  $scope.createAlbum = function () {
     alert("Album uploaded!");
     $scope.changePage('Profile');
   };
 
-  // $scope.playSong = function (song) {
-  //   $scope.songPath = song.filename;
-  //   var audiobar = document.getElementById("audiobar");
-  //   audiobar.play();
-  //   $scope.isPlaying = true;
-  // };
-  // $scope.pauseSong = function () {
-  //   var audiobar = document.getElementById("audiobar");
-  //   audiobar.pause();
-  //   $scope.isPlaying = false;
-  // };
+  $scope.createSong = function () {
+    alert("Song uploaded!");
+    $scope.changePage('Edit Album');
+  };
+
+  $scope.updateSong = function () {
+    alert("Song updated!");
+    $scope.changePage('Edit Album');
+  };
 
 }])
 
