@@ -23,6 +23,7 @@ from .views import (
                     AlbumEditAPIView,
                     SongCreateAPIView,
                     SongEditAPIView,
+                    LabelDetailAPIView,
                     # ListenRecordDetailAPIView
                     )
 
@@ -56,6 +57,8 @@ urlpatterns = [
 
 
     url(r'^genre/$',GenreSearchAPIView.as_view(), name='genre-list'),
+
+    url(r'^label/(?P<pk>\d+)/$',LabelDetailAPIView.as_view(), name='artist-detail'),
 
 ]
 

@@ -13,7 +13,7 @@ class Label(models.Model):
 class ArtistRegistered(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	artistname = models.CharField(max_length=200, unique = True)
-	label = models.ForeignKey(Label,max_length=200)
+	label = models.ForeignKey(Label,max_length=200,related_name='rel_artist')
 	picture = models.CharField(max_length=200)
 
 	def __str__(self):

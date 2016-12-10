@@ -1,4 +1,5 @@
 from api.models import Album,Song,Artist,UserRatedSongs,Listen_Record
+from music.models import Label
 from rest_framework.generics import ListAPIView,RetrieveAPIView,UpdateAPIView,DestroyAPIView,CreateAPIView,GenericAPIView
 from django.views.generic import TemplateView,FormView
 from django.views import generic
@@ -23,6 +24,7 @@ from api.serializers import(
     ListenRecordListSerializer,
     AlbumCreateUpdateDeleteSerializer,
     SongCreateUpdateDeleteSerializer,
+    LabelDetailSerializer,
     SongRatingSerializer)
 
 
@@ -252,17 +254,21 @@ class ListenRecordListAPIView(ListAPIView):
 
         return queryset_list
 
-# class ListenRecordDetailAPIView(RetrieveAPIView):
-#     queryset = Listen_Record.objects.all()
-#     serializer_class = ListenRecordListSerializer
-#
-#     def get_queryset(self, *args, **kwargs):
-#         queryset_list = Listen_Record.objects.all()
-#         query = self.request.GET.get("q")
-#         if query:
-#             queryset_list = queryset_list.filter(
-#                 Q(user__user_id__exact=query)
-#
-#             ).distinct()
-#
-#         return queryset_list
+class ListenRecordDetailAPIView(RetrieveAPIView):
+    queryset = Listen_Record.objects.all()
+    serializer_class = ListenRecordListSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Listen_Record.objects.all()
+        query = self.request.GET.get("q")
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(user__user_id__exact=query)
+
+            ).distinct()
+
+        return queryset_list
+
+class LabelDetailAPIView(RetrieveAPIView):
+    queryset = Label.objects.all()
+    serializer_class = LabelDetailSerializer
