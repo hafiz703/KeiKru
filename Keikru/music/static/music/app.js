@@ -78,6 +78,8 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.myAlbumList = [];
 
+  $scope.randomAlbum = $scope.myAlbumList[Math.floor(Math.random() * $scope.myAlbumList.length)];
+
   $scope.currentPlaylist = {
     "name": 'placeholder',
     songList: []

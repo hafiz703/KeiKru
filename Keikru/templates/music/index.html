@@ -48,20 +48,20 @@
         <hr>
 
         <div id="HOME" ng-show="currPage == 'Homepage'" ng-cloak>
-          <div class="col-md-4 placeholder" ng-click="setRecommendedPlaylist()">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+          <div class="col-md-4 placeholder  text-center" ng-click="setRecommendedPlaylist()">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Reccommended Playlist">
             <h4>Recommended Playlist</h4>
-            <span class="text-muted">Curated especially for you</span>
+            <span class="text-muted text-center">Curated especially for you</span>
           </div>
-          <div class="col-md-4 placeholder">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-            <h4>Recently listened Songs (?)</h4>
-            <span class="text-muted">Don't forget to add these to Playlist!</span>
+          <div class="col-md-4 placeholder  text-center">
+            <img src="[[ randomAlbum.album_art ]]" width="200" height="200" class="img-responsive" alt="Top Hits">
+            <h4>Just Released</h4>
+            <span class="text-muted text-center">Check out our latest hits!</span>
           </div>
-          <div class="col-md-4 placeholder">
-            <img src="{% static 'music/assets/Keith.jpeg' %}" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-            <h4>Featured Artist of the Day (?)</h4>
-            <span class="text-muted">Check out the director's choice.</span>
+          <div class="col-md-4 placeholder  text-center">
+            <img src="{% static 'music/assets/Keith.jpeg' %}" width="200" height="200" class="img-responsive" alt="Featured Artist">
+            <h4>Featured Artist</h4>
+            <span class="text-muted text-center" style="">Take a look at the director's choice.</span>
           </div>
         </div>
 
