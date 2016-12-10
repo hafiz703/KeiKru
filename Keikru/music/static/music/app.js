@@ -60,7 +60,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.NgUserType = document.getElementById("userInfo-userType").value;
   $scope.NgUserName = document.getElementById("userInfo-userName").value;
   $scope.NgUserID = document.getElementById("userInfo-userID").value;
-  $scope.NgUserID = "3";
+  // $scope.NgUserID = "3";
   $scope.albumList = []; // other artists
 
   $scope.myAlbumList = [];
