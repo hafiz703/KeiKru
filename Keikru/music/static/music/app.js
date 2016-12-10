@@ -62,9 +62,10 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
-  $scope.userType = 'artist';
 
-  $scope.userID = "2";
+  $scope.NgUserType = document.getElementById("userInfo-userType").value;
+  $scope.NgUserName = document.getElementById("userInfo-userName").value;
+  $scope.NgUserID = document.getElementById("userInfo-userID").value;
 
   $scope.albumList = []; // other artists
 
@@ -163,7 +164,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'success': function(data) {
         var similarity = [];
         for (usr in data) {
-          if (data[usr].user!=$scope.userID) {
+          if (data[usr].user!=$scope.NgUserID) {
             usr_diff = {
               id: data[usr].user,
               songs_in_common: 0,
@@ -173,9 +174,9 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           }
         }
         for (usr in data) {
-          if (data[usr].user==$scope.userID) {
+          if (data[usr].user==$scope.NgUserID) {
             for (usr_diff in data) {
-              if (data[usr_diff].user!=$scope.userID) {
+              if (data[usr_diff].user!=$scope.NgUserID) {
                 if (data[usr_diff].song_rated==data[usr].song_rated) {
                   for (stat in similarity) {
                     if (similarity[stat].id==data[usr_diff].user) {
@@ -207,7 +208,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           if (data[usr_diff].id==most_similar_usr_id){
             for (usr in data) {
               var rated = false;
-              if (data[usr].id==$scope.userID) {
+              if (data[usr].id==$scope.NgUserID) {
                 if (data[usr].song_rated==data[usr_diff].song_rated) {
                   rated = true;
                 }
@@ -297,7 +298,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     if ($scope.listOfPages.includes(page)) {
       // console.log("page selected: " + page);
       if (page=="Profile") {
-        var link = 'http://127.0.0.1:8000/api/artist/'+$scope.userID+'/?format=json';
+        var link = 'http://127.0.0.1:8000/api/artist/'+$scope.NgUserID+'/?format=json';
         $.ajax({
           'type': 'GET',
           'url': link,

@@ -106,6 +106,15 @@
         </div>
 
         <div id="PROFILE" ng-show="currPage == 'Profile'" ng-cloak>
+          <input type="hidden" id="userInfo-userType" name="variable" value="{{ user_type }}">
+          <input type="hidden" id="userInfo-userName" name="variable" value="{{ username }}">
+          <input type="hidden" id="userInfo-userID" name="variable" value="{{ user_id }}">
+          <div class="container-fluid">
+            <h4>Username: [[NgUserName]]</h4>
+            <h4>User ID: [[NgUserID]]</h4>
+            <h4>Usertype: [[NgUserType]]</h4>
+          </div>
+          <hr>
           <div class="row" ng-repeat="album in myAlbumList">
             <div class="col-md-6">
               <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
@@ -233,7 +242,7 @@
       <div id="LEFT SIDEBAR" class="col-md-2 sidebar">
         <ul class="nav nav-sidebar">
           <li class="active"><a ng-click="changePage('Homepage')"><span class="glyphicon glyphicon-home"></span> Home<span class="sr-only">(current)</span></a></li>
-          <li><a ng-click="changePage('Profile')"><span class="glyphicon glyphicon-user"></span> Profile<span class="sr-only">(current)</span></a></li>
+          <li><a ng-click="changePage('Profile')"><span class="glyphicon glyphicon-user"></span> [[NgUserName]]<span class="sr-only">(current)</span></a></li>
         </ul>
         <ul class="nav nav-sidebar">
           <li><a href="" ng-click="changePage('Playlist')"><span class="glyphicon glyphicon-headphones"></span> My Playlist</a></li>
@@ -257,7 +266,6 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">This was helpful...</button>
             </div>
-            <p id = "userInfo">{{user_id}},{{username}},{{user_type}}</p>
           </div>
         </div>
       </div>
@@ -276,7 +284,7 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Yes</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
             </div>
-            <p id = "userInfo">{{user_id}},{{username}},{{user_type}}</p>
+            <!-- <p ng-model = "userInfo">{{user_id}},{{username}},{{user_type}}</p> -->
           </div>
         </div>
       </div>
