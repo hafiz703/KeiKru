@@ -47,7 +47,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.listOfUserType = ["user", "artist", "label"];
   $scope.userType = 'artist';
 
-  $scope.userID = "2";
+  $scope.userID = "3";
 
   $scope.albumList = []; // other artists
 
@@ -301,7 +301,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           'contentType': 'application/json',
           'dataType': 'json',
           'success': function(data) {
-            $scope.albumList = [];
+            $scope.myAlbumList = [];
             for (i in data.rel_albums) {
               album_name = data.rel_albums[i].album_name;
               album_id = data.rel_albums[i].id;

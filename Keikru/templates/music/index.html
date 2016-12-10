@@ -81,7 +81,7 @@
                       <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
                     </td>
                     <td>[[song.song_title]]</td>
-                    <td><a ng-click="setPlaylistByArtist(song.album.artist.id)">[[song.album.artist.name]]</a></td>
+                    <td><a ng-click="setPlaylistByArtist(song.album.artist.id)">[[song.album.artist.artistname]]</a></td>
                     <td><a ng-click="setPlaylistByAlbum(song.album.id)">[[song.album.album_name]]</a></td>
                     <td><a ng-click="setPlaylistByGenre(song.album.genre)">[[song.album.genre]]</a></td>
                     <td><div star-rating rating-value="song.song_rating" max="5" min="1" on-rating-selected="setSelectedRating(rating,song)"></div></td>
@@ -257,7 +257,7 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">This was helpful...</button>
             </div>
-            <p id = "userInfo">{{user_id}},{{username}},{{user_type}}</p>
+            <p ng-model="user_id">{{user_id}},{{username}},{{user_type}}</p>
           </div>
         </div>
       </div>
