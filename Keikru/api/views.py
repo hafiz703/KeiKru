@@ -241,3 +241,6 @@ class ListenRecordListAPIView(ListAPIView):
     queryset = Listen_Record.objects.all()
     serializer_class = ListenRecordListSerializer
 
+class ListenRecordDetailAPIView(RetrieveAPIView):
+    queryset = Listen_Record.objects.all()
+    serializer_class = ListenRecordListSerializer

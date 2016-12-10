@@ -22,7 +22,8 @@ from .views import (
                     AlbumCreateAPIView,
                     AlbumEditAPIView,
                     SongCreateAPIView,
-                    SongEditAPIView
+                    SongEditAPIView,
+                    ListenRecordDetailAPIView
                     )
 
 #hafiz
@@ -49,8 +50,10 @@ urlpatterns = [
     url(r'^user-song-rating/create/$', Song_RatingCreateAPIView.as_view(), name='user-rating-create'),
 
 
-    url(r'^listen-record/create/(?P<User_pk>\d+)/$', ListenRecordCreateAPIView.as_view(), name = 'listen-record-createOrupdate' ),
+    url(r'^listen-record/create/$', ListenRecordCreateAPIView.as_view(), name = 'listen-record-createOrupdate' ),
     url(r'^listen-record/$', ListenRecordListAPIView.as_view(), name='listen-record-list'),
+    url(r'^listen-record/(?P<user_pk>\d+)/$', ListenRecordDetailAPIView.as_view(), name='listen-record-detail'),
+
 
     url(r'^genre/$',GenreSearchAPIView.as_view(), name='genre-list'),
 
