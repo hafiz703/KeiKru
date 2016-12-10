@@ -273,6 +273,6 @@ class LabelDetailAPIView(RetrieveAPIView):
     queryset = Label.objects.all()
     serializer_class = LabelDetailSerializer
 
-class LabelDetailAPIView(ListAPIView):
+class LabelListAPIView(ListAPIView):
     queryset = Label.objects.all()
     serializer_class = LabelDetailSerializer
