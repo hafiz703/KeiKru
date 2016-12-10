@@ -21,7 +21,7 @@ def index(request):
                 artist_registered = ArtistRegistered.objects.get(user = user)
                 user_type = "artist"
             except:
-                user_type = "exception"
+                user_type = "label"
         context = {
             "username": username, "user_type": user_type, "user_id": user_id
         }
@@ -64,7 +64,7 @@ def register(request):
                             artist_registered = ArtistRegistered.objects.get(user = user)
                             user_type = "artist"
                         except:
-                            user_type = "exception"
+                            user_type = "label"
                     context = {
                         "username": username, "user_type": user_type, "user_id": user_id
                     }
@@ -114,7 +114,7 @@ def register_artist(request):
                             artist_registered = ArtistRegistered.objects.get(user = user)
                             user_type = "artist"
                         except:
-                            user_type = "exception"
+                            user_type = "label"
                     context = {
                         "username": username, "user_type": user_type, "user_id": user_id
                     }
@@ -155,7 +155,7 @@ def login_user(request):
                         artist_registered = ArtistRegistered.objects.get(user = user)
                         user_type = "artist"
                     except:
-                        user_type = "exception"
+                        user_type = "label"
                 context = {
                     "username": username, "user_type": user_type, "user_id": user_id 
                 }
