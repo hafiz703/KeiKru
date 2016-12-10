@@ -39,16 +39,28 @@ $.ajaxSetup({
 myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   // $scope.dataObj = dataService.dataObj;
   $scope.allSongs = [];
+  $.ajax({
+    'type': 'GET',
+    'url': 'http://127.0.0.1:8000/api/song/?format=json',
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'success': function(data) {
+      for (i in data) {
+        $scope.allSongs.push(data[i]);
+      }
+    }
+  });  
   $scope.rated_song_IDs = [];
-  
+
   $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "ArtistAlbums"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
-  $scope.userType = 'artist';
 
-  $scope.userID = "3";
-
+  $scope.NgUserType = document.getElementById("userInfo-userType").value;
+  $scope.NgUserName = document.getElementById("userInfo-userName").value;
+  $scope.NgUserID = document.getElementById("userInfo-userID").value;
+  $scope.NgUserID = "3";
   $scope.albumList = []; // other artists
 
   $scope.myAlbumList = [];
@@ -147,7 +159,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         $scope.rated_song_IDs = [];
         rated_song_IDs_sim = [];
         for (usr in data) {
-          if (data[usr].user!=$scope.userID) {
+          if (data[usr].user!=$scope.NgUserID) {
             existing = false;
             for (i in similarity) {
               if (similarity[i].id==data[usr].user) {
@@ -169,9 +181,9 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         }
         // console.log($scope.rated_song_IDs);
         for (usr in data) {
-          if (data[usr].user==$scope.userID) {
+          if (data[usr].user==$scope.NgUserID) {
             for (usr_diff in data) {
-              if (data[usr_diff].user!=$scope.userID) {
+              if (data[usr_diff].user!=$scope.NgUserID) {
                 if (data[usr_diff].song_rated==data[usr].song_rated) {
                   for (stat in similarity) {
                     if (similarity[stat].id==data[usr_diff].user) {
@@ -198,7 +210,6 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         }
         // console.log(most_similar_usr);
         recommended_song_IDs = [];
-
         for (usr in data) {
           if (data[usr].user==most_similar_usr.id) {
             rated_song_IDs_sim.push(data[usr].song_rated);
@@ -294,7 +305,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     if ($scope.listOfPages.includes(page)) {
       // console.log("page selected: " + page);
       if (page=="Profile") {
-        var link = 'http://127.0.0.1:8000/api/artist/'+$scope.userID+'/?format=json';
+        var link = 'http://127.0.0.1:8000/api/artist/'+$scope.NgUserID+'/?format=json';
         $.ajax({
           'type': 'GET',
           'url': link,
