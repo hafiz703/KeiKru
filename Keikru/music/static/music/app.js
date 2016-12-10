@@ -49,8 +49,21 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         $scope.allSongs.push(data[i]);
       }
     }
-  });  
+  });
   $scope.rated_song_IDs = [];
+
+  $scope.allArtists = [];
+  $.ajax({
+    'type': 'GET',
+    'url': 'http://127.0.0.1:8000/api/artist/?format=json',
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'success': function(data) {
+      for (i in data) {
+        $scope.allArtists.push(data[i]);
+      }
+    }
+  });
 
   $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "ArtistAlbums"];
   $scope.currPage = 'Homepage';
@@ -64,6 +77,8 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.albumList = []; // other artists
 
   $scope.myAlbumList = [];
+
+  $scope.myArtistList = ['1', '2']
 
   $scope.currentPlaylist = {
     "name": 'placeholder',

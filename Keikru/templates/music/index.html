@@ -25,7 +25,7 @@
   <body>
 
     <div ng-controller="SongController" ng-show="true">
-      <nav class="navbar navbar-default navbar-fixed-top">
+      <nav id="TOP NAVBAR" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -34,7 +34,7 @@
             <a class="navbar-brand" href="#">Keithkuru</a>
           </div>
 
-          <div id="TOP NAVBAR" class="navbar-collapse collapse">
+          <div class="navbar-collapse collapse">
             <form class="navbar-form navbar-right" ng-submit="setPlaylistBySearch(searchWords)">
               <input type="text" class="form-control" placeholder="Search..." ng-model="searchWords">
             </form>
@@ -106,34 +106,67 @@
         </div>
 
         <div id="PROFILE" ng-show="currPage == 'Profile'" ng-cloak>
-          <input type="hidden" id="userInfo-userType" name="variable" value="{{ user_type }}">
-          <input type="hidden" id="userInfo-userName" name="variable" value="{{ username }}">
-          <input type="hidden" id="userInfo-userID" name="variable" value="{{ user_id }}">
-          <div class="container-fluid">
-            <h4>Username: [[NgUserName]]</h4>
-            <h4>User ID: [[NgUserID]]</h4>
-            <h4>Usertype: [[NgUserType]]</h4>
-          </div>
-          <hr>
-          <div class="row" ng-repeat="album in myAlbumList">
-            <div class="col-md-6">
-              <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
-            </div>
+          <div id="USER INFO" class="row">
+            <input type="hidden" id="userInfo-userType" name="variable" value="{{ user_type }}">
+            <input type="hidden" id="userInfo-userName" name="variable" value="{{ username }}">
+            <input type="hidden" id="userInfo-userID" name="variable" value="{{ user_id }}">
 
+            <div class="col-md-4 placeholder">
+              <img src="{% static 'music/assets/Keith.jpeg' %}" width="175" height="175" class="img-responsive" alt="profile_pic">
+            </div>
             <div class="col-md-6">
-              <h2><a ng-click="setPlaylistByAlbum([[album.id]])">[[ album.title ]]</a></h2>
-              <p>Album description lorem ipsum</p>
-              <h4><span star-rating rating-value=3 max="5" min="1"></span></h4>
-              <button type="button" ng-click="changePage('Edit Album')" class="btn btn-primary" ng-show="userType == 'artist'">Edit Album <span class="glyphicon glyphicon-pencil"></span></button>
-              <button type="button" data-toggle="modal" data-target="#DELETEMODAL" class="btn btn-danger" ng-show="userType == 'artist'">Delete Album <span class="glyphicon glyphicon-trash"></span></button>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <span class="badge">[[NgUserName]]</span>
+                  Username:
+                </li>
+                <li class="list-group-item">
+                  <span class="badge">[[NgUserID]]</span>
+                  User ID:
+                </li>
+                <li class="list-group-item">
+                  <span class="badge">[[NgUserType]]</span>
+                  Usertype:
+                </li>
+              </ul>
             </div>
           </div>
+
           <hr>
-          <div class="row">
-            <div class="col-md-6">
-              <button type="button" ng-click="changePage('Create Album')" class="btn btn-success" ng-show="userType == 'artist'">Create Album <span class="glyphicon glyphicon-plus-sign"></span></button>
+
+          <div id="FOR LABEL EYES ONLY" ng-show="NgUserType == 'label'">
+            <div class="row" ng-repeat="artist in myArtistList">
+              <h1>FUARK THIS SHIT ARTISTS COME HERE</h1>
+              <div class="col-md-6">
+                <img class="img-thumbnail" src="[[artist.artist_pic]]" alt="artist_pic" width="300" height="300">
+              </div>
+
+              <div class="col-md-6">
+                <h2><a ng-click="changePage('ArtistAlbums')">[[ artist.title ]]</a></h2>
+              </div>
             </div>
           </div>
+
+          <div id="FOR ARTIST EYES ONLY" ng-show="NgUserType == 'artist'">
+            <div class="row" ng-repeat="album in myAlbumList">
+              <div class="col-md-6">
+                <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
+              </div>
+              <div class="col-md-6">
+                <h2><a ng-click="setPlaylistByAlbum([[album.id]])">[[ album.title ]]</a></h2>
+                <h4><span star-rating rating-value=3 max="5" min="1"></span></h4>
+                <button type="button" ng-click="changePage('Edit Album')" class="btn btn-primary">Edit Album <span class="glyphicon glyphicon-pencil"></span></button>
+                <button type="button" data-toggle="modal" data-target="#DELETEMODAL" class="btn btn-danger">Delete Album <span class="glyphicon glyphicon-trash"></span></button>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-6">
+                <button type="button" ng-click="changePage('Create Album')" class="btn btn-success">Create Album <span class="glyphicon glyphicon-plus-sign"></span></button>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <div id="EDIT ALBUM" ng-show="currPage == 'Edit Album'" ng-cloak>
