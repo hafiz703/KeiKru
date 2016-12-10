@@ -125,8 +125,45 @@
         </div>
 
         <div id="EDIT ALBUM" class="col-md-8" ng-show="currPage == 'Edit Album'" ng-cloak>
-          <h1>WORK IN PROGRESS</h1>
-          <button type="button" ng-click="changePage('Profile')" class="btn btn-primary">Cancel</button>
+          <div class="col-md-7">
+            <form ng-submit="submitAlbum()">
+              <div class="form-group">
+                <p class="text-muted">Album Name</p>
+                <input type="text" class="form-control" placeholder="Insert name here">
+              </div>
+              <div class="form-group">
+                <p class="text-muted">Album Art</p>
+                <input type="text" class="form-control" placeholder="Insert URL here">
+              </div>
+              <div class="form-group">
+                <p class="text-muted">Album Genre</p>
+                <input type="text" class="form-control" placeholder="Insert genre here">
+              </div>
+              <hr>
+              <button type="button" ng-click="changePage('Create Song')" class="btn btn-default">Add Song</button>
+              <hr>
+              <input type="submit" class="btn btn-success" value="Upload Album"></input>
+              <button type="button" ng-click="changePage('Profile')" class="btn btn-primary">Cancel</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="EDIT SONG" class="col-md-8" ng-show="currPage == 'Edit Song'" ng-cloak>
+          <div class="col-md-7">
+            <form ng-submit="changePage('Create Album')">
+              <div class="form-group">
+                <p class="text-muted">Song Name</p>
+                <input type="text" class="form-control" placeholder="Insert name here" required>
+              </div>
+              <div class="form-group">
+                <p class="text-muted">Song URL</p>
+                <input type="text" class="form-control" placeholder="Insert URL here" required>
+              </div>
+              <hr>
+              <input type="submit" class="btn btn-success" value="Upload Song"></input>
+              <button type="button" ng-click="changePage('Edit Album')" class="btn btn-primary">Cancel</button>
+            </form>
+          </div>
         </div>
 
         <div id="CREATE ALBUM" class="col-md-8" ng-show="currPage == 'Create Album'" ng-cloak>
@@ -182,7 +219,7 @@
       <div id="RIGHT SIDEBAR">
         <ul class="col-sm-3 col-md-2 sidebar-right">
           <h1>LE MUSIK PLAYA</h1>
-          <div class="">
+          <!-- <div class="">
             <audio controls
               data-info-album-art="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/15109341_10154615057689088_6880569998308639492_n.jpg?oh=862585562e3f9d9b8df0a6bcaf879df0&oe=58FB39FB"
               data-info-album-title="8874"
@@ -194,7 +231,7 @@
               data-info-att-link="http://cylinders.library.ucsb.edu/search.php?query=8874">
               <source src="{% static 'music/assets/songs/The Weeknd/Starboy/01 Starboy (feat. Daft Punk).mp3' %}" type="audio/mpeg" />
             </audio>
-          </div>
+          </div> -->
         </ul>
       </div>
 
@@ -248,7 +285,7 @@
     <script src="{% static 'music/assets/js/bootstrap.min.js' %}"></script>
 
     <!-- For audio player -->
-    <script src="{% static 'music/assets/js/bootstrap_player.js' %}"></script>
+    <script src="{% static 'music/assets/js/bootstrap-player.js' %}"></script>
 
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <script src="{% static 'music/assets/js/vendor/holder.min.js' %}"></script>
