@@ -52,19 +52,6 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   });
   $scope.rated_song_IDs = [];
 
-  $scope.myArtistList = [];
-  $.ajax({
-    'type': 'GET',
-    'url': 'http://127.0.0.1:8000/api/label/'+$scope.NgUserID+'/?format=json',
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'success': function(data) {
-      for (i in data.rel_artista) {
-        $scope.myArtistList.push(data[i]);
-      }
-    }
-  });
-
   $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "ArtistAlbums"];
   $scope.currPage = 'Homepage';
 
@@ -72,14 +59,14 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.NgUserType = document.getElementById("userInfo-userType").value;
   $scope.NgUserName = document.getElementById("userInfo-userName").value;
-  $scope.NgUserID = document.getElementById("userInfo-userID").value;
-  // $scope.NgUserID = "3";
+  // $scope.NgUserID = document.getElementById("userInfo-userID").value;
+  $scope.NgUserID = "3";
   $scope.albumList = []; // other artists
 
   $scope.myAlbumList = [];
 
   $scope.randomAlbum = $scope.myAlbumList[Math.floor(Math.random() * $scope.myAlbumList.length)];
-
+  $scope.myArtistList = [];
   $scope.currentPlaylist = {
     "name": 'placeholder',
     songList: []
@@ -319,7 +306,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.changePage = function (page) {
     if ($scope.listOfPages.includes(page)) {
       // console.log("page selected: " + page);
-      if (page=="Profile") {
+      if (page=="Profile" && $scope.NgUserType=="artist") {
         var link = 'http://127.0.0.1:8000/api/artist/'+$scope.NgUserID+'/?format=json';
         $.ajax({
           'type': 'GET',
@@ -339,6 +326,22 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
               };
               $scope.myAlbumList.push(album);
             }
+          }
+        });
+      } else if (page=="Profile" && $scope.NgUserType=="label") {
+        $scope.myArtistList = [];
+        $.ajax({
+          'type': 'GET',
+          'url': 'http://127.0.0.1:8000/api/label/'+$scope.NgUserID+'/?format=json',
+          'contentType': 'application/json',
+          'dataType': 'json',
+          'success': function(data) {
+
+            for (i in data.rel_artist) {
+              // console.log(data.rel_artist[i]);
+              $scope.myArtistList.push(data.rel_artist[i]);
+            }
+            console.log($scope.myArtistList.length);
           }
         });
       }

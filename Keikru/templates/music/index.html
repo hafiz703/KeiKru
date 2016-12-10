@@ -139,11 +139,11 @@
 
           <hr>
 
-          <div id="FOR LABEL EYES ONLY" ng-show="NgUserType == 'label'">
-            <div class="row" ng-repeat="artist in myArtistList">
+          <div id="FOR LABEL EYES ONLY">
+            <div class="row" ng-repeat="artist in myArtistList" ng-cloak>
               <h1>FUARK THIS SHIT ARTISTS COME HERE</h1>
               <div class="col-md-6">
-                <img class="img-thumbnail" src="[[artist.artist_pic]]" alt="artist_pic" width="300" height="300">
+                <img class="img-thumbnail" src="[[artist.picture]]" alt="artist_pic" width="300" height="300">
               </div>
 
               <div class="col-md-6">
