@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from api.models import Album,Song,Artist,UserRatedSongs,Listen_Record
+from music.models import Label
 
 
 # obj_data = AlbumSerializer(obj,many=True) IMPORTANT TO SET FLAGGG
@@ -201,4 +202,13 @@ class ListenRecordListSerializer(ModelSerializer):
         extra_kwargs = {
             'url': { 'lookup_field': 'user_pk'}
         }
+
+class LabelDetailSerializer(ModelSerializer):
+    rel_artist  = ArtistListSerializer(many=True, read_only=True)
+    class Meta:
+        model = Label
+        fields = [
+            'name',
+            'rel_artist',
+        ]
 
