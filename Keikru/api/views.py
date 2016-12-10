@@ -241,6 +241,28 @@ class ListenRecordListAPIView(ListAPIView):
     queryset = Listen_Record.objects.all()
     serializer_class = ListenRecordListSerializer
 
-class ListenRecordDetailAPIView(RetrieveAPIView):
-    queryset = Listen_Record.objects.all()
-    serializer_class = ListenRecordListSerializer
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Listen_Record.objects.all()
+        query = self.request.GET.get("q")
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(user_id__exact=query)
+
+            ).distinct()
+
+        return queryset_list
+
+# class ListenRecordDetailAPIView(RetrieveAPIView):
+#     queryset = Listen_Record.objects.all()
+#     serializer_class = ListenRecordListSerializer
+#
+#     def get_queryset(self, *args, **kwargs):
+#         queryset_list = Listen_Record.objects.all()
+#         query = self.request.GET.get("q")
+#         if query:
+#             queryset_list = queryset_list.filter(
+#                 Q(user__user_id__exact=query)
+#
+#             ).distinct()
+#
+#         return queryset_list
