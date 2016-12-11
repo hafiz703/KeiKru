@@ -20,6 +20,14 @@
     <!-- Custom styles for this template -->
     <link href="{% static 'music/dashboard.css' %}" rel="stylesheet">
 
+    <!-- For audiojs -->
+    <!-- <script src="{% static 'music/assets/audiojs/audio.min.js' %}"></script>
+    <script>
+      audiojs.events.ready(function() {
+        var as = audiojs.createAll();
+      });
+    </script> -->
+
   </head>
 
   <body>
@@ -80,8 +88,8 @@
                   <tr ng-repeat="song in currentPlaylist.songList | orderBy: 'criteria' ">
 
                     <td>
-                      <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
-                      <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
+                      <i class="glyphicon glyphicon-play" ng-click="playSong(song.song_file)" style="font-size:20px"></i>
+                      <!-- <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i> -->
                     </td>
                     <td>[[song.song_title]]</td>
                     <td><a ng-click="setPlaylistByArtist(song.album.artist.id)">[[song.album.artist.artistname]]</a></td>
@@ -112,8 +120,8 @@
                   <tr ng-repeat="song in currentPlaylist.songList | orderBy: 'criteria' ">
 
                     <td>
-                      <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
-                      <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
+                      <i class="glyphicon glyphicon-play" ng-click="playSong(song.song_file)" style="font-size:20px"></i>
+                      <!-- <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i> -->
                     </td>
                     <td>[[song.song_title]]</td>
                     <!-- <td>[[song.id]]</td> -->
@@ -310,50 +318,50 @@
         </div>
 
         <div id="CREDITS" ng-show="currPage == 'Credits'" ng-cloak>
-          <div id="COVER" class="row col-md-12">
-            <div class="container-fluid">
-              <img src="https://scontent-sit4-1.xx.fbcdn.net/v/t31.0-8/13301506_992751037439621_5873516059247868243_o.jpg?oh=9bc2f16e078659b8a0539eaa71c8ca9e&oe=58F4E2C0" class="img-responsive" alt="Cover">
+          <div id="THE TEAM" class="row col-md-12">
+            <div class="col-lg-4">
+              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200">
+              <h2>Muhd Hafiz</h2>
+              <p>Senior Software Architect (Intern)</p>
+            </div>
+            <div class="col-lg-4">
+              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200">
+              <h2>Muhd Hafiz</h2>
+              <p>Senior Software Architect (Intern)</p>
+            </div>
+            <div class="col-lg-4">
+              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200">
+              <h2>Muhd Hafiz</h2>
+              <p>Senior Software Architect (Intern)</p>
+            </div>
+            <div class="col-lg-4">
+              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200">
+              <h2>Muhd Hafiz</h2>
+              <p>Senior Software Architect (Intern)</p>
+            </div>
+            <div class="col-lg-4">
+              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200">
+              <h2>Muhd Hafiz</h2>
+              <p>Senior Software Architect (Intern)</p>
             </div>
           </div>
-          <div id="THE TEAM" class="row">
-            <div class="col-lg-4">
-              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-              <h2>Heading</h2>
-              <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4">
-              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-              <h2>Heading</h2>
-              <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4">
-              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-              <h2>Heading</h2>
-              <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div><!-- /.col-lg-4 -->
-          </div><!-- /.row -->
         </div>
 
       </div>
 
       <div id="RIGHT SIDEBAR" class="col-md-3 sidebar-right">
         <ul class="nav nav-sidebar">
-
-          <audio controls
+          <!-- <audio controls id="audiobar"
             data-info-album-art="{% static 'music/assets/Keith.jpeg' %}"
             data-info-album-title="Album"
             data-info-artist="Artist"
             data-info-title="Song Name"
             data-info-label="Label">
+            <source src="[[ songPath ]]"  type="audio/mpeg" />
             <source src="{% static 'music/assets/songs/01. Money On My Mind.mp3' %}" type="audio/mpeg" />
-
-
-          </audio>
-
+          </audio> -->
         </ul>
+        <audio controls src="{% static 'music/assets/songs/01. Money On My Mind.mp3' %}" preload="auto" />
       </div>
 
       <div id="LEFT SIDEBAR" class="col-md-2 sidebar">
@@ -421,9 +429,11 @@
 
     <script src="{% static 'music/assets/js/bootstrap.min.js' %}"></script>
 
-    <!-- For audio player -->
-    <!-- <script src="{% static 'music/assets/js/bootstrap-player.js' %}"></script> -->
+    <!-- For bootstrap3_player -->
     <script src="{% static 'music/assets/js/bootstrap3_player.js' %}"></script>
+
+    <!-- For HTML5Media player -->
+    <script src="//api.html5media.info/1.2.2/html5media.min.js"></script>
 
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <script src="{% static 'music/assets/js/vendor/holder.min.js' %}"></script>

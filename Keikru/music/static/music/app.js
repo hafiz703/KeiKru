@@ -55,6 +55,8 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "Artists Albums", "History", "Credits"];
   $scope.currPage = 'Homepage';
 
+  $scope.songPath = "{% static 'music/assets/songs/01. Money On My Mind.mp3' %}";
+
   $scope.listOfUserType = ["user", "artist", "label"];
 
   $scope.currentPlaylist = {
@@ -228,26 +230,22 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             for (k in album['tracks']) {
               track = album['tracks'][k];
               // console.log(track.song_title);
-              //   console.log(track.song_title)
-              //   console.log(track.song_title.indexOf(searchWords))
-                if(genre.toLowerCase().indexOf(searchWords) > -1 ||  album_name.toLowerCase().indexOf(searchWords) > -1|| artistname.toLowerCase().indexOf(searchWords) > -1|| track.song_title.toLowerCase().indexOf(searchWords) > -1) {
-                    var song = {
-                        id: track.id,
-                        song_title: track.song_title,
-                        album: {
-                            artist: {
-                                artistname: artistname,
-                                id: artist_id
-                            },
-                            album_name: album_name,
-                            id: album_id,
-                            genre: genre
-                        },
-                        song_rating: track.song_rating
-                    };
-
-                    $scope.currentPlaylist.songList.push(song);
-                }
+              var song = {
+                id: track.id,
+                song_title: track.song_title,
+                album: {
+                  artist: {
+                    artistname: artistname,
+                    id: artist_id
+                  },
+                  album_name: album_name,
+                  id: album_id,
+                  genre: genre
+                },
+                song_file: track.song_file,
+                song_rating: track.song_rating
+              };
+              $scope.currentPlaylist.songList.push(song);
             }
           }
         }
@@ -408,6 +406,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
                   id: album_id,
                   genre: genre
                 },
+                song_file: track.song_file,
                 song_rating: track.song_rating
               };
               $scope.currentPlaylist.songList.push(song);
@@ -596,16 +595,13 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     $scope.changePage('Edit Album');
   };
 
-
-
-  // ng-click="playSong(song)"
-
-  // $scope.playSong = function (song) {
-  //     $scope.songPath = song.filename;
-  //     var audiobar = document.getElementById("audiobar");
-  //     audiobar.play();
-  //     $scope.isPlaying = true;
-  // };
+  $scope.playSong = function (song) {
+    console.log(song);
+    $scope.songPath = song.song_file;
+    var audiobar = document.getElementById("audiobar");
+    audiobar.play();
+    // $scope.isPlaying = true;
+  };
   // $scope.pauseSong = function () {
   //   var audiobar = document.getElementById("audiobar");
   //   audiobar.pause();
