@@ -80,8 +80,8 @@
                   <tr ng-repeat="song in currentPlaylist.songList | orderBy: 'criteria' ">
 
                     <td>
-                      <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
-                      <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
+                      <i class="glyphicon glyphicon-play" ng-click="playSong(song.song_file)" style="font-size:20px"></i>
+                      <!-- <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i> -->
                     </td>
                     <td>[[song.song_title]]</td>
                     <td><a ng-click="setPlaylistByArtist(song.album.artist.id)">[[song.album.artist.artistname]]</a></td>
@@ -112,8 +112,8 @@
                   <tr ng-repeat="song in currentPlaylist.songList | orderBy: 'criteria' ">
 
                     <td>
-                      <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
-                      <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
+                      <i class="glyphicon glyphicon-play" ng-click="playSong(song.song_file)" style="font-size:20px"></i>
+                      <!-- <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i> -->
                     </td>
                     <td>[[song.song_title]]</td>
                     <!-- <td>[[song.id]]</td> -->
@@ -342,15 +342,13 @@
       <div id="RIGHT SIDEBAR" class="col-md-3 sidebar-right">
         <ul class="nav nav-sidebar">
 
-          <audio controls
+          <audio controls id="audiobar"
             data-info-album-art="{% static 'music/assets/Keith.jpeg' %}"
             data-info-album-title="Album"
             data-info-artist="Artist"
             data-info-title="Song Name"
             data-info-label="Label">
-            <source src="{% static 'music/assets/songs/The Weeknd/Starboy/01 Starboy (feat. Daft Punk).mp3' %}" type="audio/mpeg" />
-
-
+            <source src="{% static 'music/assets/songs/3.m4a' %}" type="audio/mpeg" />
           </audio>
 
         </ul>

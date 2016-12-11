@@ -55,6 +55,8 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "Artists Albums", "History", "Credits"];
   $scope.currPage = 'Homepage';
 
+  $scope.songPath = '';
+
   $scope.listOfUserType = ["user", "artist", "label"];
 
   $scope.currentPlaylist = {
@@ -234,6 +236,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
                   id: album_id,
                   genre: genre
                 },
+                song_file: track.song_file,
                 song_rating: track.song_rating
               };
               $scope.currentPlaylist.songList.push(song);
@@ -397,6 +400,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
                   id: album_id,
                   genre: genre
                 },
+                song_file: track.song_file,
                 song_rating: track.song_rating
               };
               $scope.currentPlaylist.songList.push(song);
@@ -515,21 +519,18 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     $scope.changePage('Edit Album');
   };
 
-
-
-  // ng-click="playSong(song)"
-
-  // $scope.playSong = function (song) {
-  //     $scope.songPath = song.filename;
-  //     var audiobar = document.getElementById("audiobar");
-  //     audiobar.play();
-  //     $scope.isPlaying = true;
-  // };
-  // $scope.pauseSong = function () {
-  //   var audiobar = document.getElementById("audiobar");
-  //   audiobar.pause();
-  //   $scope.isPlaying = false;
-  // };
+  $scope.playSong = function (song) {
+    console.log(song.song_file);
+    $scope.songPath = song.song_file;
+    var audiobar = document.getElementById("audiobar");
+    audiobar.play();
+    $scope.isPlaying = true;
+  };
+  $scope.pauseSong = function () {
+    var audiobar = document.getElementById("audiobar");
+    audiobar.pause();
+    $scope.isPlaying = false;
+  };
 
 }])
 
