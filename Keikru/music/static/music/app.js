@@ -74,8 +74,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           song = {
             id: data[usr].song_rated,
             rating: data[usr].rating
-
-          }
+          };
           $scope.rated_song_IDs.push(song);
         }
       }
@@ -278,7 +277,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           //   song = {
           //     id: data[usr].song_rated,
           //     rating: data[usr].rating
-          //   }
+          //   };
           //   $scope.rated_song_IDs.push(song);
           // }
         }
@@ -407,12 +406,22 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     });
   };
 
-  $scope.setSelectedRating = function (rating,song) {
+  $scope.setPlaylistByHistory = function() {
+    $scope.currentPlaylist.songList = [];
+    $scope.currentPlaylist.name = "Listen History";
     for (rated_song in $scope.rated_song_IDs) {
-      if ($scope.rated_song_IDs[rated_song].id==song.id) {
-        $scope.rated_song_IDs[rated_song].rating = rating;
+      for (song in $scope.allSongs) {
+        if ($scope.rated_song_IDs[rated_song].id == $scope.allSongs[song].id) {
+          $scope.currentPlaylist.songList.push($scope.allSongs[song]);
+        }
       }
     }
+    // console.log($scope.currentPlaylist.songList);
+
+    $scope.changePage('History');
+  }
+
+  $scope.setSelectedRating = function (rating,songID) {
     $.ajax({
      'type': 'PUT',
       'url': 'http://127.0.0.1:8000/api/user-song-rating/create/',
@@ -420,10 +429,16 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'data': JSON.stringify({
         "rating": rating,
         "user": $scope.NgUserID,
-        "song_rated": song.id
+        "song_rated": songID
         }),
       'dataType': 'json',
-      // 'success': console.log("Posted!");
+      'success': function() {
+        for (rated_song in $scope.rated_song_IDs) {
+          if ($scope.rated_song_IDs[rated_song].id==songID) {
+            $scope.rated_song_IDs[rated_song].rating = rating;
+          }
+        }
+      }
     });
 
     $.ajax({
@@ -433,10 +448,16 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'data': JSON.stringify({
         "rating": rating,
         "user": $scope.NgUserID,
-        "song_rated": song.id
+        "song_rated": songID
         }),
       'dataType': 'json',
-      // 'success': console.log("Posted!");
+      'success': function() {
+        song = {
+          id: songID,
+          rating: rating
+        };
+        $scope.rated_song_IDs.push(song);
+      }
     });
   };
 
