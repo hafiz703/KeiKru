@@ -37,7 +37,6 @@ $.ajaxSetup({
 
 // Define the `SongController` controller on the `Keithkuru` module
 myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
-  // $scope.dataObj = dataService.dataObj;
   $scope.allSongs = [];
   $.ajax({
     'type': 'GET',
@@ -62,6 +61,25 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     "name": 'placeholder',
     songList: []
   }; // playlist shown on screen
+
+  $scope.rated_song_IDs = [];
+  $.ajax({
+    'type': 'GET',
+    'url': 'http://127.0.0.1:8000/api/user-song-rating/?format=json',
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'success': function(data) {
+      for (usr in data) {
+        if (data[usr].user==$scope.NgUserID) {
+          song = {
+            id: data[usr].song_rated,
+            rating: data[usr].rating
+          }
+          $scope.rated_song_IDs.push(song);
+        }
+      }
+    }
+  });
 
   $scope.uploadList = {
     name: 'placeholder',
@@ -206,6 +224,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
               track = album['tracks'][k];
               // console.log(track.song_title);
               var song = {
+                id: track.id,
                 song_title: track.song_title,
                 album: {
                   artist: {
@@ -231,13 +250,13 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     var link = 'http://127.0.0.1:8000/api/user-song-rating/?format=json';
     $.ajax({
       'type': 'GET',
-      'url': link, //updating song with song_id = 2
+      'url': link,
       'contentType': 'application/json',
       'dataType': 'json',
       'success': function(data) {
         $scope.currentPlaylist.name = "Recommended Playlist";
         similarity = [];
-        $scope.rated_song_IDs = [];
+        // $scope.rated_song_IDs = [];
         rated_song_IDs_sim = [];
         for (usr in data) {
           if (data[usr].user!=$scope.NgUserID) {
@@ -256,9 +275,14 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
               };
               similarity.push(usr_diff);
             }
-          } else {
-            $scope.rated_song_IDs.push(data[usr].song_rated);
           }
+          // else {
+          //   song = {
+          //     id: data[usr].song_rated,
+          //     rating: data[usr].rating
+          //   }
+          //   $scope.rated_song_IDs.push(song);
+          // }
         }
         // console.log($scope.rated_song_IDs);
         for (usr in data) {
@@ -296,9 +320,15 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             rated_song_IDs_sim.push(data[usr].song_rated);
           }
         }
-
+        // console.log(rated_song_IDs_sim);
         for (song in rated_song_IDs_sim) {
-          if (!$scope.rated_song_IDs.includes(rated_song_IDs_sim[song])) {
+          rated = false;
+          for (song_rated in $scope.rated_song_IDs) {
+            if ($scope.rated_song_IDs[song_rated].id == rated_song_IDs_sim[song]) {
+              rated = true;
+            }
+          }
+          if (!rated) {
             recommended_song_IDs.push(rated_song_IDs_sim[song]);
           }
         }
@@ -357,6 +387,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
               track = album['tracks'][k];
               // console.log(track.song_title);
               var song = {
+                id: track.id,
                 song_title: track.song_title,
                 album: {
                   artist: {
@@ -379,8 +410,46 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   };
 
   $scope.setSelectedRating = function (rating,song) {
-      song.rating = rating;
+    for (rated_song in $scope.rated_song_IDs) {
+      if ($scope.rated_song_IDs[rated_song].id==song.id) {
+        $scope.rated_song_IDs[rated_song].rating = rating;
+      }
+    }
+    $.ajax({
+     'type': 'PUT',
+      'url': 'http://127.0.0.1:8000/api/user-song-rating/create/',
+      'contentType': 'application/json',
+      'data': JSON.stringify({
+        "rating": rating,
+        "user": $scope.NgUserID,
+        "song_rated": song.id
+        }),
+      'dataType': 'json',
+      // 'success': console.log("Posted!");
+    });
+
+    $.ajax({
+     'type': 'POST',
+      'url': 'http://127.0.0.1:8000/api/user-song-rating/create/',
+      'contentType': 'application/json',
+      'data': JSON.stringify({
+        "rating": rating,
+        "user": $scope.NgUserID,
+        "song_rated": song.id
+        }),
+      'dataType': 'json',
+      // 'success': console.log("Posted!");
+    });
   };
+
+  $scope.getRating = function(songID) {
+    for (rated_song in $scope.rated_song_IDs) {
+      if ($scope.rated_song_IDs[rated_song].id==songID) {
+        return $scope.rated_song_IDs[rated_song].rating;
+      }
+    }
+    return 1;
+  }
 
   $scope.changePage = function (page) {
     if ($scope.listOfPages.includes(page)) {
@@ -453,12 +522,14 @@ myApp.directive('starRating', function () {
 
 //                                          Update song rating
 // $.ajax({
-//        'type': 'PUT',
-//         'url': 'http://127.0.0.1:8000/api/song/updaterating/2', //updating song with song_id = 2
-//         'contentType': 'application/json',
-//         'data': JSON.stringify({
-//              "song_rating":oldVal,
-//          }),
-//         'dataType': 'json',
-//         'success': console.log("Posted!")
+//  'type': 'PUT',
+//   'url': 'http://127.0.0.1:8000/api/user-song-rating/create/'
+//   'contentType': 'application/json',
+//   'data': JSON.stringify({
+//     "rating": <new rating>,
+//     "user": <user_id>,
+//     "song_rated": <song_id>
+//     }),
+//   'dataType': 'json',
+//   'success': console.log("Posted!")
 // });
