@@ -79,7 +79,7 @@
                   <tr ng-repeat="song in currentPlaylist.songList | orderBy: 'criteria' ">
 
                     <td>
-                      <i class="glyphicon glyphicon-play" ng-click="playSong(song.song_file)" style="font-size:20px"></i>
+                      <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px"></i>
                       <!-- <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i> -->
                     </td>
                     <td>[[song.song_title]]</td>
@@ -111,7 +111,7 @@
                   <tr ng-repeat="song in currentPlaylist.songList | orderBy: 'criteria' ">
 
                     <td>
-                      <i class="glyphicon glyphicon-play" ng-click="playSong(song.song_file)" style="font-size:20px"></i>
+                      <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px"></i>
                       <!-- <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i> -->
                     </td>
                     <td>[[song.song_title]]</td>
@@ -311,29 +311,29 @@
         <div id="CREDITS" ng-show="currPage == 'Credits'" ng-cloak>
           <div id="THE TEAM" class="row col-md-12">
             <div class="col-lg-4">
-              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200">
+              <img class="img-circle" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/11914953_10153520785986897_4217439856709296476_n.jpg?oh=35f5b8f578b08383117e98f427900186&oe=58F27868" width="200" height="200">
               <h2>Muhd Hafiz</h2>
               <p>Senior Software Architect (Intern)</p>
             </div>
             <div class="col-lg-4">
-              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200">
-              <h2>Muhd Hafiz</h2>
-              <p>Senior Software Architect (Intern)</p>
+              <img class="img-circle" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/11905767_1000475046638221_7698863067441043279_n.jpg?oh=a078007b9942a646b78faea3537ed290&oe=58B9C4FA" width="200" height="200">
+              <h2>Dang Minh</h2>
+              <em>"Foreign Talent"</em>
             </div>
             <div class="col-lg-4">
-              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200">
-              <h2>Muhd Hafiz</h2>
-              <p>Senior Software Architect (Intern)</p>
+              <img class="img-circle" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/10340004_10153155828429269_5864731329012823706_n.jpg?oh=239d65495059aaf9759af9122a2725f4&oe=58AE8B5F" width="200" height="200">
+              <h2>Amos Choo</h2>
+              <p>Login Page Guru</p>
             </div>
             <div class="col-lg-4">
-              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200">
-              <h2>Muhd Hafiz</h2>
-              <p>Senior Software Architect (Intern)</p>
+              <img class="img-circle" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-0/p206x206/15420962_1305381226191210_3390329095814074399_n.jpg?oh=f41c1fef01c72e0d20737151111c5996&oe=58B0DB9B" width="200" height="200">
+              <h2>Wei Sheng</h2>
+              <p>Audio Tag Specialist</p>
             </div>
             <div class="col-lg-4">
-              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200">
-              <h2>Muhd Hafiz</h2>
-              <p>Senior Software Architect (Intern)</p>
+              <img class="img-circle" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/13932760_10154294427494088_122989813913786154_n.jpg?oh=091174da0ca52e8d0287159337424a78&oe=58F4A531" width="200" height="200">
+              <h2>Keith Chia</h2>
+              <p>Superstar DJ, Scholar, Fuccboi, Owner of Keithkuru</p>
             </div>
           </div>
         </div>
@@ -343,11 +343,10 @@
       <div id="RIGHT SIDEBAR" class="col-md-3 sidebar-right">
         <ul class="nav nav-sidebar">
           <audio controls id="audiobar"
-            data-info-album-art="{% static 'music/assets/Keith.jpeg' %}"
-            data-info-album-title="Album"
-            data-info-artist="Artist"
-            data-info-title="Song Name"
-            data-info-label="Label">
+            data-info-album-art="[[ songAlbumArt ]]"
+            data-info-album-title="[[ songAlbumTitle ]]"
+            data-info-artist="[[ songArtistName ]]"
+            data-info-title="[[ songName ]]">
             <!-- <source src=""  type="audio/mpeg" /> -->
             <source src="{% static 'music/assets/songs/01. Money On My Mind.mp3' %}" type="audio/mpeg" />
           </audio>
@@ -362,10 +361,13 @@
         <ul class="nav nav-sidebar">
           <li><a href="" ng-click="changePage('Playlist')"><span class="glyphicon glyphicon-th-list"></span> My Playlist</a></li>
           <li><a href="" ng-click="setPlaylistByHistory()"><span class="glyphicon glyphicon-calendar"></span> History</a></li>
-          <li><a href="" data-toggle="modal" data-target="#HELPMODAL"><span class="glyphicon glyphicon-info-sign"></span> Help</a></li>
+          <li><a href="" data-toggle="modal" data-target="#HELPMODAL"><span class="glyphicon glyphicon-info-sign"></span> Info</a></li>
         </ul>
         <ul class="nav nav-sidebar">
           <li><a href="http://127.0.0.1:8000/logout_user/"><span class="glyphicon glyphicon-off"></span> Logout<span class="sr-only">(current)</span></a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+          <li><a href="" ng-click="changePage('Credits')"><span class="glyphicon glyphicon-sunglasses"></span> Credits<span class="sr-only">(current)</span></a></li>
         </ul>
       </div>
 
@@ -377,12 +379,12 @@
               <h4 class="modal-title">Hello World!</h4>
             </div>
             <div class="modal-body">
-              <p>Keithkuru is our <s>Spotify clone</s> music-player webapp, featuring usage of an SQLite database linked by a django server.</p>
+              <p>Keithkuru is our <s>Spotify clone</s> music-player webapp, featuring usage of an SQLite database linked by a Django server.</p>
               <p>Front-end was written in AngularJS and Bootstrap.</p>
               <p>Reccommended playlist is coded with machine learning algorithms.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" ng-click="changePage('Credits')" data-dismiss="modal">Credits</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">That was helpful...</button>
             </div>
             <!-- <p ng-model="user_id">{{user_id}},{{username}},{{user_type}}</p> -->
           </div>

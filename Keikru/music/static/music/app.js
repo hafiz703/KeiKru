@@ -57,6 +57,11 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.listOfUserType = ["user", "artist", "label"];
 
+  $scope.songAlbumArt = "https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/15109341_10154615057689088_6880569998308639492_n.jpg?oh=862585562e3f9d9b8df0a6bcaf879df0&oe=58FB39FB";
+  $scope.songAlbumTitle = "null";
+  $scope.songArtistName = "null";
+  $scope.songName = "null";
+
   $scope.currentPlaylist = {
     "name": 'placeholder',
     songList: []
@@ -223,6 +228,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             album = artist['rel_albums'][j];
             album_name = album['album_name'];
             album_id = album.id;
+            album_art = album.album_art;
 
             genre = album.genre;
             for (k in album['tracks']) {
@@ -234,10 +240,11 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
                 album: {
                   artist: {
                     artistname: artistname,
-                    id: artist_id
+                    id: artist_id,
                   },
                   album_name: album_name,
                   id: album_id,
+                  album_art: album_art,
                   genre: genre
                 },
                 song_file: track.song_file,
@@ -492,12 +499,12 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'contentType': 'application/json',
       'dataType': 'json',
       'success': function() {
-        
+
         alert('Album deleted!');
         $scope.loadMyAlbumList();
         $scope.changePage('Profile');
       }
-    });    
+    });
   }
 
   $scope.editAlbum = function(album_name,genre,album_art) {
@@ -513,7 +520,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       }),
       'dataType': 'json',
       'success': function() {
-        
+
         alert('Album added!');
         $scope.loadMyAlbumList();
         $scope.changePage('Profile');
@@ -534,7 +541,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       }),
       'dataType': 'json',
       'success': function() {
-        
+
         alert('Album added!');
         $scope.loadMyAlbumList();
         $scope.changePage('Profile');
@@ -557,7 +564,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         alert('Song added!');
       }
     });
-  }  
+  }
 
   $scope.changeCriteria = function(criteria) {
     for (song in $scope.currentPlaylist.songList) {
@@ -596,7 +603,11 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.playSong = function (song) {
     console.log(song);
     var audiobar = document.getElementById("audiobar");
-    audiobar.src = song;
+    audiobar.src = song.song_file;
+    $scope.songAlbumArt = song.album.album_art;
+    $scope.songAlbumTitle = song.album.album_name;
+    $scope.songArtistName = song.album.artist.artistname;
+    $scope.songName = song.song_title;
     audiobar.load();
     audiobar.play();
     // $scope.isPlaying = true;
