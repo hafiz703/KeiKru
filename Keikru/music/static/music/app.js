@@ -471,6 +471,24 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     $scope.changePage('Edit Album');
   };
 
+  // <div class="audiobar">
+  //   <audio id="audiobar" data-ng-src="{{songPath}}" controls loop="loop" autoplay="autoplay"></audio>
+  // </div>
+
+  // ng-click="playSong(song)"
+
+  // $scope.playSong = function (song) {
+  //     $scope.songPath = song.filename;
+  //     var audiobar = document.getElementById("audiobar");
+  //     audiobar.play();
+  //     $scope.isPlaying = true;
+  // };
+  // $scope.pauseSong = function () {
+  //   var audiobar = document.getElementById("audiobar");
+  //   audiobar.pause();
+  //   $scope.isPlaying = false;
+  // };
+
 }])
 
 myApp.directive('starRating', function () {
