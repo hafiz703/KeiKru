@@ -232,25 +232,28 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
             genre = album.genre;
             for (k in album['tracks']) {
+
               track = album['tracks'][k];
-              // console.log(track.song_title);
-              var song = {
-                id: track.id,
-                song_title: track.song_title,
-                album: {
-                  artist: {
-                    artistname: artistname,
-                    id: artist_id,
-                  },
-                  album_name: album_name,
-                  id: album_id,
-                  album_art: album_art,
-                  genre: genre
-                },
-                song_file: track.song_file,
-                song_rating: track.song_rating
-              };
-              $scope.currentPlaylist.songList.push(song);
+                if(genre.toLowerCase().indexOf(searchWords) >-1 || album_name.toLowerCase().indexOf(searchWords) >-1 || artistname.toLowerCase().indexOf(searchWords) >-1 || track.song_title.toLowerCase().indexOf(searchWords) >-1 ) {
+                    // console.log(track.song_title);
+                    var song = {
+                        id: track.id,
+                        song_title: track.song_title,
+                        album: {
+                            artist: {
+                                artistname: artistname,
+                                id: artist_id,
+                            },
+                            album_name: album_name,
+                            id: album_id,
+                            album_art: album_art,
+                            genre: genre
+                        },
+                        song_file: track.song_file,
+                        song_rating: track.song_rating
+                    };
+                    $scope.currentPlaylist.songList.push(song);
+                }
             }
           }
         }
