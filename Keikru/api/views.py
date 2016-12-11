@@ -67,6 +67,7 @@ class ArtistListAPIView(ListAPIView):
         return queryset_list
 #############################################################################
 #############################################################################
+#############################################################################
 class ArtistDetailAPIView(RetrieveAPIView):
     queryset = Artist.objects.all()
     serializer_class = ArtistDetailSerializer
