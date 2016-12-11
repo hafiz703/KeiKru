@@ -222,21 +222,26 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             for (k in album['tracks']) {
               track = album['tracks'][k];
               // console.log(track.song_title);
-              var song = {
-                id: track.id,
-                song_title: track.song_title,
-                album: {
-                  artist: {
-                    artistname: artistname,
-                    id: artist_id
-                  },
-                  album_name: album_name,
-                  id: album_id,
-                  genre: genre
-                },
-                song_rating: track.song_rating
-              };
-              $scope.currentPlaylist.songList.push(song);
+                console.log(track.song_title)
+                console.log(track.song_title.indexOf(searchWords))
+                if(genre.toLowerCase().indexOf(searchWords) > 0 ||  album_name.toLowerCase().indexOf(searchWords) > 0|| artistname.toLowerCase().indexOf(searchWords) > 0|| track.song_title.toLowerCase().indexOf(searchWords) > 0) {
+                    var song = {
+                        id: track.id,
+                        song_title: track.song_title,
+                        album: {
+                            artist: {
+                                artistname: artistname,
+                                id: artist_id
+                            },
+                            album_name: album_name,
+                            id: album_id,
+                            genre: genre
+                        },
+                        song_rating: track.song_rating
+                    };
+
+                    $scope.currentPlaylist.songList.push(song);
+                }
             }
           }
         }
