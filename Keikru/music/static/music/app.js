@@ -140,7 +140,6 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   };
 
   $scope.loadRandomAlbum = function() {
-    console.log("loadRandomAlbum called");
     var link = 'http://127.0.0.1:8000/api/album/?format=json';
     $.ajax({
       'type': 'GET',
@@ -158,19 +157,16 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           };
           $scope.allAlbumList.push(album);
         }
+        $scope.randomAlbum = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
       }
     });
-    console.log("allAlbumList = " + $scope.allAlbumList);
-    $scope.randomAlbum = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
-    console.log("randomAlbum chosen is: " + $scope.randomAlbum);
   };
-
-  $scope.loadRandomAlbum();
 
   $scope.NgUserType = document.getElementById("userInfo-userType").value;
   $scope.NgUserName = document.getElementById("userInfo-userName").value;
   $scope.NgUserID = document.getElementById("userInfo-userID").value;
 
+  $scope.loadRandomAlbum();
   $scope.loadMyAlbumList();
   $scope.loadMyArtistsList();
 

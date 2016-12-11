@@ -51,20 +51,14 @@
         <hr>
 
         <div id="HOME" ng-show="currPage == 'Homepage'" ng-cloak>
-          <div class="col-md-4 placeholder  text-center" ng-click="setRecommendedPlaylist()">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Reccommended Playlist">
-            <h4>Recommended Playlist</h4>
-            <span class="text-muted text-center">Curated especially for you</span>
-          </div>
-          <div class="col-md-4 placeholder  text-center">
-            <img src="[[ randomAlbum.album_art ]]" width="200" height="200" class="img-responsive" alt="Top Hits">
-            <h4>Just Released</h4>
-            <span class="text-muted text-center">Check out our latest hits!</span>
-          </div>
-          <div class="col-md-4 placeholder  text-center">
-            <img src="{% static 'music/assets/Keith.jpeg' %}" width="200" height="200" class="img-responsive" alt="Featured Artist">
-            <h4>Featured Artist</h4>
-            <span class="text-muted text-center" style="">Take a look at the director's choice.</span>
+          <div id="JUMBOTRON" class="row col-md-12 text-justify">
+            <div class="jumbotron">
+              <div class="container-fluid">
+                <h1>Welcome to Keithkuru</h1>
+                <p class="text-muted">Checkout our latest feature, the reccommended playlist!</p>
+                <p><a ng-click="setRecommendedPlaylist()" class="btn btn-success btn-lg">Listen Now <span class="glyphicon glyphicon-headphones"></span></a></p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -163,6 +157,26 @@
               <div class="col-md-6">
                 <button type="button" ng-click="changePage('Create Album')" class="btn btn-success">Create Album <span class="glyphicon glyphicon-plus-sign"></span></button>
               </div>
+            </div>
+          </div>
+
+          <div id="FOR USER EYES ONLY" ng-show="NgUserType == 'user'">
+            <h3>Browse</h3>
+            <div id="PLACEHOLDERS" class="row col-md-12">
+              <a ng-click="setRecommendedPlaylist()">
+                <div  class="col-md-4 placeholder  text-center">
+                  <img src="[[ randomAlbum.album_art ]]" width="200" height="200" class="img-responsive" alt="Top Hits">
+                  <h4>Just Released</h4>
+                  <span class="text-muted text-center">Check out our latest hits!</span>
+                </div>
+              </a>
+              <a href="https://mixcloud.com/keithchia">
+                <div class="col-md-4 placeholder  text-center">
+                  <img src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/15109341_10154615057689088_6880569998308639492_n.jpg?oh=862585562e3f9d9b8df0a6bcaf879df0&oe=58FB39FB" width="200" height="200" class="img-responsive" alt="Featured Artist">
+                  <h4>Featured Artist</h4>
+                  <span class="text-muted text-center" style="">Take a look at the director's choice.</span>
+                </div>
+              </a>
             </div>
           </div>
 
@@ -290,7 +304,7 @@
           <li><a ng-click="changePage('Profile')"><span class="glyphicon glyphicon-user"></span> [[NgUserName]]<span class="sr-only">(current)</span></a></li>
         </ul>
         <ul class="nav nav-sidebar">
-          <li><a href="" ng-click="changePage('Playlist')"><span class="glyphicon glyphicon-headphones"></span> My Playlist</a></li>
+          <li><a href="" ng-click="changePage('Playlist')"><span class="glyphicon glyphicon-th-list"></span> My Playlist</a></li>
           <li><a href="" data-toggle="modal" data-target="#HELPMODAL"><span class="glyphicon glyphicon-info-sign"></span> Help</a></li>
         </ul>
         <ul class="nav nav-sidebar">
