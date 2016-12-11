@@ -628,6 +628,34 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   };
 
   $scope.playSong = function (song) {
+    $.ajax({
+     'type': 'POST',
+      'url': 'http://127.0.0.1:8000/api/listen-record/create/',
+      'contentType': 'application/json',
+      'data': JSON.stringify({
+        "listen_count": null,
+        "user": 
+        "songid": 
+      }),
+      'dataType': 'json',
+      'success': function() {
+        console('POST count added!');
+      }
+    });
+    $.ajax({
+     'type': 'PUT',
+      'url': 'http://127.0.0.1:8000/api/listen-record/create/',
+      'contentType': 'application/json',
+      'data': JSON.stringify({
+        "listen_count": null,
+        "user": 
+        "songid": 
+      }),
+      'dataType': 'json',
+      'success': function() {
+        alert('PUT count added!');
+      }
+    });
     console.log(song);
     var audiobar = document.getElementById("audiobar");
     audiobar.src = song.song_file;
