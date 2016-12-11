@@ -9,19 +9,19 @@
         $(player_box).addClass($(song).attr('class') + ' well container-fluid playa');
 
         var data_sec = document.createElement('section');
-        $(data_sec).addClass('collapsing center-block row col-sm-12');
+        $(data_sec).addClass('center-block row col-sm-12');
 
         var toggle_holder = document.createElement('div');
         $(toggle_holder).addClass('btn-group center-block row col-sm-12');
 
-        var data_toggle = document.createElement('button');
-        $(data_toggle).html('<i class="glyphicon glyphicon-align-justify" style="top:-3px"></i>');
-        $(data_toggle).addClass('btn btn-default btn-lg btn-block row col-sm-12');
-        $(data_toggle).attr('style', 'opacity:0.3');
-        $(data_toggle).click(function () {$(data_sec).collapse('toggle'); });
-        $(data_toggle).attr('title', 'Details');
-        $(data_toggle).tooltip({'container': 'body', 'placement': 'top', 'html': true});
-        $(toggle_holder).append(data_toggle);
+        // var data_toggle = document.createElement('button');
+        // $(data_toggle).html('<i class="glyphicon glyphicon-align-justify" style="top:-3px"></i>');
+        // $(data_toggle).addClass('btn btn-default btn-lg btn-block row col-sm-12');
+        // $(data_toggle).attr('style', 'opacity:0.3');
+        // $(data_toggle).click(function () {$(data_sec).collapse('toggle'); });
+        // $(data_toggle).attr('title', 'Details');
+        // $(data_toggle).tooltip({'container': 'body', 'placement': 'top', 'html': true});
+        // $(toggle_holder).append(data_toggle);
 
         var data_table = document.createElement('table');
         $(data_table).addClass('table table-condensed');
