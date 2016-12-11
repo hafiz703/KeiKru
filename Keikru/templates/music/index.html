@@ -14,19 +14,10 @@
     <link href="{% static 'music/assets/css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- For audio player -->
-    <!-- <link href="{% static 'music/assets/css/bootstrap-player.css' %}" rel="stylesheet"> -->
     <link href="{% static 'music/assets/css/bootstrap-player.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{% static 'music/dashboard.css' %}" rel="stylesheet">
-
-    <!-- For audiojs -->
-    <!-- <script src="{% static 'music/assets/audiojs/audio.min.js' %}"></script>
-    <script>
-      audiojs.events.ready(function() {
-        var as = audiojs.createAll();
-      });
-    </script> -->
 
   </head>
 
@@ -351,17 +342,16 @@
 
       <div id="RIGHT SIDEBAR" class="col-md-3 sidebar-right">
         <ul class="nav nav-sidebar">
-          <!-- <audio controls id="audiobar"
+          <audio controls id="audiobar"
             data-info-album-art="{% static 'music/assets/Keith.jpeg' %}"
             data-info-album-title="Album"
             data-info-artist="Artist"
             data-info-title="Song Name"
             data-info-label="Label">
-            <source src="[[ songPath ]]"  type="audio/mpeg" />
+            <!-- <source src=""  type="audio/mpeg" /> -->
             <source src="{% static 'music/assets/songs/01. Money On My Mind.mp3' %}" type="audio/mpeg" />
-          </audio> -->
+          </audio>
         </ul>
-        <audio controls src="{% static 'music/assets/songs/01. Money On My Mind.mp3' %}" preload="auto" />
       </div>
 
       <div id="LEFT SIDEBAR" class="col-md-2 sidebar">
@@ -431,9 +421,6 @@
 
     <!-- For bootstrap3_player -->
     <script src="{% static 'music/assets/js/bootstrap3_player.js' %}"></script>
-
-    <!-- For HTML5Media player -->
-    <script src="//api.html5media.info/1.2.2/html5media.min.js"></script>
 
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <script src="{% static 'music/assets/js/vendor/holder.min.js' %}"></script>

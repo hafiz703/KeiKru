@@ -55,8 +55,6 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "Artists Albums", "History", "Credits"];
   $scope.currPage = 'Homepage';
 
-  $scope.songPath = "{% static 'music/assets/songs/01. Money On My Mind.mp3' %}";
-
   $scope.listOfUserType = ["user", "artist", "label"];
 
   $scope.currentPlaylist = {
@@ -521,8 +519,9 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.playSong = function (song) {
     console.log(song);
-    $scope.songPath = song.song_file;
     var audiobar = document.getElementById("audiobar");
+    audiobar.src = song;
+    audiobar.load();
     audiobar.play();
     // $scope.isPlaying = true;
   };
