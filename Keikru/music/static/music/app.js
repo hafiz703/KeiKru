@@ -52,7 +52,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.rated_song_IDs = [];
 
-  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "Artists Albums"];
+  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "Artists Albums", "History"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
@@ -74,6 +74,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           song = {
             id: data[usr].song_rated,
             rating: data[usr].rating
+
           }
           $scope.rated_song_IDs.push(song);
         }
@@ -157,7 +158,8 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           };
           $scope.allAlbumList.push(album);
         }
-        $scope.randomAlbum = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
+        $scope.randomAlbum1 = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
+        $scope.randomAlbum2 = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
       }
     });
   };
@@ -446,8 +448,27 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     }
     return 1;
   }
-
+  $scope.changeCriteria = function(criteria) {
+    for (song in $scope.currentPlaylist.songList) {
+      if (criteria=='name') {
+        $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].song_title;
+      } else if (criteria=='artist') {
+        $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].album.artist.artistname;
+      } else if (criteria=='album') {
+        $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].album.album_name;
+      } else if (criteria=='genre') {
+        $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].album.genre;
+      }
+    }
+    console.log($scope.currentPlaylist.songList[0].criteria);
+  }
   $scope.changePage = function (page) {
+    if (page=="Playlist") {
+      for (song in $scope.currentPlaylist.songList) {
+        $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].id;
+      }
+      // console.log($scope.currentPlaylist.songList[0].criteria);
+    }
     if ($scope.listOfPages.includes(page)) {
       $scope.currPage = page;
     }
@@ -471,9 +492,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     $scope.changePage('Edit Album');
   };
 
-  // <div class="audiobar">
-  //   <audio id="audiobar" data-ng-src="{{songPath}}" controls loop="loop" autoplay="autoplay"></audio>
-  // </div>
+
 
   // ng-click="playSong(song)"
 
