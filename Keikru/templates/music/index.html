@@ -84,11 +84,10 @@
                       <i class="glyphicon glyphicon-pause" ng-click="pauseSong()" style="font-size:20px" ng-show="isPlaying"></i>
                     </td>
                     <td>[[song.song_title]]</td>
-                    <!-- <td>[[song.id]]</td> -->
                     <td><a ng-click="setPlaylistByArtist(song.album.artist.id)">[[song.album.artist.artistname]]</a></td>
                     <td><a ng-click="setPlaylistByAlbum(song.album.id)">[[song.album.album_name]]</a></td>
                     <td><a ng-click="setPlaylistByGenre(song.album.genre)">[[song.album.genre]]</a></td>
-                    <td><div star-rating rating-value="getRating(song.id)" max="5" min="1" on-rating-selected="setSelectedRating(rating,song)"></div></td>
+                    <td><div star-rating rating-value="getRating(song.id)" max="5" min="1" on-rating-selected="setSelectedRating(rating,song.id)"></div></td>
                   </tr>
                 </tbody>
               </table>
@@ -121,7 +120,7 @@
                     <td><a ng-click="setPlaylistByArtist(song.album.artist.id)">[[song.album.artist.artistname]]</a></td>
                     <td><a ng-click="setPlaylistByAlbum(song.album.id)">[[song.album.album_name]]</a></td>
                     <td><a ng-click="setPlaylistByGenre(song.album.genre)">[[song.album.genre]]</a></td>
-                    <td><div star-rating rating-value="getRating(song.id)" max="5" min="1" on-rating-selected="setSelectedRating(rating,song)"></div></td>
+                    <td><div star-rating rating-value="getRating(song.id)" max="5" min="1" on-rating-selected="setSelectedRating(rating,song.id)"></div></td>
                   </tr>
                 </tbody>
               </table>
@@ -203,7 +202,7 @@
                   <span class="text-muted text-center">Curated specially for you.</span>
                 </div>
               </a>
-              <a ng-click="changePage('History')">
+              <a ng-click="setPlaylistByHistory()">
                 <div  class="col-md-4 placeholder  text-center">
                   <img src="[[ randomAlbum2.album_art ]]" width="200" height="200" class="img-responsive" alt="Top Hits">
                   <h4>Rediscover</h4>
@@ -364,7 +363,7 @@
         </ul>
         <ul class="nav nav-sidebar">
           <li><a href="" ng-click="changePage('Playlist')"><span class="glyphicon glyphicon-th-list"></span> My Playlist</a></li>
-          <li><a href="" ng-click="changePage('History')"><span class="glyphicon glyphicon-calendar"></span> History</a></li>
+          <li><a href="" ng-click="setPlaylistByHistory()"><span class="glyphicon glyphicon-calendar"></span> History</a></li>
           <li><a href="" data-toggle="modal" data-target="#HELPMODAL"><span class="glyphicon glyphicon-info-sign"></span> Help</a></li>
         </ul>
         <ul class="nav nav-sidebar">
