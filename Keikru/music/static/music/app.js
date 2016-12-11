@@ -157,7 +157,8 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           };
           $scope.allAlbumList.push(album);
         }
-        $scope.randomAlbum = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
+        $scope.randomAlbum1 = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
+        $scope.randomAlbum2 = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];  
       }
     });
   };
@@ -471,9 +472,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     $scope.changePage('Edit Album');
   };
 
-  // <div class="audiobar">
-  //   <audio id="audiobar" data-ng-src="{{songPath}}" controls loop="loop" autoplay="autoplay"></audio>
-  // </div>
+
 
   // ng-click="playSong(song)"
 

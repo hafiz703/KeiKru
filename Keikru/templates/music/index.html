@@ -165,9 +165,16 @@
             <div id="PLACEHOLDERS" class="row col-md-12">
               <a ng-click="setRecommendedPlaylist()">
                 <div  class="col-md-4 placeholder  text-center">
-                  <img src="[[ randomAlbum.album_art ]]" width="200" height="200" class="img-responsive" alt="Top Hits">
-                  <h4>Just Released</h4>
-                  <span class="text-muted text-center">Check out our latest hits!</span>
+                  <img src="[[ randomAlbum1.album_art ]]" width="200" height="200" class="img-responsive" alt="Top Hits">
+                  <h4>Recommended Playlist</h4>
+                  <span class="text-muted text-center">Curated specially for you.</span>
+                </div>
+              </a>
+              <a ng-click="setRecommendedPlaylist()">
+                <div  class="col-md-4 placeholder  text-center">
+                  <img src="[[ randomAlbum2.album_art ]]" width="200" height="200" class="img-responsive" alt="Top Hits">
+                  <h4>Rediscover</h4>
+                  <span class="text-muted text-center">From songs recently played.</span>
                 </div>
               </a>
               <a href="https://mixcloud.com/keithchia">
@@ -274,7 +281,11 @@
 
       <div id="RIGHT SIDEBAR" class="col-md-3 sidebar-right">
         <ul class="nav nav-sidebar">
-          <audio controls
+          <div class="audiobar">
+            <audio id="audiobar" data-ng-src="{{songPath}}" controls loop="loop" autoplay="autoplay"></audio>
+          </div>
+
+          <!-- <audio controls
 {#            data-info-album-art="{% static 'music/assets/Keith.jpeg' %}"#}
 {#            data-info-album-title="Album"#}
 {#            data-info-artist="Artist"#}
@@ -294,7 +305,7 @@
           <source src="https://clyp.it/x5m40cpq " type="audio/mpeg" />
 {#          <a href="http://playerdemo.iainhouston.com/tests/BeBopAliens.mp3">BeBopAliens</a>#}
           An html5-capable browser is required to play this audio.
-          </audio>
+          </audio> -->
         </ul>
       </div>
 
