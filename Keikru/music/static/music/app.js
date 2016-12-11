@@ -634,12 +634,12 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'contentType': 'application/json',
       'data': JSON.stringify({
         "listen_count": null,
-        "user": 
-        "songid": 
+        "user": $scope.NgUserID,
+        "songid": song.id,
       }),
       'dataType': 'json',
       'success': function() {
-        console('POST count added!');
+        console.log('POST count added!');
       }
     });
     $.ajax({
@@ -648,12 +648,12 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'contentType': 'application/json',
       'data': JSON.stringify({
         "listen_count": null,
-        "user": 
-        "songid": 
+        "user": $scope.NgUserID,
+        "songid": song.id,
       }),
       'dataType': 'json',
       'success': function() {
-        alert('PUT count added!');
+        console.log('PUT count added!');
       }
     });
     console.log(song);
