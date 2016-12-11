@@ -123,3 +123,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '/music/static/music/assets/songs/')
+MEDIA_URL = '/music/static/music/assets/songs/'
