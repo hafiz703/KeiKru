@@ -2,16 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}KeithKuru{% endblock %}</title>
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <title style="font-family:Satisfy,cursive;">{% block title %}KeithKuru{% endblock %}</title>
     {% load staticfiles %}
     <link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     
 </head>
+<style>
+body{
+    height:100%;
+    width:100%;
+    background-image: url("/static/music/assets/images/homepage.png");
+    background-repeat:no-repeat;
+    background-size:cover;
+}
+</style>
 <body>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -23,7 +31,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'music:index' %}">KeithKuru</a>
+            <a class="navbar-brand" href="{% url 'music:index' %}" style="font-family:Satisfy,cursive;">KeithKuru</a>
         </div>
 
         <!-- Items -->
@@ -36,6 +44,7 @@
 
     </div>
 </nav>
+<div style="margin-top:70px"
 {% block body %}
 {% endblock %}
 </body>
