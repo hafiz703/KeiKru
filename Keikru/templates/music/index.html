@@ -69,15 +69,15 @@
                 <thead>
                   <tr>
                     <th></th>
-                    <th>Name</th>
-                    <th>Artist</th>
-                    <th>Album</th>
-                    <th>Genre</th>
+                    <th><a ng-click="changeCriteria('name')">Name</a></th>
+                    <th><a ng-click="changeCriteria('artist')">Artist</th>
+                    <th><a ng-click="changeCriteria('album')">Album</th>
+                    <th><a ng-click="changeCriteria('genre')">Genre</th>
                     <th>Rating</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="song in currentPlaylist.songList">
+                  <tr ng-repeat="song in currentPlaylist.songList | orderBy: 'criteria' ">
 
                     <td>
                       <i class="glyphicon glyphicon-play" ng-click="playSong(song)" style="font-size:20px" ng-hide="isPlaying"></i>
