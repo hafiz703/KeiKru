@@ -127,9 +127,15 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           album_name = data.rel_albums[i].album_name;
           album_id = data.rel_albums[i].id;
           album_art = data.rel_albums[i].album_art;
+          album_rating = 0;
+          for (j in data.rel_albums[i].tracks) {
+            album_rating+=data.rel_albums[i].tracks[j].song_rating;
+          }
+          album_rating/=data.rel_albums[i].tracks.length;
           album = {
             title: album_name,
             id: album_id,
+            album_rating: album_rating,
             album_art: album_art
           };
           $scope.myAlbumList.push(album);
@@ -476,6 +482,86 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     }
     return 1;
   }
+  $scope.editedAlbumID = "";
+  $scope.goToEditAlbum = function(albumID) {
+    $scope.editedAlbumID = albumID;
+    $scope.changePage('Edit Album');
+  }
+
+  $scope.deleteAlbum = function(albumID) {
+    $.ajax({
+     'type': 'DELETE',
+      'url': 'http://127.0.0.1:8000/api/album/edit/'+albumID,
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function() {
+        
+        alert('Album deleted!');
+        $scope.loadMyAlbumList();
+        $scope.changePage('Profile');
+      }
+    });    
+  }
+
+  $scope.editAlbum = function(album_name,genre,album_art) {
+    $.ajax({
+     'type': 'PUT',
+      'url': 'http://127.0.0.1:8000/api/album/edit/'+$scope.editedAlbumID+'/',
+      'contentType': 'application/json',
+      'data': JSON.stringify({
+        "album_name": album_name,
+        "genre": genre,
+        "album_art": album_art,
+        "artist": $scope.NgUserID
+      }),
+      'dataType': 'json',
+      'success': function() {
+        
+        alert('Album added!');
+        $scope.loadMyAlbumList();
+        $scope.changePage('Profile');
+      }
+    });
+  }
+
+  $scope.createAlbum = function(album_name,genre,album_art) {
+    $.ajax({
+     'type': 'POST',
+      'url': 'http://127.0.0.1:8000/api/album/create/',
+      'contentType': 'application/json',
+      'data': JSON.stringify({
+        "album_name": album_name,
+        "genre": genre,
+        "album_art": album_art,
+        "artist": $scope.NgUserID
+      }),
+      'dataType': 'json',
+      'success': function() {
+        
+        alert('Album added!');
+        $scope.loadMyAlbumList();
+        $scope.changePage('Profile');
+      }
+    });
+  }
+
+  $scope.createSong = function(songName,songURL) {
+    $.ajax({
+     'type': 'POST',
+      'url': 'http://127.0.0.1:8000/api/song/create/',
+      'contentType': 'application/json',
+      'data': JSON.stringify({
+        "song_title": songName,
+        "song_file": songURL,
+        "album": $scope.editedAlbumID
+      }),
+      'dataType': 'json',
+      'success': function() {
+        alert('Song added!');
+      }
+    });
+  }  
+
   $scope.changeCriteria = function(criteria) {
     for (song in $scope.currentPlaylist.songList) {
       if (criteria=='name') {
@@ -503,16 +589,6 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     else {
       console.log("unknown page selected: " + page);
     }
-  };
-
-  $scope.createAlbum = function () {
-    alert("Album uploaded!");
-    $scope.changePage('Profile');
-  };
-
-  $scope.createSong = function () {
-    alert("Song uploaded!");
-    $scope.changePage('Edit Album');
   };
 
   $scope.updateSong = function () {
@@ -582,15 +658,3 @@ myApp.directive('starRating', function () {
 //----------------------------------------> EXAMPLE AJAX PUT REQUEST <----------------------------
 
 //                                          Update song rating
-// $.ajax({
-//  'type': 'PUT',
-//   'url': 'http://127.0.0.1:8000/api/user-song-rating/create/'
-//   'contentType': 'application/json',
-//   'data': JSON.stringify({
-//     "rating": <new rating>,
-//     "user": <user_id>,
-//     "song_rated": <song_id>
-//     }),
-//   'dataType': 'json',
-//   'success': console.log("Posted!")
-// });

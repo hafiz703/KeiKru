@@ -173,15 +173,15 @@
 
           <div id="FOR ARTIST EYES ONLY" ng-show="NgUserType == 'artist'">
             <h3>Your Albums</h3>
-            <div class="row" ng-repeat="album in myAlbumList" ng-cloak>
+            <div class="row" ng-repeat="album in myAlbumList | orderBy: '-album_rating'" ng-cloak>
               <div class="col-md-6">
                 <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
               </div>
               <div class="col-md-6">
                 <h2><a ng-click="setPlaylistByAlbum([[album.id]])">[[ album.title ]]</a></h2>
-                <h4><span star-rating rating-value=3 max="5" min="1"></span></h4>
-                <button type="button" ng-click="changePage('Edit Album')" class="btn btn-primary">Edit Album <span class="glyphicon glyphicon-pencil"></span></button>
-                <button type="button" data-toggle="modal" data-target="#DELETEMODAL" class="btn btn-danger">Delete Album <span class="glyphicon glyphicon-trash"></span></button>
+                <h4><span star-rating rating-value="album.album_rating" max="5" min="1"></span></h4>
+                <button type="button" ng-click="goToEditAlbum(album.id)" class="btn btn-primary">Edit Album <span class="glyphicon glyphicon-pencil"></span></button>
+                <button type="button" class="btn btn-danger" ng-click="deleteAlbum(album.id)">Delete Album <span class="glyphicon glyphicon-trash"></span></button>
               </div>
             </div>
             <hr>
@@ -223,24 +223,24 @@
 
         <div id="EDIT ALBUM" ng-show="currPage == 'Edit Album'" ng-cloak>
           <div class="col-md-7">
-            <form ng-submit="changePage('Profile')">
+            <form>
               <div class="form-group">
                 <p class="text-muted">Album Name</p>
-                <input type="text" class="form-control" placeholder="Insert name here">
+                <input type="text" class="form-control" placeholder="Insert name here" ng-model="album_name">
               </div>
               <div class="form-group">
                 <p class="text-muted">Album Art</p>
-                <input type="text" class="form-control" placeholder="Insert URL here">
+                <input type="text" class="form-control" placeholder="Insert URL here" ng-model="album_art">
               </div>
               <div class="form-group">
                 <p class="text-muted">Album Genre</p>
-                <input type="text" class="form-control" placeholder="Insert genre here">
+                <input type="text" class="form-control" placeholder="Insert genre here" ng-model="genre">
               </div>
               <hr>
               <button type="button" ng-click="changePage('Create Song')" class="btn btn-default">Add Song</button>
-              <button type="button" ng-click="changePage('Update Song')" class="btn btn-primary">Update Song</button>
-              <button type="button" data-toggle="modal" data-target="#DELETEMODAL" class="btn btn-danger">Delete Song</button>            <hr>
-              <input type="submit" class="btn btn-success" value="Finish"></input>
+              <!-- <button type="button" ng-click="changePage('Update Song')" class="btn btn-primary">Update Song</button> -->
+              <!-- <button type="button" data-toggle="modal" data-target="#DELETEMODAL" class="btn btn-danger">Delete Song</button>            <hr> -->
+              <input ng-click="editAlbum(album_name,genre,album_art)" class="btn btn-success" value="Finish"></input>
             </form>
           </div>
         </div>
@@ -265,18 +265,18 @@
 
         <div id="CREATE ALBUM" ng-show="currPage == 'Create Album'" ng-cloak>
           <div class="col-md-7">
-            <form ng-submit="createAlbum()">
+            <form>
               <div class="form-group">
                 <p class="text-muted">Album Name</p>
-                <input type="text" class="form-control" placeholder="Insert name here">
+                <input type="text" class="form-control" placeholder="Insert name here" ng-model="album_name">
               </div>
               <div class="form-group">
                 <p class="text-muted">Album Art</p>
-                <input type="text" class="form-control" placeholder="Insert URL here">
+                <input type="text" class="form-control" placeholder="Insert URL here" ng-model="album_art">
               </div>
               <div class="form-group">
                 <p class="text-muted">Album Genre</p>
-                <input type="text" class="form-control" placeholder="Insert genre here">
+                <input type="text" class="form-control" placeholder="Insert genre here" ng-model="genre">
               </div>
               <hr>
               <div class="form-check">
@@ -285,7 +285,7 @@
                 </label>
               </div>
               <hr>
-              <input type="submit" class="btn btn-success" value="Upload Album"></input>
+              <input ng-click="createAlbum(album_name,genre,album_art)" class="btn btn-success" value="Upload Album"></input>
               <button type="button" ng-click="changePage('Profile')" class="btn btn-primary">Cancel</button>
             </form>
           </div>
@@ -293,14 +293,14 @@
 
         <div id="CREATE SONG" ng-show="currPage == 'Create Song'" ng-cloak>
           <div class="col-md-7">
-            <form ng-submit="createSong()">
+            <form ng-submit="createSong(songName,songURL)">
               <div class="form-group">
                 <p class="text-muted">Song Name</p>
-                <input type="text" class="form-control" placeholder="Insert name here" required>
+                <input type="text" class="form-control" placeholder="Insert name here" ng-model="songName" required>
               </div>
               <div class="form-group">
                 <p class="text-muted">Song URL</p>
-                <input type="text" class="form-control" placeholder="Insert URL here" required>
+                <input type="text" class="form-control" placeholder="Insert URL here" ng-model="songURL" required>
               </div>
               <hr>
               <input type="submit" class="btn btn-success" value="Upload Song"></input>
