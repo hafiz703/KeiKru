@@ -222,9 +222,9 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             for (k in album['tracks']) {
               track = album['tracks'][k];
               // console.log(track.song_title);
-                console.log(track.song_title)
-                console.log(track.song_title.indexOf(searchWords))
-                if(genre.toLowerCase().indexOf(searchWords) > 0 ||  album_name.toLowerCase().indexOf(searchWords) > 0|| artistname.toLowerCase().indexOf(searchWords) > 0|| track.song_title.toLowerCase().indexOf(searchWords) > 0) {
+              //   console.log(track.song_title)
+              //   console.log(track.song_title.indexOf(searchWords))
+                if(genre.toLowerCase().indexOf(searchWords) > -1 ||  album_name.toLowerCase().indexOf(searchWords) > -1|| artistname.toLowerCase().indexOf(searchWords) > -1|| track.song_title.toLowerCase().indexOf(searchWords) > -1) {
                     var song = {
                         id: track.id,
                         song_title: track.song_title,
