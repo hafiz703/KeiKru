@@ -23,6 +23,9 @@
   </head>
 
   <body>
+    <input type="hidden" id="userInfo-userType" name="variable" value="{{ user_type }}">
+    <input type="hidden" id="userInfo-userName" name="variable" value="{{ username }}">
+    <input type="hidden" id="userInfo-userID" name="variable" value="{{ user_id }}">
 
     <div ng-controller="SongController" ng-show="true">
       <nav id="TOP NAVBAR" class="navbar navbar-default navbar-fixed-top">
@@ -96,7 +99,7 @@
             </div>
           </div>
 
-        <div id="ARTIST ALBUMS" ng-show="currPage == 'ArtistAlbums'" ng-cloak>
+        <div id="ARTIST ALBUMS" ng-show="currPage == 'Artists Albums'" ng-cloak>
           <div class="row" ng-repeat="album in albumList">
             <div class="col-md-6">
               <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
@@ -104,56 +107,45 @@
 
             <div class="col-md-4">
               <h2><a ng-click="setPlaylistByAlbum([[album.id]])">[[ album.title ]]</a></h2>
-              <p>Album description lorem ipsum</p>
               <h4><span star-rating rating-value=3 max="5" min="1"></span></h4>
             </div>
           </div>
         </div>
 
         <div id="PROFILE" ng-show="currPage == 'Profile'" ng-cloak>
-          <div id="USER INFO" class="row">
-            <input type="hidden" id="userInfo-userType" name="variable" value="{{ user_type }}">
-            <input type="hidden" id="userInfo-userName" name="variable" value="{{ username }}">
-            <input type="hidden" id="userInfo-userID" name="variable" value="{{ user_id }}">
-
-            <div class="col-md-4 placeholder">
-              <img src="{% static 'music/assets/Keith.jpeg' %}" width="175" height="175" class="img-responsive" alt="profile_pic">
-            </div>
-            <div class="col-md-6">
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <span class="badge">[[NgUserName]]</span>
-                  Username:
-                </li>
-                <li class="list-group-item">
-                  <span class="badge">[[NgUserID]]</span>
-                  User ID:
-                </li>
-                <li class="list-group-item">
-                  <span class="badge">[[NgUserType]]</span>
-                  Usertype:
-                </li>
-              </ul>
-            </div>
+          <div id="USER INFO" class="row col-md-12">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span class="badge">[[NgUserName]]</span>
+                Username:
+              </li>
+              <li class="list-group-item">
+                <span class="badge">[[NgUserID]]</span>
+                User ID:
+              </li>
+              <li class="list-group-item">
+                <span class="badge">[[NgUserType]]</span>
+                Usertype:
+              </li>
+            </ul>
           </div>
 
-          <hr>
-
-          <div id="FOR LABEL EYES ONLY">
+          <div id="FOR LABEL EYES ONLY" ng-show="NgUserType == 'label'">
+            <h3>Your Artists</h3>
             <div class="row" ng-repeat="artist in myArtistList" ng-cloak>
-              <h1>FUARK THIS SHIT ARTISTS COME HERE</h1>
               <div class="col-md-6">
                 <img class="img-thumbnail" src="[[artist.picture]]" alt="artist_pic" width="300" height="300">
               </div>
-
               <div class="col-md-6">
-                <h2><a ng-click="changePage('ArtistAlbums')">[[ artist.title ]]</a></h2>
-              </div>
+                <h2><a ng-click="setPlaylistByArtist([[ artist.id ]])">[[ artist.name ]]</a></h2>
+                </div>
             </div>
+            <hr>
           </div>
 
           <div id="FOR ARTIST EYES ONLY" ng-show="NgUserType == 'artist'">
-            <div class="row" ng-repeat="album in myAlbumList">
+            <h3>Your Albums</h3>
+            <div class="row" ng-repeat="album in myAlbumList" ng-cloak>
               <div class="col-md-6">
                 <img class="img-thumbnail" src="[[album.album_art]]" alt="album_art" width="300" height="300">
               </div>

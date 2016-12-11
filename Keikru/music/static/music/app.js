@@ -50,23 +50,14 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       }
     }
   });
+
   $scope.rated_song_IDs = [];
 
-  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "ArtistAlbums"];
+  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "Artists Albums"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
 
-  $scope.NgUserType = document.getElementById("userInfo-userType").value;
-  $scope.NgUserName = document.getElementById("userInfo-userName").value;
-  // $scope.NgUserID = document.getElementById("userInfo-userID").value;
-  $scope.NgUserID = "3";
-  $scope.albumList = []; // other artists
-
-  $scope.myAlbumList = [];
-
-  $scope.randomAlbum = $scope.myAlbumList[Math.floor(Math.random() * $scope.myAlbumList.length)];
-  $scope.myArtistList = [];
   $scope.currentPlaylist = {
     "name": 'placeholder',
     songList: []
@@ -76,6 +67,94 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     name: 'placeholder',
     URL: 'placeholder.sutd.edu.sg'
   };
+
+  $scope.albumList = []; // display on artists album page
+  $scope.allAlbumList = []; // display on home page
+  $scope.myAlbumList = []; // display on profile if user is an artist
+  $scope.myArtistList = []; // display on profile if user is an label
+
+  $scope.loadMyArtistsList = function () {
+    $.ajax({
+      'type': 'GET',
+      'url': 'http://127.0.0.1:8000/api/label/'+$scope.NgUserID+'/?format=json',
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function(data) {
+          $scope.myArtistList = [];
+          for (i in data.rel_artist) {
+            artistname = data.rel_artist[i].artistname;
+            artistid = data.rel_artist[i].id;
+            artistpic = data.rel_artist[i].picture;
+            artist = {
+              name: artistname,
+              id: artistid,
+              picture: artistpic
+            };
+            $scope.myArtistList.push(artist);
+          }
+          // console.log("myArtistList: " + $scope.myArtistList);
+        }
+    });
+  };
+
+  $scope.loadMyAlbumList = function() {
+    $.ajax({
+      'type': 'GET',
+      'url': 'http://127.0.0.1:8000/api/artist/'+$scope.NgUserID+'/?format=json',
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function(data) {
+        $scope.myAlbumList = [];
+        for (i in data.rel_albums) {
+          album_name = data.rel_albums[i].album_name;
+          album_id = data.rel_albums[i].id;
+          album_art = data.rel_albums[i].album_art;
+          album = {
+            title: album_name,
+            id: album_id,
+            album_art: album_art
+          };
+          $scope.myAlbumList.push(album);
+        }
+        // console.log("myAlbumList = " + $scope.myAlbumList)
+      }
+    });
+  };
+
+  $scope.loadRandomAlbum = function() {
+    console.log("loadRandomAlbum called");
+    var link = 'http://127.0.0.1:8000/api/album/?format=json';
+    $.ajax({
+      'type': 'GET',
+      'url': link,
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function(data) {
+        $scope.allAlbumList = [];
+        for (i in data) {
+          album_name = data[i].album_name;
+          album_art = data[i].album_art;
+          album = {
+            title: album_name,
+            album_art: album_art
+          };
+          $scope.allAlbumList.push(album);
+        }
+      }
+    });
+    console.log("allAlbumList = " + $scope.allAlbumList);
+    $scope.randomAlbum = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
+    console.log("randomAlbum chosen is: " + $scope.randomAlbum);
+  };
+
+  $scope.loadRandomAlbum();
+
+  $scope.NgUserType = document.getElementById("userInfo-userType").value;
+  $scope.NgUserName = document.getElementById("userInfo-userName").value;
+  $scope.NgUserID = document.getElementById("userInfo-userID").value;
+
+  $scope.loadMyAlbumList();
+  $scope.loadMyArtistsList();
 
   $scope.setPlaylistByArtist = function(artist_id) {
     var link = 'http://127.0.0.1:8000/api/artist/'+artist_id+'/?format=json';
@@ -97,7 +176,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           };
           $scope.albumList.push(album);
         }
-        $scope.changePage('ArtistAlbums');
+        $scope.changePage("Artists Albums");
       }
     });
   };
@@ -305,46 +384,6 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.changePage = function (page) {
     if ($scope.listOfPages.includes(page)) {
-      // console.log("page selected: " + page);
-      if (page=="Profile" && $scope.NgUserType=="artist") {
-        var link = 'http://127.0.0.1:8000/api/artist/'+$scope.NgUserID+'/?format=json';
-        $.ajax({
-          'type': 'GET',
-          'url': link,
-          'contentType': 'application/json',
-          'dataType': 'json',
-          'success': function(data) {
-            $scope.myAlbumList = [];
-            for (i in data.rel_albums) {
-              album_name = data.rel_albums[i].album_name;
-              album_id = data.rel_albums[i].id;
-              album_art = data.rel_albums[i].album_art;
-              album = {
-                title: album_name,
-                id: album_id,
-                album_art: album_art
-              };
-              $scope.myAlbumList.push(album);
-            }
-          }
-        });
-      } else if (page=="Profile" && $scope.NgUserType=="label") {
-        $scope.myArtistList = [];
-        $.ajax({
-          'type': 'GET',
-          'url': 'http://127.0.0.1:8000/api/label/'+$scope.NgUserID+'/?format=json',
-          'contentType': 'application/json',
-          'dataType': 'json',
-          'success': function(data) {
-
-            for (i in data.rel_artist) {
-              // console.log(data.rel_artist[i]);
-              $scope.myArtistList.push(data.rel_artist[i]);
-            }
-            console.log($scope.myArtistList.length);
-          }
-        });
-      }
       $scope.currPage = page;
     }
     else {
