@@ -52,7 +52,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.rated_song_IDs = [];
 
-  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "Artists Albums", "History"];
+  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "Artists Albums", "History", "Credits"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
@@ -157,7 +157,9 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           };
           $scope.allAlbumList.push(album);
         }
-        $scope.randomAlbum1 = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
+        $scope.randomIndex = Math.floor(Math.random() * $scope.allAlbumList.length);
+        $scope.randomAlbum1 = $scope.allAlbumList[$scope.randomIndex];
+        $scope.allAlbumList.splice($scope.randomIndex, 1);
         $scope.randomAlbum2 = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
       }
     });

@@ -54,7 +54,7 @@
           <div id="JUMBOTRON" class="row col-md-12 text-justify">
             <div class="jumbotron">
               <div class="container-fluid">
-                <h1>Welcome to Keithkuru</h1>
+                <h1 class="text-info">Welcome to Keithkuru</h1>
                 <p class="text-muted">Checkout our latest feature, the reccommended playlist!</p>
                 <p><a ng-click="setRecommendedPlaylist()" class="btn btn-success btn-lg">Listen Now <span class="glyphicon glyphicon-headphones"></span></a></p>
               </div>
@@ -309,6 +309,34 @@
           </div>
         </div>
 
+        <div id="CREDITS" ng-show="currPage == 'Credits'" ng-cloak>
+          <div id="COVER" class="row col-md-12">
+            <div class="container-fluid">
+              <img src="https://scontent-sit4-1.xx.fbcdn.net/v/t31.0-8/13301506_992751037439621_5873516059247868243_o.jpg?oh=9bc2f16e078659b8a0539eaa71c8ca9e&oe=58F4E2C0" class="img-responsive" alt="Cover">
+            </div>
+          </div>
+          <div id="THE TEAM" class="row">
+            <div class="col-lg-4">
+              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+              <h2>Heading</h2>
+              <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+              <h2>Heading</h2>
+              <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+              <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+              <h2>Heading</h2>
+              <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+          </div><!-- /.row -->
+        </div>
+
       </div>
 
       <div id="RIGHT SIDEBAR" class="col-md-3 sidebar-right">
@@ -348,13 +376,15 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Welcome to Keithkuru!</h4>
+              <h4 class="modal-title">Hello World!</h4>
             </div>
             <div class="modal-body">
-              <p>Keithkuru is a loving amalgamation of Keith and his Kukuru, bringing to you the best of music exploitation and senseless UI. Please go ahead and click all the buttons, enjoy!</p>
+              <p>Keithkuru is our <s>Spotify clone</s> music-player webapp, featuring usage of an SQLite database linked by a django server.</p>
+              <p>Front-end was written in AngularJS and Bootstrap.</p>
+              <p>Reccommended playlist is coded with machine learning algorithms.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">This was helpful...</button>
+              <button type="button" class="btn btn-default" ng-click="changePage('Credits')" data-dismiss="modal">Credits</button>
             </div>
             <!-- <p ng-model="user_id">{{user_id}},{{username}},{{user_type}}</p> -->
           </div>
