@@ -6,10 +6,10 @@
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-sm-12 col-md-6">
+        <div style="width:450px; margin:auto;">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>Register for an Account</h3>
+                    <h1 style="font-family:Satisfy,cursive;">Register</h1>
                     {% if error_message %}
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
@@ -20,7 +20,7 @@
                         {% include 'music/form_template_user.html' %}
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="submit" class="btn btn-success">Register</button>
                             </div>
                         </div>
                     </form>
