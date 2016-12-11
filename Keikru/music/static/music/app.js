@@ -52,7 +52,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.rated_song_IDs = [];
 
-  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "Artists Albums"];
+  $scope.listOfPages = ["Homepage", "Playlist", "Profile", "Create Album", "Create Song", "Edit Album", "Update Song", "Artists Albums", "History"];
   $scope.currPage = 'Homepage';
 
   $scope.listOfUserType = ["user", "artist", "label"];
@@ -74,6 +74,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           song = {
             id: data[usr].song_rated,
             rating: data[usr].rating
+
           }
           $scope.rated_song_IDs.push(song);
         }
@@ -158,7 +159,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           $scope.allAlbumList.push(album);
         }
         $scope.randomAlbum1 = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
-        $scope.randomAlbum2 = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];  
+        $scope.randomAlbum2 = $scope.allAlbumList[Math.floor(Math.random() * $scope.allAlbumList.length)];
       }
     });
   };
@@ -467,7 +468,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].id;
       }
       // console.log($scope.currentPlaylist.songList[0].criteria);
-    }    
+    }
     if ($scope.listOfPages.includes(page)) {
       $scope.currPage = page;
     }
