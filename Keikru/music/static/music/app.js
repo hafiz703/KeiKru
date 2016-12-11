@@ -447,8 +447,27 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     }
     return 1;
   }
-
+  $scope.changeCriteria = function(criteria) {
+    for (song in $scope.currentPlaylist.songList) {
+      if (criteria=='name') {
+        $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].song_title;
+      } else if (criteria=='artist') {
+        $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].album.artist.artistname;
+      } else if (criteria=='album') {
+        $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].album.album_name;
+      } else if (criteria=='genre') {
+        $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].album.genre;
+      }
+    }
+    console.log($scope.currentPlaylist.songList[0].criteria);
+  }
   $scope.changePage = function (page) {
+    if (page=="Playlist") {
+      for (song in $scope.currentPlaylist.songList) {
+        $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].id;
+      }
+      // console.log($scope.currentPlaylist.songList[0].criteria);
+    }    
     if ($scope.listOfPages.includes(page)) {
       $scope.currPage = page;
     }
