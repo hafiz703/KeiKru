@@ -67,36 +67,62 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     songList: []
   }; // playlist shown on screen
 
-  $scope.rated_song_IDs = [];
-  $.ajax({
-    'type': 'GET',
-    'url': 'http://127.0.0.1:8000/api/user-song-rating/?format=json',
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'success': function(data) {
-      for (usr in data) {
-        if (data[usr].user==$scope.NgUserID) {
-          song = {
-            id: data[usr].song_rated,
-            rating: data[usr].rating
-          };
-          $scope.rated_song_IDs.push(song);
-        }
-      }
-    }
-  });
-
   $scope.uploadList = {
     name: 'placeholder',
     URL: 'placeholder.sutd.edu.sg'
   };
-
+  $scope.rated_song_IDs = [];
   $scope.albumList = []; // display on artists album page
   $scope.allAlbumList = []; // display on home page
   $scope.myAlbumList = []; // display on profile if user is an artist
   $scope.myArtistList = []; // display on profile if user is an label
+  $scope.listened_songs = [];
 
-  $scope.loadMyArtistsList = function () {
+  loadRatedSongs = function() {
+    $.ajax({
+      'type': 'GET',
+      'url': 'http://127.0.0.1:8000/api/user-song-rating/?format=json',
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function(data) {
+        for (usr in data) {
+          if (data[usr].user==$scope.NgUserID) {
+            song = {
+              id: data[usr].song_rated,
+              rating: data[usr].rating
+            };
+            $scope.rated_song_IDs.push(song);
+          }
+        }
+      }
+    });
+  };
+
+  loadListenedSongs = function() {
+    $.ajax({
+      'type': 'GET',
+      'url': 'http://127.0.0.1:8000/api/listen-record/?format=json',
+      'contentType': 'application/json',
+      'dataType': 'json',
+      'success': function(data) {
+        for (usr in data) {
+          if (data[usr].user==$scope.NgUserID) {
+            count = data[usr].listen_count;
+            if (data[usr].listen_count==null) {
+              count = 1;
+            }
+            song = {
+              songid: data[usr].songid,
+              listen_count: count
+            };
+            $scope.listened_songs.push(song);
+          }
+        }
+      }
+    });
+  };
+
+  loadMyArtistsList = function () {
     $.ajax({
       'type': 'GET',
       'url': 'http://127.0.0.1:8000/api/label/'+$scope.NgUserID+'/?format=json',
@@ -120,7 +146,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     });
   };
 
-  $scope.loadMyAlbumList = function() {
+  loadMyAlbumList = function() {
     $.ajax({
       'type': 'GET',
       'url': 'http://127.0.0.1:8000/api/artist/'+$scope.NgUserID+'/?format=json',
@@ -150,7 +176,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     });
   };
 
-  $scope.loadRandomAlbum = function() {
+  loadRandomAlbum = function() {
     var link = 'http://127.0.0.1:8000/api/album/?format=json';
     $.ajax({
       'type': 'GET',
@@ -180,9 +206,11 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.NgUserName = document.getElementById("userInfo-userName").value;
   $scope.NgUserID = document.getElementById("userInfo-userID").value;
 
-  $scope.loadRandomAlbum();
-  $scope.loadMyAlbumList();
-  $scope.loadMyArtistsList();
+  loadRandomAlbum();
+  loadMyAlbumList();
+  loadMyArtistsList();
+  loadRatedSongs();
+  loadListenedSongs();
 
   $scope.setPlaylistByArtist = function(artist_id) {
     var link = 'http://127.0.0.1:8000/api/artist/'+artist_id+'/?format=json';
@@ -210,6 +238,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   };
 
   $scope.setPlaylistBySearch = function(searchWords) {
+    console.log($scope.listened_songs);
     var link = "http://127.0.0.1:8000/api/artist/?format=json&q="+searchWords;
     $.ajax({
       'type': 'GET',
@@ -333,20 +362,26 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         recommended_song_IDs = [];
         for (usr in data) {
           if (data[usr].user==most_similar_usr.id) {
-            rated_song_IDs_sim.push(data[usr].song_rated);
+            rated_song_IDs_sim.push(data[usr]);
           }
         }
         // console.log(rated_song_IDs_sim);
+        // console.log($scope.NgUserID);
+        // console.log($scope.listened_songs);
+
         for (song in rated_song_IDs_sim) {
-          rated = false;
-          for (song_rated in $scope.rated_song_IDs) {
-            if ($scope.rated_song_IDs[song_rated].id == rated_song_IDs_sim[song]) {
-              rated = true;
+          listened = false;
+          for (song_listened in $scope.listened_songs) {
+            if ($scope.listened_songs[song_listened].id == rated_song_IDs_sim[song].song_rated) {
+              listened = true;
             }
           }
-          if (!rated) {
-            recommended_song_IDs.push(rated_song_IDs_sim[song]);
+          if (!listened && rated_song_IDs_sim[song].rating>3) {
+            recommended_song_IDs.push(rated_song_IDs_sim[song].song_rated);
           }
+          // if (rated_song_IDs_sim[song].song_rated.toString=="32") {
+          //   console.log(listened);
+          // }
         }
 
         // console.log(recommended_song_IDs);
@@ -429,9 +464,11 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   $scope.setPlaylistByHistory = function() {
     $scope.currentPlaylist.songList = [];
     $scope.currentPlaylist.name = "Listen History";
-    for (rated_song in $scope.rated_song_IDs) {
+    // loadListenedSongs();
+    console.log($scope.listened_songs);
+    for (song_listened in $scope.listened_songs) {
       for (song in $scope.allSongs) {
-        if ($scope.rated_song_IDs[rated_song].id == $scope.allSongs[song].id) {
+        if ($scope.listened_songs[song_listened].songid == $scope.allSongs[song].id) {
           $scope.currentPlaylist.songList.push($scope.allSongs[song]);
         }
       }
@@ -522,7 +559,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'success': function() {
 
         alert('Album deleted!');
-        $scope.loadMyAlbumList();
+        loadMyAlbumList();
         $scope.changePage('Profile');
       }
     });
@@ -543,7 +580,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'success': function() {
 
         alert('Album added!');
-        $scope.loadMyAlbumList();
+        loadMyAlbumList();
         $scope.changePage('Profile');
       }
     });
@@ -564,7 +601,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'success': function() {
 
         alert('Album added!');
-        $scope.loadMyAlbumList();
+        loadMyAlbumList();
         $scope.changePage('Profile');
       }
     });
@@ -628,6 +665,35 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   };
 
   $scope.playSong = function (song) {
+    console.log($scope.listened_songs);
+
+    for (song_listened in $scope.listened_songs) {
+      listened = false;
+      if ($scope.listened_songs[song_listened].songid==song.id) {
+        listened = true;
+        $scope.listened_songs[song_listened].listen_count++;
+        break;
+        // console.log("incremented");
+      }
+    }
+    if (!listened) {
+      listen_record = {
+        listen_count: 1,
+        songid: song.id,
+      };
+      $scope.listened_songs.push(listen_record);
+
+      // console.log('PUT count added!');
+    }
+    console.log(song);
+    var audiobar = document.getElementById("audiobar");
+    audiobar.src = song.song_file;
+    $scope.songAlbumArt = song.album.album_art;
+    $scope.songAlbumTitle = song.album.album_name;
+    $scope.songArtistName = song.album.artist.artistname;
+    $scope.songName = song.song_title;
+    audiobar.load();
+    audiobar.play();
     $.ajax({
      'type': 'POST',
       'url': 'http://127.0.0.1:8000/api/listen-record/create/',
@@ -656,15 +722,6 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         console.log('PUT count added!');
       }
     });
-    console.log(song);
-    var audiobar = document.getElementById("audiobar");
-    audiobar.src = song.song_file;
-    $scope.songAlbumArt = song.album.album_art;
-    $scope.songAlbumTitle = song.album.album_name;
-    $scope.songArtistName = song.album.artist.artistname;
-    $scope.songName = song.song_title;
-    audiobar.load();
-    audiobar.play();
     // $scope.isPlaying = true;
   };
   // $scope.pauseSong = function () {
