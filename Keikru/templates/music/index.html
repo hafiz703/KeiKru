@@ -86,7 +86,7 @@
                     <td><a ng-click="setPlaylistByArtist(song.album.artist.id)">[[song.album.artist.artistname]]</a></td>
                     <td><a ng-click="setPlaylistByAlbum(song.album.id)">[[song.album.album_name]]</a></td>
                     <td><a ng-click="setPlaylistByGenre(song.album.genre)">[[song.album.genre]]</a></td>
-                    <td><div star-rating rating-value="getRating(song.id)" max="5" min="1" on-rating-selected="setSelectedRating(rating,song.id)"></div></td>
+                    <td><div star-rating rating-value="song.user_rating" max="5" min="1" on-rating-selected="setSelectedRating(rating,song.id)"></div></td>
                   </tr>
                 </tbody>
               </table>
@@ -134,7 +134,7 @@
 
             <div class="col-md-4">
               <h2><a ng-click="setPlaylistByAlbum([[album.id]])">[[ album.title ]]</a></h2>
-              <h4><span star-rating rating-value=3 max="5" min="1"></span></h4>
+              <!-- <h4><span star-rating rating-value=3 max="5" min="1"></span></h4> -->
             </div>
           </div>
         </div>
@@ -178,7 +178,7 @@
               </div>
               <div class="col-md-6">
                 <h2><a ng-click="setPlaylistByAlbum([[album.id]])">[[ album.title ]]</a></h2>
-                <h4><span star-rating rating-value="album.album_rating" max="5" min="1"></span></h4>
+                <h4><span star-rating-static rating-value="album.album_rating" max="5" min="1"></span></h4>
                 <button type="button" ng-click="goToEditAlbum(album.id)" class="btn btn-primary">Edit Album <span class="glyphicon glyphicon-pencil"></span></button>
                 <button type="button" class="btn btn-danger" ng-click="deleteAlbum(album.id)">Delete Album <span class="glyphicon glyphicon-trash"></span></button>
               </div>
