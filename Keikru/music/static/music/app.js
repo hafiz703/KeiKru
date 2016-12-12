@@ -634,8 +634,8 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'contentType': 'application/json',
       'data': JSON.stringify({
         "listen_count": null,
-        "user": $scope.NgUserID,
-        "songid": song.id,
+        "user": $scope.NgUserID.toString(),
+        "songid": song.id.toString(),
       }),
       'dataType': 'json',
       'success': function() {
@@ -648,8 +648,8 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'contentType': 'application/json',
       'data': JSON.stringify({
         "listen_count": null,
-        "user": $scope.NgUserID,
-        "songid": song.id,
+        "user": $scope.NgUserID.toString(),
+        "songid": song.id.toString(),
       }),
       'dataType': 'json',
       'success': function() {
