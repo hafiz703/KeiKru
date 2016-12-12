@@ -469,7 +469,9 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     for (song_listened in $scope.listened_songs) {
       for (song in $scope.allSongs) {
         if ($scope.listened_songs[song_listened].songid == $scope.allSongs[song].id) {
-          $scope.currentPlaylist.songList.push($scope.allSongs[song]);
+          song_to_be_pushed = $scope.allSongs[song];
+          song_to_be_pushed.listen_count = $scope.listened_songs[song_listened].listen_count;
+          $scope.currentPlaylist.songList.push(song_to_be_pushed);
         }
       }
     }
