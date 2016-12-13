@@ -365,14 +365,13 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
             rated_song_IDs_sim.push(data[usr]);
           }
         }
-        // console.log(rated_song_IDs_sim);
+        console.log(rated_song_IDs_sim);
         // console.log($scope.NgUserID);
-        // console.log($scope.listened_songs);
-
+        console.log($scope.listened_songs);
         for (song in rated_song_IDs_sim) {
           listened = false;
           for (song_listened in $scope.listened_songs) {
-            if ($scope.listened_songs[song_listened].id == rated_song_IDs_sim[song].song_rated) {
+            if ($scope.listened_songs[song_listened].id == rated_song_IDs_sim[song].song_rated && $scope.listened_songs[song_listened].listen_count>0 ) {
               listened = true;
             }
           }
@@ -468,7 +467,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     console.log($scope.listened_songs);
     for (song_listened in $scope.listened_songs) {
       for (song in $scope.allSongs) {
-        if ($scope.listened_songs[song_listened].songid == $scope.allSongs[song].id) {
+        if ($scope.listened_songs[song_listened].songid == $scope.allSongs[song].id && $scope.listened_songs[song_listened].listen_count>0) {
           song_to_be_pushed = $scope.allSongs[song];
           song_to_be_pushed.listen_count = $scope.listened_songs[song_listened].listen_count;
           $scope.currentPlaylist.songList.push(song_to_be_pushed);
@@ -645,11 +644,14 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       for (song in $scope.currentPlaylist.songList) {
         $scope.currentPlaylist.songList[song].criteria = $scope.currentPlaylist.songList[song].id;
       }
-      for (rated_song in $scope.rated_song_IDs) {
-        for (song in $scope.currentPlaylist.songList) {
+      for (song in $scope.currentPlaylist.songList) {
+        for (rated_song in $scope.rated_song_IDs) {
           if ($scope.rated_song_IDs[rated_song].id == $scope.currentPlaylist.songList[song].id) {
             $scope.currentPlaylist.songList[song].user_rating = $scope.rated_song_IDs[rated_song].rating;
           }
+        }
+        if ($scope.currentPlaylist.songList[song].user_rating==null || $scope.currentPlaylist.songList[song].user_rating==0) {
+          $scope.currentPlaylist.songList[song].user_rating = 1;
         }
       }
     }
@@ -668,7 +670,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
   $scope.playSong = function (song) {
     console.log($scope.listened_songs);
-
+    listened = false;
     for (song_listened in $scope.listened_songs) {
       listened = false;
       if ($scope.listened_songs[song_listened].songid==song.id) {
