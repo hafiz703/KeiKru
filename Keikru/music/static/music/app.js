@@ -238,7 +238,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
   };
 
   $scope.setPlaylistBySearch = function(searchWords) {
-    console.log($scope.listened_songs);
+    // console.log($scope.listened_songs);
     var link = "http://127.0.0.1:8000/api/artist/?format=json&q="+searchWords;
     $.ajax({
       'type': 'GET',
@@ -300,6 +300,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       'dataType': 'json',
       'success': function(data) {
         $scope.currentPlaylist.name = "Recommended Playlist";
+        $scope.currentPlaylist.songList = [];
         similarity = [];
         // $scope.rated_song_IDs = [];
         rated_song_IDs_sim = [];
@@ -350,10 +351,12 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
         // the bigger the songsInCommon the better
         // -> the lower the fraction the better
         // console.log(similarity);
+        console.log(similarity[0]);
+        console.log(similarity[1]);
         most_similar_usr = similarity[0];
         for (usr_diff in similarity) {
           if (similarity[usr_diff].songsInCommon.length!=0) {
-            if ((similarity[usr_diff].similarity/similarity[usr_diff].songsInCommon.length)<(most_similar_usr.similarity/most_similar_usr.songsInCommon.length)) {
+            if ((similarity[usr_diff].similarityLevel/similarity[usr_diff].songsInCommon.length)<(most_similar_usr.similarityLevel/most_similar_usr.songsInCommon.length)) {
               most_similar_usr = similarity[usr_diff];
             }
           }
@@ -366,30 +369,28 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
           }
         }
         console.log(rated_song_IDs_sim);
-        // console.log($scope.NgUserID);
         console.log($scope.listened_songs);
         for (song in rated_song_IDs_sim) {
           listened = false;
           for (song_listened in $scope.listened_songs) {
-            if ($scope.listened_songs[song_listened].id == rated_song_IDs_sim[song].song_rated && $scope.listened_songs[song_listened].listen_count>0 ) {
+            if ($scope.listened_songs[song_listened].songid.toString() == rated_song_IDs_sim[song].song_rated.toString()) {
               listened = true;
+              break;
             }
           }
-          if (!listened && rated_song_IDs_sim[song].rating>3) {
+          if (!listened) {
             recommended_song_IDs.push(rated_song_IDs_sim[song].song_rated);
           }
-          // if (rated_song_IDs_sim[song].song_rated.toString=="32") {
-          //   console.log(listened);
-          // }
         }
 
-        // console.log(recommended_song_IDs);
+        console.log(recommended_song_IDs);
         for (i in $scope.allSongs) {
           if (recommended_song_IDs.includes($scope.allSongs[i].id)) {
+            console.log($scope.allSongs[i].id);
             $scope.currentPlaylist.songList.push($scope.allSongs[i]);
           }
         }
-        // console.log($scope.currentPlaylist.songList);
+        console.log($scope.currentPlaylist.songList);
         $scope.changePage('Playlist');
       }
     });
@@ -464,7 +465,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
     $scope.currentPlaylist.songList = [];
     $scope.currentPlaylist.name = "Listen History";
     // loadListenedSongs();
-    console.log($scope.listened_songs);
+    // console.log($scope.listened_songs);
     for (song_listened in $scope.listened_songs) {
       for (song in $scope.allSongs) {
         if ($scope.listened_songs[song_listened].songid == $scope.allSongs[song].id && $scope.listened_songs[song_listened].listen_count>0) {
@@ -689,7 +690,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
 
       // console.log('PUT count added!');
     }
-    console.log(song);
+    // console.log(song);
     var audiobar = document.getElementById("audiobar");
     audiobar.src = song.song_file;
     $scope.songAlbumArt = song.album.album_art;
@@ -709,7 +710,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       }),
       'dataType': 'json',
       'success': function() {
-        console.log('POST count added!');
+        // console.log('POST count added!');
       }
     });
     $.ajax({
@@ -723,7 +724,7 @@ myApp.controller("SongController", ['$scope','$http', function($scope,$http) {
       }),
       'dataType': 'json',
       'success': function() {
-        console.log('PUT count added!');
+        // console.log('PUT count added!');
       }
     });
     // $scope.isPlaying = true;
